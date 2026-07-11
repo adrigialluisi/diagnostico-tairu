@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Análise de Usabilidade | TAIRU</title>
+<style>
+  :root{
+    --bg-top:#F2D9B7;
+    --bg-mid:#DCCCAE;
+    --bg-low:#A7BBB4;
+    --bg-bottom:#4F6C72;
+    --accent:#9C2B44;
+    --accent-2:#C4526B;
+    --accent-soft:#F4DCDF;
+    --card:#F7F0E4;
+    --card-border:#E1D3B8;
+    --text:#2B2A2E;
+    --muted:#7A7468;
+    --good:#3F6B4A;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-mid) 32%, var(--bg-low) 66%, var(--bg-bottom) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    padding:0 0 90px 0;
+  }
+  .wrap{max-width:1300px;margin:0 auto;padding:0 32px;}
+
+  .site-nav{
+    position:sticky;top:0;z-index:200;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+  }
+  .site-nav a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav a:hover{background:#F2D9B722;}
+  .site-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .site-nav .sep{color:#F2D9B766;}
+
+  header{padding:52px 32px 34px;text-align:center;}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;
+    color:var(--accent);text-transform:uppercase;margin-bottom:16px;
+    padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;
+  }
+  h1{font-size:38px;margin:0 0 12px;color:#242229;font-weight:800;letter-spacing:-0.5px;}
+  header p.sub{color:#463F3A;font-size:15.5px;max-width:720px;margin:0 auto;line-height:1.6;}
+
+  .toc-bar{
+    position:sticky;top:42px;z-index:100;margin-top:30px;
+    background:#EFE3CCE6;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--card-border);box-shadow:0 4px 14px #00000014;
+  }
+  .toc{
+    max-width:900px;margin:0 auto;padding:12px 32px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  }
+  .toc a{
+    font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;background:#FFFFFFCC;
+    border:1.5px solid var(--card-border);padding:7px 14px;border-radius:999px;
+  }
+  .toc a:hover{border-color:var(--accent);}
+  .toc a.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  .flow-section{margin:56px 0;scroll-margin-top:112px;}
+  .flow-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
+  .flow-icon{
+    width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    font-size:22px;background:#FFFFFF;border:2px solid var(--accent);flex-shrink:0;
+  }
+  .flow-head h2{font-size:21px;margin:0;color:#242229;}
+  .flow-head p{margin:2px 0 0;font-size:13px;color:var(--muted);}
+
+  .flow-general-comment{
+    margin:16px 0 22px;background:var(--accent-soft);border-radius:14px;padding:14px 16px;
+  }
+  .flow-general-comment .lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--accent);margin-bottom:6px;display:block;}
+  .flow-general-comment .box{min-height:60px;font-size:12.5px;color:#8a8175;font-style:italic;line-height:1.5;}
+  .flow-general-comment .box.finding{font-style:normal;color:#3B3630;font-size:13px;line-height:1.65;}
+  .flow-general-comment .box.finding p{margin:0 0 12px;}
+  .flow-general-comment .box.finding p:last-child{margin-bottom:0;}
+  .flow-general-comment .box.finding strong{color:var(--accent);}
+
+  .screens-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px;}
+
+  .screen-card{
+    background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:12px;
+    display:flex;flex-direction:column;gap:9px;box-shadow:0 2px 8px #00000010;
+  }
+  .screen-img-wrap{
+    border-radius:12px;overflow:hidden;border:1px solid var(--card-border);aspect-ratio:9/20;
+    background:#00000008;
+  }
+  .screen-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+  .screen-label{font-size:11.5px;font-weight:800;color:#242229;text-align:center;}
+  .screen-file{font-size:9.5px;color:var(--muted);text-align:center;margin-top:-6px;word-break:break-all;}
+
+  footer{max-width:1300px;margin:40px auto 0;padding:0 32px;color:#463F3A;font-size:12.5px;line-height:1.7;border-top:1px solid #ffffff55;padding-top:24px;}
+  footer strong{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">🏠 Capa</a>
+  <span class="sep">/</span>
+  <a href="01-analise-usabilidade.html" class="current">🔍 Frente 01 · Usabilidade</a>
+  <span class="sep">/</span>
+  <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Frente 02 · Mercado</a>
+</nav>
+
+<header>
+  <span class="eyebrow">Diagnóstico TAIRU · Fase 1</span>
+  <h1>Análise de Usabilidade</h1>
+  <p class="sub">Estrutura de trabalho para a avaliação heurística dos fluxos do TAIRU, telas organizadas por jornada, com espaço reservado para observações. Este documento é um esqueleto: os comentários abaixo ainda precisam ser preenchidos.</p>
+
+</header>
+
+<div class="toc-bar">
+  <div class="toc" id="tocBar">
+    <a href="#quiz" data-target="quiz">🎯 Quiz de onboarding</a>
+    <a href="#trilha" data-target="trilha">🧭 Trilha de planejamento</a>
+    <a href="#linha-tempo" data-target="linha-tempo">📅 Linha do tempo</a>
+    <a href="#criar-evento" data-target="criar-evento">➕ Criar atividade</a>
+    <a href="#convite" data-target="convite">👥 Convite de membros</a>
+    <a href="#outras" data-target="outras">🗂️ Outras telas</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- QUIZ DE ONBOARDING -->
+  <section class="flow-section" id="quiz">
+    <div class="flow-head">
+      <div class="flow-icon">🎯</div>
+      <div><h2>Quiz de onboarding / estilo de viagem</h2><p>Sequência de 7 perguntas para capturar preferências do viajante (estilo, orçamento, interesses etc.)</p></div>
+    </div>
+    <div class="flow-general-comment">
+      <span class="lbl">Achados de usabilidade</span>
+      <div class="box finding">
+        <p><strong>Achado:</strong> O quiz aparece uma única vez, no onboarding, para definir um perfil fixo de viajante. Já a primeira pergunta ("Qual é o seu estilo de viagem preferido?") permite apenas uma escolha.</p>
+        <p><strong>Por que isso é um problema:</strong> o estilo de viagem de uma pessoa não é fixo: muda de viagem pra viagem, numa é romântica, na outra é aventureira. Capturar um perfil único e definitivo logo no onboarding é reducionista e não reflete a real intenção do usuário a cada viagem. É também uma oportunidade perdida de personalização: sem esse dado por viagem, o app perde a chance de oferecer sugestões mais relevantes no futuro.</p>
+        <p><strong>Recomendação ideal:</strong> extrair essa preferência a partir do planejamento de cada viagem individual, acumulando dados ao longo do tempo até formar organicamente um perfil de gostos do usuário, em vez de perguntar tudo de uma vez, de forma fixa, no primeiro contato. Isso poderia ser feito via um chat com IA, que tende a captar múltiplas preferências de forma mais natural e menos cansativa do que um formulário de múltipla escolha.</p>
+        <p><strong>Recomendação de curto prazo:</strong> como o chat ainda depende de desenvolvimento, a saída mais simples agora é pular essa etapa de onboarding e ir direto para o planejamento da viagem, deixando o perfil se construir aos poucos. Se o quiz for mantido, permitir seleção múltipla (não única) e reduzir o número de perguntas, tratando as respostas como preferências <em>daquela viagem</em>, não como um traço fixo e definitivo do usuário.</p>
+      </div>
+    </div>
+    <div class="screens-grid">
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/Quiz1.jpeg" alt="Quiz - Pergunta 1 de 7" loading="lazy"></div>
+        <div class="screen-label">Pergunta 1 de 7</div>
+        <div class="screen-file">Quiz1.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/Quiz2.jpeg" alt="Quiz - Pergunta 2 de 7" loading="lazy"></div>
+        <div class="screen-label">Pergunta 2 de 7</div>
+        <div class="screen-file">Quiz2.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/Quiz3.jpeg" alt="Quiz - Pergunta 3 de 7" loading="lazy"></div>
+        <div class="screen-label">Pergunta 3 de 7</div>
+        <div class="screen-file">Quiz3.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/Quiz4.jpeg" alt="Quiz - Pergunta 4 de 7" loading="lazy"></div>
+        <div class="screen-label">Pergunta 4 de 7</div>
+        <div class="screen-file">Quiz4.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/Quiz5.jpeg" alt="Quiz - Pergunta 5 de 7" loading="lazy"></div>
+        <div class="screen-label">Pergunta 5 de 7</div>
+        <div class="screen-file">Quiz5.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/Quiz6.jpeg" alt="Quiz - Pergunta 6 de 7" loading="lazy"></div>
+        <div class="screen-label">Pergunta 6 de 7</div>
+        <div class="screen-file">Quiz6.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/Quiz7.jpeg" alt="Quiz - Pergunta 7 de 7" loading="lazy"></div>
+        <div class="screen-label">Pergunta 7 de 7</div>
+        <div class="screen-file">Quiz7.jpeg</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRILHA DE PLANEJAMENTO -->
+  <section class="flow-section" id="trilha">
+    <div class="flow-head">
+      <div class="flow-icon">🧭</div>
+      <div><h2>Trilha de planejamento de viagem</h2><p>Fluxo "Planejar viagem": Nome → Datas → Destinos → Acomodações → Transporte → Convidar → Resumo. Etapa "Datas" não veio no material recebido.</p></div>
+    </div>
+    <div class="flow-general-comment">
+      <span class="lbl">Achados de usabilidade</span>
+      <div class="box finding">
+        <p><strong>Achado 1, bug de sincronização do nome da viagem:</strong> ao criar a trilha, o nome da viagem foi digitado como "Buenos Aires" e em seguida alterado para "São Paulo". No penúltimo passo (Convidar), os membros convidados receberam o e-mail de convite com o nome antigo, "Buenos Aires", e não com o nome atualizado.</p>
+        <p><strong>Por que isso é um problema:</strong> o sistema está armazenando ou lendo uma versão desatualizada do dado em algum ponto do fluxo, provavelmente porque o e-mail de convite é montado a partir do valor salvo no momento da criação da trilha, e não do valor atual no momento do envio. Isso quebra a confiança no produto: gera confusão real para o convidado, que recebe informação sobre uma viagem diferente da combinada, e passa a impressão de instabilidade logo no primeiro contato de um membro convidado com o app.</p>
+        <p><strong>Recomendação:</strong> o e-mail de convite (e qualquer outro conteúdo enviado a terceiros) deve sempre buscar os dados da viagem em tempo real, no momento do envio, nunca a partir de um valor armazenado anteriormente. Vale auditar se outros campos da trilha (datas, destino, acomodação) sofrem da mesma defasagem.</p>
+        <p><strong>Achado 2, input totalmente manual:</strong> todos os campos da trilha (nome, destino, acomodação, transporte etc.) exigem digitação manual, sem sugestões ou autocompletar.</p>
+        <p><strong>Por que isso é um problema:</strong> gera fricção e trabalho repetitivo para o usuário, especialmente em campos que poderiam ser sugeridos a partir de dados já conhecidos (histórico de uso, localização, integrações externas).</p>
+        <p><strong>Recomendação:</strong> mapear quais campos podem receber autocompletar ou sugestão automática (por exemplo, integração com Google Places para destino e acomodação), reduzindo o esforço manual sem eliminar a flexibilidade de edição.</p>
+        <p><strong>Achado 3, lista de contatos inconsistente ao convidar membros:</strong> ao clicar em "Convidar membros", a lista de contatos sugerida não reflete a lista completa do usuário e trouxe nomes pouco prováveis, sem critério aparente de seleção. Ao fechar e reabrir a tela, a mesma lista de sugestões não aparece novamente, restando apenas o preenchimento manual de nome e e-mail. Além disso, o convite só pode ser enviado por e-mail, sem opção de compartilhar um link de aceite por WhatsApp.</p>
+        <p><strong>Por que isso é um problema:</strong> um critério de sugestão pouco claro e inconsistente entre sessões reduz a confiança do usuário na funcionalidade e aumenta o esforço manual logo numa etapa social e colaborativa, que deveria ser das mais simples do fluxo. A ausência de convite via WhatsApp também ignora o canal mais usado pelo público brasileiro para esse tipo de compartilhamento, tornando o fluxo menos prático do que o de vários concorrentes e apps do dia a dia.</p>
+        <p><strong>Recomendação:</strong> tornar explícito e estável o critério de sugestão de contatos (por exemplo, contatos mais recentes, favoritos, ou acesso à agenda completa do dispositivo), garantindo que a lista se mantenha entre sessões. Adicionar a opção de gerar um link de convite compartilhável por WhatsApp e outros apps, reduzindo a dependência do e-mail como único canal.</p>
+      </div>
+    </div>
+    <div class="screens-grid">
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/1Trilha_Nome1.jpeg" alt="Trilha - Nome (opção 1)" loading="lazy"></div>
+        <div class="screen-label">1. Nome, opção A</div>
+        <div class="screen-file">1Trilha_Nome1.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/1Trilha_Nome2.jpeg" alt="Trilha - Nome (opção 2)" loading="lazy"></div>
+        <div class="screen-label">1. Nome, opção B</div>
+        <div class="screen-file">1Trilha_Nome2.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/3Trilha_Destino.jpeg" alt="Trilha - Destino" loading="lazy"></div>
+        <div class="screen-label">3. Destino</div>
+        <div class="screen-file">3Trilha_Destino.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/4Trilha_Acomodacao.jpeg" alt="Trilha - Acomodação" loading="lazy"></div>
+        <div class="screen-label">4. Acomodação</div>
+        <div class="screen-file">4Trilha_Acomodacao.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/5Trilha_Transporte.jpeg" alt="Trilha - Transporte" loading="lazy"></div>
+        <div class="screen-label">5. Transporte</div>
+        <div class="screen-file">5Trilha_Transporte.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/6Trilha_Convite.jpeg" alt="Trilha - Convite (opção 1)" loading="lazy"></div>
+        <div class="screen-label">6. Convite, opção A</div>
+        <div class="screen-file">6Trilha_Convite.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/6Trilha_Convite2.jpeg" alt="Trilha - Convite (opção 2)" loading="lazy"></div>
+        <div class="screen-label">6. Convite, opção B</div>
+        <div class="screen-file">6Trilha_Convite2.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/EmailConvite.jpeg" alt="E-mail de convite" loading="lazy"></div>
+        <div class="screen-label">6. E-mail de convite</div>
+        <div class="screen-file">EmailConvite.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/7Trilha_Resumo.jpeg" alt="Trilha - Resumo" loading="lazy"></div>
+        <div class="screen-label">7. Resumo</div>
+        <div class="screen-file">7Trilha_Resumo.jpeg</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LINHA DO TEMPO -->
+  <section class="flow-section" id="linha-tempo">
+    <div class="flow-head">
+      <div class="flow-icon">📅</div>
+      <div><h2>Linha do tempo</h2><p>Tela central da viagem em andamento, navegação por dias e categorias de atividade (hospedagem, comida, fotos, transporte).</p></div>
+    </div>
+    <div class="flow-general-comment">
+      <span class="lbl">Achados de usabilidade</span>
+      <div class="box finding">
+        <p><strong>Achado 1, ícones de categoria funcionam como filtro, sem deixar isso claro:</strong> os ícones de categoria (comida, hotel, foto etc.) não são apenas identificadores visuais, eles filtram as atividades exibidas na linha do tempo. Como um deles já vinha selecionado por padrão, os eventos da viagem não apareceram de início, foi preciso desmarcar as seleções para visualizar a linha do tempo completa.</p>
+        <p><strong>Por que isso é um problema:</strong> nada na interface comunica que esses ícones têm função de filtro, eles se parecem com uma legenda ou navegação por categoria, não com um controle que esconde conteúdo. Um filtro pré-aplicado por padrão, sem aviso, faz a tela parecer vazia ou quebrada na primeira visita, quando na verdade os dados existem mas estão sendo ocultados. É um erro clássico de estado inicial mal desenhado, que pode levar o usuário a achar que o app perdeu as informações da viagem.</p>
+        <p><strong>Recomendação:</strong> a linha do tempo deveria abrir por padrão com todas as categorias visíveis (sem filtro pré-aplicado), e o comportamento de filtro dos ícones deveria ter algum sinal visual claro de estado ativo/inativo, além de um rótulo ou tooltip indicando que são filtros e não apenas ícones decorativos.</p>
+        <p><strong>Achado 2, ícone de "3 pontinhos" sem função clara:</strong> além dos ícones de categoria, existe um ícone de "3 pontinhos" com um padrão de seleção diferente dos demais (mais sutil, dificultando perceber se está ativo ou não). Ao clicar nele, nenhuma opção adicional aparece.</p>
+        <p><strong>Por que isso é um problema:</strong> o ícone de "3 pontos" costuma ser um padrão de interface reconhecido como "mais opções", mas aqui não entrega nada ao ser acionado, e ainda tem um estilo de seleção diferente dos outros filtros, o que quebra a consistência visual do grupo de ícones e deixa a real função dele em aberto: é outro filtro? É um menu que ainda não foi implementado? Isso gera dúvida e desconfiança sobre o que a interface está oferecendo.</p>
+        <p><strong>Recomendação:</strong> se o ícone de "3 pontos" ainda não tem função implementada, ele deve ser removido até que tenha; se tem função de filtro (por exemplo, categorias adicionais), o clique precisa abrir de fato uma lista de opções, com o mesmo padrão visual de seleção usado nos demais ícones de categoria, mantendo consistência dentro do mesmo grupo de controles.</p>
+      </div>
+    </div>
+    <div class="screens-grid">
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/LinhaTempo1.jpeg" alt="Linha do Tempo 1" loading="lazy"></div>
+        <div class="screen-label">Linha do tempo, 1</div>
+        <div class="screen-file">LinhaTempo1.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/LinhaTempo2.jpeg" alt="Linha do Tempo 2" loading="lazy"></div>
+        <div class="screen-label">Linha do tempo, 2</div>
+        <div class="screen-file">LinhaTempo2.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/LinhaTempo3.jpeg" alt="Linha do Tempo 3" loading="lazy"></div>
+        <div class="screen-label">Linha do tempo, 3</div>
+        <div class="screen-file">LinhaTempo3.jpeg</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CRIAR ATIVIDADE -->
+  <section class="flow-section" id="criar-evento">
+    <div class="flow-head">
+      <div class="flow-icon">➕</div>
+      <div><h2>Criar atividade (linha do tempo)</h2><p>Fluxo de registro de uma nova atividade dentro de um dia da viagem, incluindo o detalhe do evento criado e sua representação no mapa. Passo 1 não veio no material recebido.</p></div>
+    </div>
+    <div class="flow-general-comment">
+      <span class="lbl">Achados de usabilidade</span>
+      <div class="box finding">
+        <p><strong>Achado, geolocalização incorreta ao criar atividade com IA:</strong> ao criar uma atividade usando o recurso de IA, foi adicionada uma foto de um parque na Mooca, Zona Leste de São Paulo, com a localização do aparelho ativada. O evento gerado pela IA foi salvo com uma localização bem distante do ponto real onde a atividade estava acontecendo.</p>
+        <p><strong>Por que isso é um problema:</strong> localização é um dado estrutural do produto, ele alimenta o mapa da viagem, a organização por dia e potencialmente sugestões futuras. Se a IA erra a geolocalização mesmo com a localização do usuário ativada e uma foto como referência, o dado que chega no evento é silenciosamente incorreto, o usuário não é avisado de que a localização foi inferida nem tem uma confirmação fácil antes de salvar. Isso compromete a confiabilidade do mapa e de qualquer funcionalidade que dependa desse dado.</p>
+        <p><strong>Recomendação:</strong> a localização inferida pela IA deveria ser exibida para confirmação antes de salvar a atividade (por exemplo, um pino ajustável no mapa), priorizando a localização do GPS do usuário no momento da atividade em vez de tentar deduzir o local só a partir da imagem. Também vale investigar se o problema está na leitura dos metadados da foto, na priorização de fontes de localização (GPS vs. imagem) ou em ambos.</p>
+      </div>
+    </div>
+    <div class="screens-grid">
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/LinhaTempo_CriarEvento2.jpeg" alt="Criar atividade - passo 2" loading="lazy"></div>
+        <div class="screen-label">Passo 2</div>
+        <div class="screen-file">LinhaTempo_CriarEvento2.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/LinhaTempo_CriarEvento3.jpeg" alt="Criar atividade - passo 3" loading="lazy"></div>
+        <div class="screen-label">Passo 3</div>
+        <div class="screen-file">LinhaTempo_CriarEvento3.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/LinhaTempo_CriarEvento4.jpeg" alt="Criar atividade - passo 4" loading="lazy"></div>
+        <div class="screen-label">Passo 4</div>
+        <div class="screen-file">LinhaTempo_CriarEvento4.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/EventoPraca.jpeg" alt="Evento - Praça" loading="lazy"></div>
+        <div class="screen-label">Evento, Praça</div>
+        <div class="screen-file">EventoPraca.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/MapaEvento.jpeg" alt="Mapa do evento" loading="lazy"></div>
+        <div class="screen-label">Mapa do evento</div>
+        <div class="screen-file">MapaEvento.jpeg</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONVITE DE MEMBROS -->
+  <section class="flow-section" id="convite">
+    <div class="flow-head">
+      <div class="flow-icon">👥</div>
+      <div><h2>Convite de membros</h2><p>Fluxo de convidar acompanhantes para a viagem, dentro do app. O e-mail de convite foi movido para a trilha de planejamento (etapa 6).</p></div>
+    </div>
+    <div class="flow-general-comment">
+      <span class="lbl">Achados de usabilidade</span>
+      <div class="box finding">
+        <p><strong>Achado, status de convite não aparece dentro da viagem:</strong> no menu principal, os convites enviados são exibidos normalmente. Porém, dentro da tela de "Membros da viagem" (acessada de dentro de uma viagem específica), as pessoas convidadas que ainda estão com o convite pendente não aparecem.</p>
+        <p><strong>Por que isso é um problema:</strong> quem está gerenciando uma viagem específica precisa consultar outra área do app (o menu principal) para saber quem já foi convidado e quem ainda não aceitou, em vez de encontrar essa informação no lugar mais natural, dentro da própria viagem. Isso é ainda mais relevante para quem participa de mais de uma viagem ao mesmo tempo, já que hoje não existe uma visão que separe claramente "todos os convites, de todas as viagens" de "convites desta viagem".</p>
+        <p><strong>Recomendação:</strong> exibir os convites pendentes também dentro de "Membros da viagem", replicando a informação que já existe no menu principal. Idealmente, manter as duas visões com propósitos distintos: uma central, no menu principal, mostrando todos os convites de todas as viagens do usuário, e outra local, dentro de cada viagem, mostrando apenas os convites (aceitos e pendentes) daquela viagem específica.</p>
+      </div>
+    </div>
+    <div class="screens-grid">
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/ConviteMembros1.jpeg" alt="Convite de membros 1" loading="lazy"></div>
+        <div class="screen-label">Convite de membros, 1</div>
+        <div class="screen-file">ConviteMembros1.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/ConviteMembros2.jpeg" alt="Convite de membros 2" loading="lazy"></div>
+        <div class="screen-label">Convite de membros, 2</div>
+        <div class="screen-file">ConviteMembros2.jpeg</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTRAS TELAS -->
+  <section class="flow-section" id="outras">
+    <div class="flow-head">
+      <div class="flow-icon">🗂️</div>
+      <div><h2>Outras telas</h2><p>Telas isoladas que não fazem parte de um fluxo sequencial no material recebido, cada uma é uma funcionalidade própria.</p></div>
+    </div>
+    <div class="flow-general-comment">
+      <span class="lbl">Achados de usabilidade</span>
+      <div class="box finding">
+        <p><strong>Menções, tela não carrega:</strong> a funcionalidade de menções ficou presa em estado de carregamento, sem exibir conteúdo. Não é possível saber, hoje, quais menções são possíveis de fazer nem como a funcionalidade se comporta quando funciona.</p>
+        <p><strong>Por que isso é um problema:</strong> uma tela travada em loading indefinido é lida pelo usuário como bug ou funcionalidade quebrada, e impede qualquer avaliação de usabilidade real dessa parte do produto.</p>
+        <p><strong>Recomendação:</strong> corrigir o carregamento da tela. Uma vez funcional, garantir que fique claro para o usuário quem ou o que pode ser mencionado (pessoas, lugares, atividades) e exibir um estado vazio explicativo caso não haja opções disponíveis, em vez de loading contínuo.</p>
+        <p><strong>Carteira de documentos, ponto forte:</strong> centralizar os documentos da viagem (passagens, reservas, comprovantes etc.) em um só lugar dentro do app é um ponto positivo do produto, facilita bastante o acesso a essas informações durante a viagem.</p>
+        <p><strong>Gastos, lançamento depende de criar evento:</strong> hoje, registrar um gasto depende de cadastrá-lo como um evento na linha do tempo. Não existe a opção de lançar um gasto diretamente na tela de Gastos.</p>
+        <p><strong>Por que isso é um problema:</strong> obriga o usuário a passar por um fluxo pensado para atividades da viagem (criar evento) só para registrar um gasto simples, o que é uma fricção desnecessária para uma ação que tende a ser rápida e frequente durante a viagem.</p>
+        <p><strong>Recomendação:</strong> permitir adicionar um gasto diretamente na tela de Gastos, sem depender da criação de um evento. Como evolução, vale explorar um fluxo no estilo Splitwise: cada membro da viagem cadastra seus próprios gastos, de forma enxuta, e o app cuida da divisão entre o grupo automaticamente.</p>
+      </div>
+    </div>
+    <div class="screens-grid">
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/Mencoes.jpeg" alt="Menções" loading="lazy"></div>
+        <div class="screen-label">Menções</div>
+        <div class="screen-file">Mencoes.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/CarteiraDocumentos.jpeg" alt="Carteira de documentos" loading="lazy"></div>
+        <div class="screen-label">Carteira de documentos</div>
+        <div class="screen-file">CarteiraDocumentos.jpeg</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-img-wrap"><img src="Prints%20telas/Gastos.jpeg" alt="Gastos" loading="lazy"></div>
+        <div class="screen-label">Gastos</div>
+        <div class="screen-file">Gastos.jpeg</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap" style="padding:0;">
+    <strong>TAIRU · Diagnóstico Inicial de Produto, Usabilidade e Mercado</strong>, preparado por Adriana, Consultoria de Produto &amp; Estratégia.
+  </div>
+</footer>
+
+<script>
+  var sections = document.querySelectorAll('.flow-section');
+  var links = document.querySelectorAll('#tocBar a');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var active = document.querySelector('#tocBar a[data-target="'+entry.target.id+'"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ observer.observe(s); });
+</script>
+
+</body>
+</html>

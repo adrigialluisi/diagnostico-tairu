@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Fase 2, Raio-X de Mercado | TAIRU</title>
+<style>
+  :root{
+    --bg-top:#F2D9B7;
+    --bg-mid:#DCCCAE;
+    --bg-low:#A7BBB4;
+    --bg-bottom:#4F6C72;
+    --accent:#9C2B44;
+    --accent-2:#C4526B;
+    --accent-soft:#F4DCDF;
+    --card:#F7F0E4;
+    --card-border:#E1D3B8;
+    --input-bg:#FFFFFF;
+    --text:#2B2A2E;
+    --muted:#7A7468;
+    --good:#3F6B4A;
+    --bad:#A02E3C;
+    --tag-frag:#3E6E7E;
+    --tag-ia:#7C4E82;
+    --tag-priv:#A8792B;
+    --tag-fin:#3F7A4E;
+    --tag-none:#8B8579;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-mid) 32%, var(--bg-low) 66%, var(--bg-bottom) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    padding:0 0 90px 0;
+  }
+  .wrap{max-width:1300px;margin:0 auto;padding:0 32px;}
+  a{color:var(--accent);}
+
+  .site-nav{
+    position:sticky;top:0;z-index:200;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+  }
+  .site-nav a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav a:hover{background:#F2D9B722;}
+  .site-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .site-nav .sep{color:#F2D9B766;}
+
+  /* HEADER */
+  header{padding:52px 32px 34px;text-align:center;}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;
+    color:var(--accent);text-transform:uppercase;margin-bottom:16px;
+    padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;
+  }
+  h1{font-size:40px;margin:0 0 12px;color:#242229;font-weight:800;letter-spacing:-0.5px;}
+  header p.sub{color:#463F3A;font-size:16px;max-width:720px;margin:0 auto;line-height:1.6;}
+
+  .palette-note{
+    max-width:720px;margin:22px auto 0;display:flex;align-items:center;justify-content:center;gap:10px;
+    font-size:12px;color:#463F3A;flex-wrap:wrap;
+  }
+  .swatch{width:16px;height:16px;border-radius:50%;border:1px solid #ffffff88;display:inline-block;vertical-align:middle;}
+
+  /* STATS BAR */
+  .stats{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin:34px auto 0;max-width:1050px;}
+  .stat{
+    flex:1 1 200px;background:var(--card);border:1px solid var(--card-border);border-radius:18px;
+    padding:18px 20px;text-align:left;box-shadow:0 2px 10px #00000012;
+  }
+  .stat .num{font-size:21px;font-weight:800;color:var(--accent);}
+  .stat .label{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.4;}
+
+  /* PAIN HIGHLIGHTS */
+  .pain-highlights{margin:34px auto 0;max-width:1050px;}
+  .pain-highlights-title{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:#463F3A;font-weight:800;margin-bottom:14px;text-align:center;}
+  .pain-highlights-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;}
+  .pain-card{
+    flex:1 1 220px;background:var(--card);border:1px solid var(--card-border);border-left:4px solid var(--accent);
+    border-radius:18px;padding:16px 18px;text-align:left;box-shadow:0 2px 10px #00000012;
+  }
+  .pain-card-icon{font-size:22px;margin-bottom:6px;}
+  .pain-card-title{font-weight:800;font-size:14px;color:#242229;margin-bottom:4px;}
+  .pain-card-desc{font-size:12.5px;color:var(--muted);line-height:1.4;}
+
+  /* LEGEND */
+  .legend-section{margin:46px 0 0;}
+  .legend-title{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:#463F3A;font-weight:800;margin-bottom:14px;}
+  .legend-grid{display:flex;flex-wrap:wrap;gap:10px;}
+  .legend-chip{
+    display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;
+    background:var(--card);border:1px solid var(--card-border);font-size:13px;color:var(--text);
+  }
+  .legend-chip .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+
+  /* FILTERS */
+  .filters-bar{
+    display:flex;flex-wrap:wrap;gap:24px;align-items:center;margin:20px 0 44px;padding:16px 22px;
+    background:#FFFFFF66;border:1px solid var(--card-border);border-radius:999px;backdrop-filter:blur(2px);
+  }
+  .filter-select-group{display:flex;align-items:center;gap:10px;}
+  .filter-select-group .fg-label{font-size:12px;color:#463F3A;text-transform:uppercase;letter-spacing:1px;font-weight:800;white-space:nowrap;}
+  .filter-select{
+    appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;
+    border:1.5px solid var(--card-border);background-color:#FFFFFFCC;color:var(--text);
+    padding:9px 34px 9px 14px;border-radius:999px;font-size:13px;font-weight:700;font-family:inherit;
+    background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239C2B44' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;background-size:13px;
+    transition:border-color .15s ease;
+  }
+  .filter-select:hover, .filter-select:focus{border-color:var(--accent);outline:none;}
+
+  /* QUADRANT SECTIONS */
+  .quadrant{margin-bottom:52px;}
+  .quadrant-head{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .quadrant-icon{
+    width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    font-size:22px;background:#FFFFFF;border:2px solid var(--accent);flex-shrink:0;
+  }
+  .quadrant-head h2{font-size:21px;margin:0;color:#242229;}
+  .quadrant-head p{margin:2px 0 0;font-size:13px;color:var(--muted);}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px;}
+
+  /* CARD */
+  .card{
+    background:var(--card);border:1px solid var(--card-border);border-radius:20px;
+    padding:22px;display:flex;flex-direction:column;gap:13px;transition:transform .18s ease, box-shadow .18s ease;
+    box-shadow:0 2px 10px #00000010;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px #00000018;}
+  .card-top{display:flex;align-items:center;gap:12px;}
+  .logo-wrap{
+    width:50px;height:50px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;overflow:hidden;border:2px solid var(--accent);
+  }
+  .logo-wrap img{width:30px;height:30px;object-fit:contain;}
+  .logo-fallback{
+    display:none;width:100%;height:100%;align-items:center;justify-content:center;
+    font-weight:800;font-size:16px;color:#fff;
+  }
+  .card-title{flex:1;}
+  .card-title .name{font-size:17px;font-weight:800;color:#242229;}
+  .card-title .price{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  .tagline{
+    font-size:14.5px;font-style:italic;font-weight:700;color:var(--accent);line-height:1.4;
+    padding-left:2px;position:relative;
+  }
+  .tagline:before{content:"“";font-style:normal;margin-right:2px;}
+  .tagline:after{content:"”";font-style:normal;margin-left:2px;}
+
+  .real-value{font-size:13.5px;line-height:1.5;color:#3B3630;background:var(--accent-soft);border-radius:10px;padding:9px 12px;}
+  .real-value b{color:var(--accent);display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:2px;}
+
+  .value-prop{font-size:14px;line-height:1.55;color:#3B3630;padding:12px 14px;background:#FFFFFFAA;border-left:3px solid var(--accent);border-radius:10px;}
+
+  .screenshot{
+    width:100%;height:170px;border-radius:14px;overflow:hidden;border:1px solid var(--card-border);
+    background:#00000008;position:relative;
+  }
+  .screenshot img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .screenshot .cap{
+    position:absolute;bottom:0;left:0;right:0;font-size:10.5px;color:#fff;background:#00000066;
+    padding:4px 10px;letter-spacing:0.3px;
+  }
+  .no-screenshot{
+    width:100%;padding:14px;border-radius:14px;border:1.5px dashed var(--card-border);
+    display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:var(--muted);
+    background:#FFFFFF55;text-align:center;
+  }
+
+  .persona{
+    font-size:12.5px;line-height:1.5;color:#3B3630;background:var(--accent-soft);border-radius:10px;padding:10px 12px;
+    display:flex;gap:8px;
+  }
+  .persona b{color:var(--accent);white-space:nowrap;}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .col-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+  .col-title.good{color:var(--good);}
+  .col-title.bad{color:var(--bad);}
+  ul.pts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;}
+  ul.pts li{font-size:12.5px;line-height:1.45;color:#4B453E;padding-left:16px;position:relative;}
+  ul.pts.good li:before{content:"✓";position:absolute;left:0;color:var(--good);font-weight:800;}
+  ul.pts.bad li:before{content:"✕";position:absolute;left:0;color:var(--bad);font-weight:800;}
+
+  .money-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+  .money-tag{
+    font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:8px;display:flex;align-items:center;gap:6px;
+    background:#8A6D3B1A;color:#7A5A22;border:1px solid #8A6D3B4D;
+  }
+
+  .pain-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px;}
+  .pain-tag{
+    font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:8px;display:flex;align-items:center;gap:6px;
+    border:1px solid transparent;
+  }
+  .pain-tag.none{color:var(--muted);background:#FFFFFF88;border-color:var(--card-border);font-weight:500;font-style:italic;}
+
+  .card-link{font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:2px;}
+  .card-link:hover{text-decoration:underline;}
+
+  .br-badge{
+    display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:#2E7D4F;
+    background:#2E7D4F1A;border:1px solid #2E7D4F55;padding:5px 10px;border-radius:8px;width:fit-content;
+  }
+
+  /* BRAZIL SECTION */
+  .br-section{margin:64px 0;}
+  .br-section .quadrant-head{margin-bottom:10px;}
+  .br-section-note{font-size:13.5px;color:var(--muted);line-height:1.6;max-width:820px;margin:0 0 26px;}
+  .br-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;}
+  .br-card{
+    background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:18px 20px;
+    display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 10px #00000010;
+  }
+  .br-card .name{font-size:15.5px;font-weight:800;color:#242229;display:flex;align-items:center;gap:8px;}
+  .br-card .desc{font-size:12.5px;line-height:1.5;color:#3B3630;}
+  .br-card .cols{grid-template-columns:1fr 1fr;}
+  .br-card .not-competitor{
+    font-size:11px;font-style:italic;color:var(--muted);background:#FFFFFF77;border:1px dashed var(--card-border);
+    border-radius:8px;padding:6px 10px;
+  }
+
+  footer{max-width:1300px;margin:40px auto 0;padding:0 32px;color:#463F3A;font-size:12.5px;line-height:1.7;border-top:1px solid #ffffff55;padding-top:24px;}
+  footer strong{color:var(--accent);}
+
+  .insight-box{
+    max-width:1300px;margin:0 auto 48px;padding:22px 26px;background:#FFFFFFCC;
+    border:1.5px solid var(--accent);border-radius:20px;
+  }
+  .insight-box .tag{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
+  .insight-box p{margin:0;font-size:14.5px;line-height:1.65;color:#3B3630;}
+
+  /* TABLES */
+  .table-section{margin:60px 0;}
+  .table-section h2{font-size:22px;color:#242229;margin:0 0 6px;}
+  .table-section p.desc{color:var(--muted);font-size:13.5px;margin:0 0 20px;max-width:760px;}
+  .table-wrap{overflow-x:auto;border-radius:18px;border:1px solid var(--card-border);background:var(--card);box-shadow:0 2px 10px #00000010;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  thead th{
+    background:var(--accent);color:#fff;text-align:left;padding:12px 16px;font-weight:700;font-size:12px;
+    text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;
+  }
+  tbody td{padding:12px 16px;border-top:1px solid var(--card-border);vertical-align:top;line-height:1.5;}
+  tbody tr:nth-child(even){background:#FFFFFF55;}
+  td.app-cell{font-weight:800;color:var(--accent);white-space:nowrap;}
+  td.center{text-align:center;font-size:15px;}
+  .check{color:var(--good);font-weight:900;}
+  .dash{color:#C9C0AE;}
+
+  .compare-table th{white-space:normal;min-width:130px;}
+  .compare-table td.row-label{
+    font-size:11.5px;text-transform:uppercase;letter-spacing:0.5px;font-weight:900;white-space:nowrap;
+    position:sticky;left:0;
+  }
+  .compare-table tr.row-good{background:#3F6B4A17;}
+  .compare-table tr.row-good td.row-label{color:var(--good);background:#EAF3EC;}
+  .compare-table tr.row-bad{background:#A02E3C14;}
+  .compare-table tr.row-bad td.row-label{color:var(--bad);background:#F7E9EA;}
+  .compare-table td{font-size:12.5px;line-height:1.5;}
+
+  /* CONCLUSION */
+  .conclusion-section{margin:64px 0 40px;}
+  .conclusion-box{
+    background:linear-gradient(135deg, #FFFFFFF0, #FFFFFFD9);border:2px solid var(--accent);
+    border-radius:26px;padding:34px 36px;box-shadow:0 10px 30px #00000018;
+  }
+  .conclusion-box .eyebrow{position:static;margin-bottom:14px;}
+  .conclusion-box h2{font-size:25px;color:#242229;margin:0 0 14px;}
+  .conclusion-lead{font-size:15px;line-height:1.7;color:#3B3630;margin-bottom:26px;}
+  .conclusion-points{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:26px;}
+  .conclusion-point{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:16px 18px;}
+  .conclusion-point .num{
+    font-size:12px;font-weight:900;color:#fff;background:var(--accent);width:24px;height:24px;
+    border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:10px;
+  }
+  .conclusion-point h3{font-size:14px;margin:0 0 6px;color:#242229;}
+  .conclusion-point p{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0;}
+  .conclusion-closing{font-size:13.5px;color:#463F3A;line-height:1.65;padding-top:18px;border-top:1px solid var(--card-border);font-style:italic;}
+
+  @media (max-width:560px){
+    .cols{grid-template-columns:1fr;}
+    h1{font-size:28px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">🏠 Capa</a>
+  <span class="sep">/</span>
+  <a href="01-analise-usabilidade.html">🔍 Frente 01 · Usabilidade</a>
+  <span class="sep">/</span>
+  <a href="07-mapeamento-mercado-fase2-v2.html" class="current">🌍 Frente 02 · Mercado</a>
+</nav>
+
+<header>
+  <span class="eyebrow">Diagnóstico TAIRU · Fase 2</span>
+  <h1>Raio-X de Mercado</h1>
+  <p class="sub">Mapeamento visual dos concorrentes de referência, proposta de valor, público-alvo, pontos fortes, pontos fracos, monetização e qual dor central do viajante cada um resolve bem.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="num">US$ 2,95 bi → 13,38 bi</div><div class="label">Mercado global de IA em turismo, 2024 → 2030</div></div>
+    <div class="stat"><div class="num">28,7% CAGR</div><div class="label">Crescimento anual composto projetado</div></div>
+    <div class="stat"><div class="num">59%</div><div class="label">dos brasileiros usam o celular para planejar/reservar durante a viagem, 3º no ranking mundial</div></div>
+    <div class="stat"><div class="num">4–6 baixados, 2–3 usados</div><div class="label">Fadiga de fragmentação: apps baixados vs. apps realmente usados por jornada</div></div>
+  </div>
+
+  <div class="pain-highlights">
+    <div class="pain-highlights-title">Dores centrais do viajante, o que o mercado ainda não resolve bem</div>
+    <div class="pain-highlights-grid">
+      <div class="pain-card" style="border-left-color:var(--tag-frag)">
+        <div class="pain-card-icon">🧩</div>
+        <div class="pain-card-title">Fragmentação de dados</div>
+        <div class="pain-card-desc">Falha de sinal e dependência de vários apps tornam o planejamento frágil em emergências.</div>
+      </div>
+      <div class="pain-card" style="border-left-color:var(--tag-ia)">
+        <div class="pain-card-icon">🤖</div>
+        <div class="pain-card-title">Confiança na IA</div>
+        <div class="pain-card-desc">52% relatam dados desatualizados; 47% dizem que as sugestões são genéricas demais.</div>
+      </div>
+      <div class="pain-card" style="border-left-color:var(--tag-priv)">
+        <div class="pain-card-icon">🔒</div>
+        <div class="pain-card-title">Privacidade &amp; exposição</div>
+        <div class="pain-card-desc">Rastreamento contínuo e publicação forçada do trajeto geram desconforto real.</div>
+      </div>
+      <div class="pain-card" style="border-left-color:var(--tag-fin)">
+        <div class="pain-card-icon">💱</div>
+        <div class="pain-card-title">Financeiro multi-moeda</div>
+        <div class="pain-card-desc">Falta de automação pra converter moeda e dividir despesas em grupo.</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="insight-box">
+    <div class="tag">Leitura rápida</div>
+    <p>Nenhum concorrente mapeado resolve bem mais de <strong>uma</strong> das quatro dores centrais ao mesmo tempo, e três dos quatro apps IA-native não resolvem nenhuma delas com destaque, focando em inspiração e descoberta em vez de confiabilidade. Use os filtros abaixo para isolar por quadrante ou por dor resolvida.</p>
+  </div>
+
+  <div class="filters-bar">
+    <div class="filter-select-group">
+      <label class="fg-label" for="filterQuadrant">Quadrante</label>
+      <select id="filterQuadrant" class="filter-select">
+        <option value="all">Todos</option>
+        <option value="planejamento">🗺️ Planejamento</option>
+        <option value="agregacao">📥 Agregação de reservas</option>
+        <option value="diario">📖 Diário &amp; rastreamento</option>
+        <option value="ia">🤖 Descoberta IA-native</option>
+      </select>
+    </div>
+    <div class="filter-select-group">
+      <label class="fg-label" for="filterPain">Resolve bem</label>
+      <select id="filterPain" class="filter-select">
+        <option value="all">Todas</option>
+        <option value="frag">🧩 Fragmentação</option>
+        <option value="ia">🤖 Confiança IA</option>
+        <option value="priv">🔒 Privacidade</option>
+        <option value="fin">💱 Multi-moeda</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- QUADRANTE 1 -->
+  <section class="quadrant" data-quadrant="planejamento">
+    <div class="quadrant-head">
+      <div class="quadrant-icon">🗺️</div>
+      <div><h2>Planejamento colaborativo e roteiros</h2><p>Mapa + lista no mesmo ecrã, edição em tempo real em grupo</p></div>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-quadrant="planejamento" data-pain="frag">
+        <div class="card-top">
+          <div class="logo-wrap">
+            <img src="https://www.google.com/s2/favicons?sz=128&domain=wanderlog.com" alt="Wanderlog" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="background:var(--tag-frag);">W</div>
+          </div>
+          <div class="card-title"><div class="name">Wanderlog</div><div class="price">Freemium · Pro US$ 39,99/ano</div></div>
+        </div>
+        <div class="tagline">The best free itinerary and road trip planner</div>
+        <div class="real-value"><b>Na prática, vende:</b> controle total do roteiro, planejado junto com quem vai viajar com você.</div>
+        <div class="no-screenshot">📵 Print oficial não pôde ser incorporado automaticamente, use o link "Ver telas oficiais" abaixo</div>
+        <div class="value-prop">O planejador de roteiros manual e colaborativo mais robusto do mercado leisure, mapa e cronograma diário no mesmo ecrã.</div>
+        <div class="persona"><b>Público:</b> Planejadores "Type A" e grupos organizados, de solo a quem já testou vários apps e quer domínio total do roteiro (citado por usuários como apoio útil à organização, inclusive neurodivergentes).</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Pontos fortes</div>
+            <ul class="pts good">
+              <li>Edição colaborativa fluida (estilo Google Docs)</li>
+              <li>Onboarding gamificado por tarefas</li>
+              <li>#4 em faturamento na categoria Viagem (EUA), nota 4.9</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Pontos fracos</div>
+            <ul class="pts bad">
+              <li>Mapa "salta" (jumping) ao rolar a lista</li>
+              <li>Lentidão em roteiros extensos no mobile</li>
+              <li>Cobrança pouco transparente para exportar itinerário</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row"><span class="money-tag">💳 Assinatura (Pro)</span></div>
+        <div class="pain-row"><span class="pain-tag" style="background:#3E6E7E22;color:var(--tag-frag);border-color:#3E6E7E55;">🧩 Fragmentação (offline no plano pago)</span></div>
+        <a class="card-link" href="https://apps.apple.com/us/app/wanderlog-travel-planner/id1476732439" target="_blank" rel="noopener">Ver telas oficiais →</a>
+      </div>
+
+      <div class="card" data-quadrant="planejamento" data-pain="fin">
+        <div class="card-top">
+          <div class="logo-wrap">
+            <img src="https://www.google.com/s2/favicons?sz=128&domain=stippl.io" alt="Stippl" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="background:var(--tag-fin);">S</div>
+          </div>
+          <div class="card-title"><div class="name">Stippl</div><div class="price">Freemium · Pro €24,99/ano</div></div>
+        </div>
+        <div class="tagline">One Travel App To Replace Them All</div>
+        <div class="real-value"><b>Na prática, vende:</b> livrar você de precisar de qualquer outro app de viagem, planeje, gaste e relembre num só lugar.</div>
+        <div class="screenshot"><img src="https://www.stippl.io/assets/AI-screens-073712f4.png" alt="Print oficial do planejador de IA da Stippl" loading="lazy"><span class="cap">Print oficial · AI travel planner (stippl.io)</span></div>
+        <div class="value-prop">Tenta cobrir pré, durante e pós-viagem numa única plataforma, o desafiante mais próximo de romper os quatro quadrantes isolados. Mais de 2 milhões de viagens já planejadas.</div>
+        <div class="persona"><b>Público:</b> Viajantes jovens (Gen Z/millennials), social-media-savvy, grupos de amigos e famílias que querem substituir planilhas e vários apps por um só.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Pontos fortes</div>
+            <ul class="pts good">
+              <li>Cobre o ciclo completo da viagem</li>
+              <li>Split de conta em grupo integrado</li>
+              <li>Vídeo 3D automático + motor dinâmico (reajusta ao trocar hotel)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Pontos fracos</div>
+            <ul class="pts bad">
+              <li>Instabilidade de sincronização entre plataformas</li>
+              <li>Reviews 2026 citam travamentos e lentidão ao salvar</li>
+              <li>Conversão cambial limitada fora de USD/EUR</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row">
+          <span class="money-tag">💳 Assinatura</span><span class="money-tag">📦 Produto físico</span>
+          <span class="money-tag">🏢 B2B</span><span class="money-tag">🎥 Criadores</span>
+        </div>
+        <div class="pain-row"><span class="pain-tag" style="background:#3F7A4E22;color:var(--tag-fin);border-color:#3F7A4E55;">💱 Multi-moeda em grupo (parcial)</span></div>
+        <a class="card-link" href="https://apps.apple.com/us/app/stippl-travel-planner/id6443617088" target="_blank" rel="noopener">Ver telas oficiais →</a>
+      </div>
+
+      <div class="card" data-quadrant="planejamento" data-pain="">
+        <div class="card-top">
+          <div class="logo-wrap">
+            <img src="https://www.google.com/s2/favicons?sz=128&domain=roadtrippers.com" alt="Roadtrippers" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="background:var(--tag-priv);">R</div>
+          </div>
+          <div class="card-title"><div class="name">Roadtrippers</div><div class="price">Grátis (3 paradas) · Premium US$ 59,99/ano</div></div>
+        </div>
+        <div class="tagline">Every trip is a road trip</div>
+        <div class="real-value"><b>Na prática, vende:</b> transformar o trajeto de carro em parte da viagem, não só o caminho até o destino.</div>
+        <div class="no-screenshot">📵 Print oficial não pôde ser incorporado automaticamente, use o link "Ver site oficial" abaixo</div>
+        <div class="value-prop">Planejador especializado em viagens de carro e RV, 35 milhões de viagens e 24 bilhões de milhas já planejadas na plataforma.</div>
+        <div class="persona"><b>Público:</b> Viajantes de estrada e RVers, majoritariamente América do Norte, famílias, solo travelers e grupos de amigos em busca de paradas incomuns.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Pontos fortes</div>
+            <ul class="pts good">
+              <li>POIs incomuns de estrada</li>
+              <li>Estimativa detalhada de consumo de combustível</li>
+              <li>Navegação específica para RV</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Pontos fracos</div>
+            <ul class="pts bad">
+              <li>Praticamente inútil fora da América do Norte</li>
+              <li>Não serve para viagens aéreas/internacionais</li>
+              <li>Sem diário ou registro de memória</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row">
+          <span class="money-tag">💳 Assinatura</span><span class="money-tag">🤝 Afiliados</span>
+          <span class="money-tag">🏢 B2B (listagens patrocinadas)</span>
+        </div>
+        <div class="pain-row"><span class="pain-tag none">Nicho geográfico, fora do escopo das 4 dores centrais</span></div>
+        <a class="card-link" href="https://roadtrippers.com/" target="_blank" rel="noopener">Ver site oficial →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QUADRANTE 2 -->
+  <section class="quadrant" data-quadrant="agregacao">
+    <div class="quadrant-head">
+      <div class="quadrant-icon">📥</div>
+      <div><h2>Agregação e leitura de reservas</h2><p>Parsing automático de e-mails, alertas e notificações</p></div>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-quadrant="agregacao" data-pain="frag">
+        <div class="card-top">
+          <div class="logo-wrap">
+            <img src="https://www.google.com/s2/favicons?sz=128&domain=tripit.com" alt="TripIt" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="background:var(--tag-frag);">T</div>
+          </div>
+          <div class="card-title"><div class="name">TripIt</div><div class="price">Grátis · Pro US$ 49/ano</div></div>
+        </div>
+        <div class="tagline">Organize your travel itinerary automatically</div>
+        <div class="real-value"><b>Na prática, vende:</b> nunca mais procurar uma reserva perdida no e-mail, tudo organizado sozinho, num só lugar.</div>
+        <div class="screenshot"><img src="https://www.tripit.com/sites/tripit/files/acn/2023-04/tripit-homepage-phone.png" alt="Print oficial do app TripIt" loading="lazy"><span class="cap">Print oficial · tripit.com</span></div>
+        <div class="value-prop">O agregador de reservas mais consolidado do setor, monta itinerário automático a partir de e-mails de confirmação.</div>
+        <div class="persona"><b>Público:</b> "Road warriors", viajante corporativo e frequent flyer; usado por todas as 100 maiores empresas do ranking Business Travel News Top 100.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Pontos fortes</div>
+            <ul class="pts good">
+              <li>Parsing de e-mail mais preciso do mercado</li>
+              <li>Acesso offline confiável às confirmações</li>
+              <li>Sync imediato com calendários nativos</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Pontos fracos</div>
+            <ul class="pts bad">
+              <li>UI austera, sem apelo de lazer</li>
+              <li>Sem descoberta de pontos de interesse</li>
+              <li>Sem ferramentas de planejamento ativo</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row">
+          <span class="money-tag">💳 Assinatura</span><span class="money-tag">📢 Publicidade (ex: oferta Hertz)</span>
+        </div>
+        <div class="pain-row"><span class="pain-tag" style="background:#3E6E7E22;color:var(--tag-frag);border-color:#3E6E7E55;">🧩 Fragmentação (o melhor do mercado)</span></div>
+        <a class="card-link" href="https://apps.apple.com/us/app/tripit-travel-organizer/id309664525" target="_blank" rel="noopener">Ver telas oficiais →</a>
+      </div>
+
+      <div class="card" data-quadrant="agregacao" data-pain="frag">
+        <div class="card-top">
+          <div class="logo-wrap">
+            <img src="https://www.google.com/s2/favicons?sz=128&domain=tripsy.app" alt="Tripsy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="background:var(--tag-frag);">Tr</div>
+          </div>
+          <div class="card-title"><div class="name">Tripsy</div><div class="price">Grátis básico · US$ 50/ano ou CAD 250 vitalício</div></div>
+        </div>
+        <div class="br-badge">🇧🇷 Fundador brasileiro (Rafael Kellermann Streit), Brasil é o 2º maior mercado de assinantes, atrás só dos EUA</div>
+        <div class="tagline">All your trip details. Finally, in one place.</div>
+        <div class="real-value"><b>Na prática, vende:</b> organização premium e bonita da sua viagem, pensada pra quem vive no ecossistema Apple.</div>
+        <div class="screenshot"><img src="https://framerusercontent.com/images/Hic5gAncU1sGXDeAKIa4EFc3dU.png" alt="Print oficial do app Tripsy" loading="lazy"><span class="cap">Print oficial · tripsy.app</span></div>
+        <div class="value-prop">Organizador de viagem premium, feito só para o ecossistema Apple, com foco em design e precisão.</div>
+        <div class="persona"><b>Público:</b> Usuário fiel ao ecossistema Apple que valoriza estética e integração nativa, individual ou em grupo, dentro do universo iOS/macOS.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Pontos fortes</div>
+            <ul class="pts good">
+              <li>UI segue guidelines Apple, sem ads</li>
+              <li>Notificações dinâmicas de voo</li>
+              <li>Perfis de colaborador (edição vs. leitura)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Pontos fracos</div>
+            <ul class="pts bad">
+              <li>Fechado para Android, trava grupos mistos</li>
+              <li>Preço alto para uso casual</li>
+              <li>Reviews 2026 relatam app travando e salvamento lento</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row"><span class="money-tag">💳 Assinatura (sem ads, sem afiliados)</span></div>
+        <div class="pain-row"><span class="pain-tag" style="background:#3E6E7E22;color:var(--tag-frag);border-color:#3E6E7E55;">🧩 Fragmentação (dentro do ecossistema Apple)</span></div>
+        <a class="card-link" href="https://apps.apple.com/us/app/tripsy-travel-planner/id1429967544" target="_blank" rel="noopener">Ver telas oficiais →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QUADRANTE 3 -->
+  <section class="quadrant" data-quadrant="diario">
+    <div class="quadrant-head">
+      <div class="quadrant-icon">📖</div>
+      <div><h2>Rastreamento passivo e diários</h2><p>GPS offline em segundo plano, álbuns físicos</p></div>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-quadrant="diario" data-pain="frag">
+        <div class="card-top">
+          <div class="logo-wrap">
+            <img src="https://www.google.com/s2/favicons?sz=128&domain=polarsteps.com" alt="Polarsteps" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="background:var(--tag-frag);">P</div>
+          </div>
+          <div class="card-title"><div class="name">Polarsteps</div><div class="price">Grátis · monetiza via livro físico (€36–150) e afiliados</div></div>
+        </div>
+        <div class="tagline">One travel app for all your adventures</div>
+        <div class="real-value"><b>Na prática, vende:</b> viver a viagem e deixar o app registrar tudo por você, sem esforço nenhum.</div>
+        <div class="screenshot"><img src="https://framerusercontent.com/images/jw5mKYBEUa27Y7D2gdCBImXBWI.jpg" alt="Print oficial do app Polarsteps" loading="lazy"><span class="cap">Print oficial · polarsteps.com</span></div>
+        <div class="value-prop">Diário de viagem automático, registra o trajeto por GPS sem esforço manual e vira álbum físico impresso. 18M+ usuários.</div>
+        <div class="persona"><b>Público:</b> Viajantes conectados digitalmente, majoritariamente Gen Z/millennials, de mochileiros a overlanders, que querem compartilhar a jornada com família/amigos.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Pontos fortes</div>
+            <ul class="pts good">
+              <li>GPS otimizado para bateria, funciona offline</li>
+              <li>Loop viral forte (convites de acompanhamento)</li>
+              <li>Cresceu sem ads nem paywall no core do produto</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Pontos fracos</div>
+            <ul class="pts bad">
+              <li>Zero planejamento futuro estruturado</li>
+              <li>Colaboração restrita, não edita em grupo</li>
+              <li>Sem controle de despesas</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row">
+          <span class="money-tag">📦 Produto físico (Travel Book = 100% da receita)</span><span class="money-tag">🤝 Afiliados</span>
+        </div>
+        <div class="pain-row"><span class="pain-tag" style="background:#3E6E7E22;color:var(--tag-frag);border-color:#3E6E7E55;">🧩 Fragmentação (rastreio funciona offline)</span></div>
+        <a class="card-link" href="https://apps.apple.com/us/app/polarsteps/id947925763" target="_blank" rel="noopener">Ver telas oficiais →</a>
+      </div>
+
+      <div class="card" data-quadrant="diario" data-pain="priv">
+        <div class="card-top">
+          <div class="logo-wrap">
+            <img src="https://www.google.com/s2/favicons?sz=128&domain=findpenguins.com" alt="FindPenguins" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="background:var(--tag-priv);">F</div>
+          </div>
+          <div class="card-title"><div class="name">FindPenguins</div><div class="price">Grátis c/ ads · Premium ~US$ 33/ano</div></div>
+        </div>
+        <div class="tagline">Track Your Trip Like a Pro</div>
+        <div class="real-value"><b>Na prática, vende:</b> registrar sua jornada automaticamente, com você no controle de quem vê o quê.</div>
+        <div class="no-screenshot">📵 Print oficial não pôde ser incorporado automaticamente, use o link "Ver telas oficiais" abaixo</div>
+        <div class="value-prop">Alternativa direta ao Polarsteps, diferenciada por controle avançado de privacidade e proteção de dados de localização. Nota 4.8 na App Store.</div>
+        <div class="persona"><b>Público:</b> Viajantes de longa distância e comunidades de caminhada/mochilão que querem interagir, seguir e inspirar outros viajantes.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Pontos fortes</div>
+            <ul class="pts good">
+              <li>+50 controles de privacidade configuráveis</li>
+              <li>Delay de publicação de localização</li>
+              <li>Importador 1-clique do Polarsteps</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Pontos fracos</div>
+            <ul class="pts bad">
+              <li>UI datada frente aos líderes do setor</li>
+              <li>GPS impreciso por padrão no iOS</li>
+              <li>Limite de fotos por parada incomoda quem fotografa muito</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row">
+          <span class="money-tag">📢 Publicidade</span><span class="money-tag">💳 Assinatura</span>
+          <span class="money-tag">📦 Produto físico</span>
+        </div>
+        <div class="pain-row"><span class="pain-tag" style="background:#A8792B22;color:var(--tag-priv);border-color:#A8792B55;">🔒 Privacidade, único que resolve bem</span></div>
+        <a class="card-link" href="https://apps.apple.com/us/app/findpenguins-travel-tracker/id721334305" target="_blank" rel="noopener">Ver telas oficiais →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QUADRANTE 4 -->
+  <section class="quadrant" data-quadrant="ia">
+    <div class="quadrant-head">
+      <div class="quadrant-icon">🤖</div>
+      <div><h2>Descoberta inteligente e IA-native</h2><p>Assistentes conversacionais com processamento de linguagem natural</p></div>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-quadrant="ia" data-pain="">
+        <div class="card-top">
+          <div class="logo-wrap">
+            <img src="https://www.google.com/s2/favicons?sz=128&domain=layla.ai" alt="Layla AI" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="background:var(--tag-ia);">L</div>
+          </div>
+          <div class="card-title"><div class="name">Layla AI</div><div class="price">Grátis · Premium US$ 9,99/mês</div></div>
+        </div>
+        <div class="tagline">Your trip. Planned in minutes.</div>
+        <div class="real-value"><b>Na prática, vende:</b> trocar semanas de pesquisa por minutos de conversa com uma IA que já viu tudo.</div>
+        <div class="no-screenshot">📵 Print oficial não pôde ser incorporado automaticamente, use o link "Ver site oficial" abaixo</div>
+        <div class="value-prop">Assistente conversacional de descoberta e inspiração de viagem, com forte integração a conteúdo de criadores. +1,1 milhão de viagens planejadas, nota 4.9.</div>
+        <div class="persona"><b>Público:</b> Amplo, solo travelers, famílias, aventureiros, viajantes corporativos, e também organizadores de eventos/instituições educacionais planejando viagens em grupo.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Pontos fortes</div>
+            <ul class="pts good">
+              <li>Integração com vídeos de creators</li>
+              <li>Ótimo na fase de inspiração inicial</li>
+              <li>Base grande de viagens planejadas com nota alta</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Pontos fracos</div>
+            <ul class="pts bad">
+              <li>Fraco na edição detalhada pós-geração</li>
+              <li>Não resolve fragmentação nem privacidade</li>
+              <li>Monetização por afiliação pode enviesar sugestões</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row">
+          <span class="money-tag">🤝 Afiliados</span><span class="money-tag">💳 Assinatura</span>
+          <span class="money-tag">🏢 B2B / White-label</span>
+        </div>
+        <div class="pain-row"><span class="pain-tag none">Nenhuma das 4 dores centrais resolvida com destaque</span></div>
+        <a class="card-link" href="https://layla.ai/" target="_blank" rel="noopener">Ver site oficial →</a>
+      </div>
+
+      <div class="card" data-quadrant="ia" data-pain="">
+        <div class="card-top">
+          <div class="logo-wrap">
+            <img src="https://www.google.com/s2/favicons?sz=128&domain=stardrift.ai" alt="Stardrift.ai" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="background:var(--tag-ia);">S</div>
+          </div>
+          <div class="card-title"><div class="name">Stardrift.ai</div><div class="price">100% grátis por enquanto (sem limites de uso)</div></div>
+        </div>
+        <div class="tagline">An AI travel planner built around you</div>
+        <div class="real-value"><b>Na prática, vende:</b> uma IA que aprende como você viaja e faz a pesquisa chata por você, sem prender sua reserva ao app.</div>
+        <div class="screenshot"><img src="https://stardrift.ai/landing-page/itinerary-base.webp" alt="Print oficial do app Stardrift.ai" loading="lazy"><span class="cap">Print oficial · stardrift.ai</span></div>
+        <div class="value-prop">Planejamento personalizado com IA que aprende as preferências do usuário entre viagens diferentes. Backing de Y Combinator e Bain Capital Ventures.</div>
+        <div class="persona"><b>Público:</b> Viajantes frequentes (negócio ou lazer) e freelancers que viajam com frequência e querem decisão rápida sem perder pontos de fidelidade, reserva feita direto no fornecedor.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Pontos fortes</div>
+            <ul class="pts good">
+              <li>Memória de preferências persistente</li>
+              <li>Integração com TikTok / Instagram Reels</li>
+              <li>Preserva pontos de fidelidade (booking fora da plataforma)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Pontos fracos</div>
+            <ul class="pts bad">
+              <li>Produto recente, base de dados menor em locais secundários</li>
+              <li>Ainda não endereça verificação/confiança da IA</li>
+              <li>Sem componente de diário ou rastreamento</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row"><span class="money-tag">🏢 B2B (futuro), modelo ainda em definição</span></div>
+        <div class="pain-row"><span class="pain-tag none">Nenhuma das 4 dores centrais resolvida com destaque</span></div>
+        <a class="card-link" href="https://stardrift.ai/" target="_blank" rel="noopener">Ver site oficial →</a>
+      </div>
+
+      <div class="card" data-quadrant="ia" data-pain="ia">
+        <div class="card-top">
+          <div class="logo-wrap">
+            <img src="https://www.google.com/s2/favicons?sz=128&domain=mindtrip.ai" alt="Mindtrip" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="background:var(--tag-ia);">M</div>
+          </div>
+          <div class="card-title"><div class="name">Mindtrip</div><div class="price">Grátis (afiliados)</div></div>
+        </div>
+        <div class="tagline">Travel better.</div>
+        <div class="real-value"><b>Na prática, vende:</b> inspiração e planejamento em grupo com a maior base de lugares do mercado, tudo dentro de uma conversa.</div>
+        <div class="screenshot"><img src="https://d3fphkxyf5o5bm.cloudfront.net/image-resize/format=webp,w=1920/https://images.mindtrip.ai/web/Chat.jpg" alt="Print oficial do app Mindtrip" loading="lazy"><span class="cap">Print oficial · mindtrip.ai</span></div>
+        <div class="value-prop">Planejamento colaborativo via chat, apoiado numa das maiores bases de pontos de interesse do mercado. Também atua B2B com secretarias/DMOs de turismo.</div>
+        <div class="persona"><b>Público:</b> Do planejador detalhista ao viajante espontâneo; atende também DMOs/secretarias de turismo e cria renda para criadores de conteúdo de viagem.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Pontos fortes</div>
+            <ul class="pts good">
+              <li>+11 milhões de POIs na base</li>
+              <li>Colaboração via chat em grupo</li>
+              <li>Reserva direta via Priceline/Viator</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Pontos fracos</div>
+            <ul class="pts bad">
+              <li>Ignora limite de orçamento baixo sem correção</li>
+              <li>Sugestões podem soar genéricas</li>
+              <li>Depende de conexão constante</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row">
+          <span class="money-tag">🤝 Afiliados</span><span class="money-tag">🏢 B2B</span>
+          <span class="money-tag">🎥 Criadores (até US$10k/mês)</span>
+        </div>
+        <div class="pain-row"><span class="pain-tag" style="background:#7C4E8222;color:var(--tag-ia);border-color:#7C4E8255;">🤖 Confiança na IA (parcial, base robusta, falha no orçamento)</span></div>
+        <a class="card-link" href="https://apps.apple.com/us/app/mindtrip-ai-travel-companion/id6503107567" target="_blank" rel="noopener">Ver telas oficiais →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="insight-box">
+    <div class="tag">Espaço em branco do mercado</div>
+    <p>Cruzando os quatro quadrantes: nenhum concorrente entrega <strong>confiança verificável de IA</strong> combinada com <strong>privacidade avançada e boa UX</strong> ao mesmo tempo, FindPenguins resolve privacidade mas com interface datada; Mindtrip tem base de dados robusta mas falha em restrição de orçamento. Esse cruzamento (IA confiável + privacidade + design moderno) segue como espaço aberto no mercado analisado.</p>
+  </div>
+
+  <!-- TABELA MONETIZAÇÃO -->
+  <div class="table-section">
+    <h2>Comparativo de monetização, como cada um ganha dinheiro</h2>
+    <p class="desc">Nenhum concorrente depende de uma única fonte de receita. Assinatura é a base mais comum, mas quem sustenta crescimento orgânico forte (Polarsteps) evita cobrar pelo uso básico e monetiza só na conversão emocional (produto físico).</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>App</th>
+            <th class="center">💳 Assinatura</th>
+            <th class="center">🤝 Afiliados</th>
+            <th class="center">📦 Produto físico/digital</th>
+            <th class="center">📢 Publicidade</th>
+            <th class="center">🏢 B2B / licenciamento</th>
+            <th class="center">🎥 Criadores</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="app-cell">Wanderlog</td><td class="center check">✓</td><td class="center dash">–</td><td class="center dash">–</td><td class="center dash">–</td><td class="center dash">–</td><td class="center dash">–</td></tr>
+          <tr><td class="app-cell">Polarsteps</td><td class="center dash">–</td><td class="center check">✓</td><td class="center check">✓</td><td class="center dash">–</td><td class="center dash">–</td><td class="center dash">–</td></tr>
+          <tr><td class="app-cell">TripIt</td><td class="center check">✓</td><td class="center dash">–</td><td class="center dash">–</td><td class="center check">✓</td><td class="center dash">–</td><td class="center dash">–</td></tr>
+          <tr><td class="app-cell">FindPenguins</td><td class="center check">✓</td><td class="center dash">–</td><td class="center check">✓</td><td class="center check">✓</td><td class="center dash">–</td><td class="center dash">–</td></tr>
+          <tr><td class="app-cell">Stippl</td><td class="center check">✓</td><td class="center dash">–</td><td class="center check">✓</td><td class="center dash">–</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td class="app-cell">Tripsy</td><td class="center check">✓</td><td class="center dash">–</td><td class="center dash">–</td><td class="center dash">–</td><td class="center dash">–</td><td class="center dash">–</td></tr>
+          <tr><td class="app-cell">Layla AI</td><td class="center check">✓</td><td class="center check">✓</td><td class="center dash">–</td><td class="center dash">–</td><td class="center check">✓</td><td class="center dash">–</td></tr>
+          <tr><td class="app-cell">Stardrift.ai</td><td class="center dash">–</td><td class="center dash">–</td><td class="center dash">–</td><td class="center dash">–</td><td class="center dash">(futuro)</td><td class="center dash">–</td></tr>
+          <tr><td class="app-cell">Mindtrip</td><td class="center dash">–</td><td class="center check">✓</td><td class="center dash">–</td><td class="center dash">–</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td class="app-cell">Roadtrippers</td><td class="center check">✓</td><td class="center check">✓</td><td class="center dash">–</td><td class="center dash">–</td><td class="center check">✓</td><td class="center dash">–</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TABELA RESUMO ÚNICA: FORTES x FRACOS -->
+  <div class="table-section">
+    <h2>Resumo comparativo, pontos fortes x pontos fracos</h2>
+    <p class="desc">Todos os apps lado a lado, em duas linhas: o maior diferencial de cada um (verde) e a maior vulnerabilidade (vermelho), onde um desafiante poderia atacar primeiro.</p>
+    <div class="table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Critério</th>
+            <th>Wanderlog</th><th>Polarsteps</th><th>TripIt</th><th>FindPenguins</th><th>Stippl</th>
+            <th>Tripsy</th><th>Layla AI</th><th>Stardrift.ai</th><th>Mindtrip</th><th>Roadtrippers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-good">
+            <td class="row-label">✓ Ponto forte</td>
+            <td>Edição colaborativa em tempo real, nível Google Docs</td>
+            <td>Rastreio GPS passivo com o melhor aproveitamento de bateria do mercado</td>
+            <td>Parsing de e-mail mais preciso e maduro do setor</td>
+            <td>Controles de privacidade mais avançados do mercado (50+ opções)</td>
+            <td>Único que cobre o ciclo completo da viagem em uma única plataforma</td>
+            <td>Design fiel às guidelines Apple, sem anúncios</td>
+            <td>Melhor fase de inspiração, com integração a vídeos de creators</td>
+            <td>Memória de preferências persistente entre viagens diferentes</td>
+            <td>Maior base de pontos de interesse entre os mapeados (11M+)</td>
+            <td>Curadoria única de paradas incomuns em rodovias</td>
+          </tr>
+          <tr class="row-bad">
+            <td class="row-label">✕ Ponto fraco</td>
+            <td>Mapa "salta" ao rolar a lista; cobrança pouco transparente</td>
+            <td>Não serve para planejar viagens futuras</td>
+            <td>Interface utilitária, sem apelo de descoberta/lazer</td>
+            <td>Interface datada; GPS impreciso por padrão no iOS</td>
+            <td>Instabilidade de sincronização entre plataformas</td>
+            <td>Fechado para Android; performance instável em reviews recentes</td>
+            <td>Fraco na edição detalhada pós-geração do roteiro</td>
+            <td>Base de dados ainda rasa em destinos secundários</td>
+            <td>Ignora restrição de orçamento baixo sem correção explícita</td>
+            <td>Praticamente inútil fora da América do Norte</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CENÁRIO BRASILEIRO -->
+  <div class="br-section">
+    <div class="quadrant-head">
+      <div class="quadrant-icon">🇧🇷</div>
+      <div><h2>O cenário brasileiro</h2><p>Players nacionais encontrados em busca dedicada, a maioria ainda em estágio inicial</p></div>
+    </div>
+    <p class="br-section-note">Diferente do que a leitura inicial deste panorama sugeria, o Brasil não está vazio: existe um grupo de startups nacionais disputando exatamente a mesma tese de "IA gera seu roteiro" que Layla, Stardrift e Mindtrip disputam lá fora, só que nenhuma delas tem, até agora, a tração, maturidade técnica ou presença de imprensa dos líderes internacionais mapeados. Também vale registrar: o <strong>Tripsy</strong>, mapeado antes como app do ecossistema Apple, foi fundado pelo brasileiro Rafael Kellermann Streit, o Brasil é o 2º país em assinantes, atrás só dos EUA (ver card na seção de agregação de reservas).</p>
+
+    <div class="br-grid">
+
+      <div class="br-card">
+        <div class="name">💰 Quanto Custa Viajar</div>
+        <div class="desc">Não é um planejador de roteiro, é uma calculadora de orçamento por destino. Ajuda a decidir <em>para onde ir</em> a partir de quanto você tem pra gastar, não o contrário.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Fortes</div>
+            <ul class="pts good">
+              <li>Custo diário por perfil (mochileiro/econômico/confortável) em ~100 cidades</li>
+              <li>Gratuito, 100% em português</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Fracos</div>
+            <ul class="pts bad">
+              <li>App mobile trava no Android (site web não tem o problema)</li>
+              <li>Não cobre roteiro, diário ou reservas, só orçamento</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row"><span class="money-tag">🤝 Afiliados (provável, não confirmado)</span></div>
+      </div>
+
+      <div class="br-card">
+        <div class="name">🧭 Trips</div>
+        <div class="desc">Consultor de viagem por IA: sugere destino por perfil/orçamento/clima, simula custo em 4 estilos (econômico a luxo) e gera roteiro completo em PDF.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Fortes</div>
+            <ul class="pts good">
+              <li>Sugestão de destino cruzando orçamento + interesses + clima</li>
+              <li>Exportação de roteiro em PDF, insight de melhor época pra viajar</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Fracos</div>
+            <ul class="pts bad">
+              <li>Foco quase só em pré-viagem, sem diário ou rastreamento</li>
+              <li>Sem menção a colaboração em grupo</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row"><span class="money-tag">🤝 Afiliados (provável, não confirmado)</span></div>
+      </div>
+
+      <div class="br-card">
+        <div class="name">🗺️ Tripim</div>
+        <div class="desc">O mais próximo de um "Stippl brasileiro": roteiro, mapa, reservas, despesas, checklist e documentos num só app, com IA que se adapta ao estilo do viajante.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Fortes</div>
+            <ul class="pts good">
+              <li>Cobertura ampla (tese "tudo em um") em português</li>
+              <li>Freemium com camada Premium para recursos avançados</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Fracos</div>
+            <ul class="pts bad">
+              <li>Pouquíssima tração ou cobertura de imprensa encontrada</li>
+              <li>Maturidade técnica e base de usuários não confirmadas</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row"><span class="money-tag">💳 Assinatura (Premium)</span></div>
+      </div>
+
+      <div class="br-card">
+        <div class="name">✈️ Tripse</div>
+        <div class="desc">Não concorre no roteiro, é uma ferramenta de otimização de milhas: alertas de promoção, compra/venda de milhas e comparação tarifa real vs. milhas.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Fortes</div>
+            <ul class="pts good">
+              <li>Monitora 12+ companhias e programas de fidelidade em tempo real</li>
+              <li>Nicho muito específico do viajante brasileiro que acumula milhas</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Fracos</div>
+            <ul class="pts bad">
+              <li>Não cobre roteiro, diário ou descoberta, só gestão financeira de milhas</li>
+              <li>Público avançado, não serve o viajante casual</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row"><span class="money-tag">💳 Assinatura (trial 7 dias)</span></div>
+      </div>
+
+      <div class="br-card">
+        <div class="name">🤖 Tripia</div>
+        <div class="desc">Gera itinerário completo a partir de linguagem natural, sem formulário, você escreve o que quer e a IA monta o plano. Cobertura global.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Fortes</div>
+            <ul class="pts good">
+              <li>Entrada 100% conversacional, sem formulário complexo</li>
+              <li>Compartilhamento colaborativo do roteiro</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Fracos</div>
+            <ul class="pts bad">
+              <li>App recente, tração e precisão dos dados ainda não confirmadas</li>
+              <li>Pouca cobertura de imprensa</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row"><span class="money-tag">💳 Freemium (não detalhado)</span></div>
+      </div>
+
+      <div class="br-card">
+        <div class="name">💬 Tripie</div>
+        <div class="desc">Assistente de IA conversacional que registra a viagem por mensagem, tipo "WhatsApp com memória de viagem" para guardar passagens, hospedagem e passeios.</div>
+        <div class="cols">
+          <div>
+            <div class="col-title good">Fortes</div>
+            <ul class="pts good">
+              <li>Interface 100% por linguagem natural, bem simples</li>
+              <li>Centraliza informação sem exigir preenchimento manual</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-title bad">Fracos</div>
+            <ul class="pts bad">
+              <li>Produto ainda mais embrionário que os outros mapeados</li>
+              <li>Sem dados de monetização ou tração encontrados</li>
+            </ul>
+          </div>
+        </div>
+        <div class="money-row"><span class="money-tag">Não encontrado</span></div>
+      </div>
+
+    </div>
+
+    <div class="br-card" style="margin-top:18px;">
+      <div class="name">🔎 Mundi <span class="not-competitor">referência, não concorrente direto</span></div>
+      <div class="desc">Metabuscador de passagens, hotéis e carros, o "Skyscanner brasileiro". Fundado em 2008, parte do grupo Mosaico (com participação da Globo). Não faz planejamento de roteiro nem diário; é relevante como possível fonte de dados de preço via afiliação, não como concorrente de produto.</div>
+    </div>
+  </div>
+
+  <!-- CONCLUSÃO -->
+  <div class="conclusion-section">
+    <div class="conclusion-box">
+      <span class="eyebrow">Síntese · Fase 2</span>
+      <h2>Conclusão do raio-X de mercado</h2>
+      <p class="conclusion-lead">O mercado de apps de viagem cresce rápido, mas cresce fragmentado. Nenhum dos 10 concorrentes mapeados resolve mais de uma dor central ao mesmo tempo, e a ideia de "um app só pra tudo" já está validada, só que ainda não foi executada com solidez. Isso deixa um espaço de posicionamento real em aberto, não apenas mais uma vaga de mercado saturada.</p>
+
+      <div class="conclusion-points">
+        <div class="conclusion-point">
+          <div class="num">1</div>
+          <h3>Crescimento não é o gargalo, fragmentação é</h3>
+          <p>O setor deve mais que quadruplicar até 2030 (US$ 2,95 bi → US$ 13,38 bi, CAGR 28,7%), mas o usuário já baixa de 4 a 6 apps por viagem e só usa 2 a 3. Ganhar não é lançar mais um app, é virar um dos poucos que sobrevivem à faxina do celular.</p>
+        </div>
+        <div class="conclusion-point">
+          <div class="num">2</div>
+          <h3>Nenhum concorrente resolve mais de uma dor por vez</h3>
+          <p>FindPenguins tem a melhor privacidade, mas UI datada. Mindtrip tem a maior base de dados, mas ignora orçamento baixo. TripIt tem o melhor parsing, mas zero descoberta. O cruzamento "IA confiável + privacidade + boa UX + multi-moeda" continua vazio.</p>
+        </div>
+        <div class="conclusion-point">
+          <div class="num">3</div>
+          <h3>A tese "tudo em um" está validada, não executada</h3>
+          <p>O Stippl prova que dá pra cobrir pré, durante e pós-viagem num só produto, mas ainda sofre com instabilidade técnica e bugs. A ideia deixou de ser o diferencial; execução robusta é o que falta no mercado hoje.</p>
+        </div>
+        <div class="conclusion-point">
+          <div class="num">4</div>
+          <h3>Monetização diversificada reduz a barreira de entrada</h3>
+          <p>O Polarsteps cresce sem cobrar nada pelo produto central, monetizando só na conversão emocional (photobook) e afiliados. Relevante pra quem ainda está construindo base de usuários e não pode se dar ao luxo de um paywall cedo demais.</p>
+        </div>
+        <div class="conclusion-point">
+          <div class="num">5</div>
+          <h3>Brasil não está vazio, está fragmentado e imaturo</h3>
+          <p>Existe uma leva de startups brasileiras (Trips, Tripim, Tripia, Tripie) perseguindo a mesma tese de IA dos concorrentes internacionais, mais o Tripsy, fundado por um brasileiro, com o Brasil como 2º mercado de assinantes. Nenhuma, porém, tem a tração ou o polimento dos líderes globais. O espaço não é "ser o primeiro no Brasil", é ser o primeiro brasileiro a executar com a mesma qualidade dos líderes internacionais.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="wrap" style="padding:0;">
+    Fonte: pesquisa de mercado consolidada fornecida para o diagnóstico TAIRU, ampliada com busca na web (reviews de usuários, App Store, sites oficiais e imprensa do setor) em julho de 2026. Logos exibidos via favicon público dos domínios oficiais. Prints embutidos (Polarsteps, TripIt, Stippl, Tripsy, Stardrift.ai, Mindtrip) foram extraídos diretamente dos sites oficiais de cada produto, apenas para identificação visual em documento interno de análise comparativa. Para Wanderlog, FindPenguins, Layla AI e Roadtrippers não foi possível extrair um print automaticamente, as páginas de loja de apps carregam as imagens via JavaScript, o que impede a extração automática; use o link "Ver telas/site oficial" em cada card para consultar manualmente. Preços e funcionalidades refletem o momento da pesquisa e podem ter mudado.<br><br>
+    <strong>TAIRU · Diagnóstico Inicial de Produto, Usabilidade e Mercado</strong>, preparado por Adriana, Consultoria de Produto &amp; Estratégia.
+  </div>
+</footer>
+
+<script>
+  const state = { quadrant: 'all', pain: 'all' };
+
+  document.getElementById('filterQuadrant').addEventListener('change', (e) => {
+    state.quadrant = e.target.value;
+    applyFilters();
+  });
+  document.getElementById('filterPain').addEventListener('change', (e) => {
+    state.pain = e.target.value;
+    applyFilters();
+  });
+
+  function applyFilters(){
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      const q = card.dataset.quadrant;
+      const pains = (card.dataset.pain || '').split(' ').filter(Boolean);
+      const qMatch = state.quadrant === 'all' || state.quadrant === q;
+      const pMatch = state.pain === 'all' || pains.includes(state.pain);
+      card.style.display = (qMatch && pMatch) ? 'flex' : 'none';
+    });
+    document.querySelectorAll('.quadrant').forEach(section => {
+      const anyVisible = Array.from(section.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+      section.style.display = anyVisible ? 'block' : 'none';
+    });
+  }
+</script>
+
+</body>
+</html>
