@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Coleta de Feedbacks Existentes | TAIRU</title>
+<style>
+  :root{
+    --bg-top:#F2D9B7;
+    --bg-mid:#DCCCAE;
+    --bg-low:#A7BBB4;
+    --bg-bottom:#4F6C72;
+    --accent:#9C2B44;
+    --accent-2:#C4526B;
+    --accent-soft:#F4DCDF;
+    --card:#F7F0E4;
+    --card-border:#E1D3B8;
+    --text:#2B2A2E;
+    --muted:#7A7468;
+    --good:#3F6B4A;
+    --bad:#A02E3C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-mid) 32%, var(--bg-low) 66%, var(--bg-bottom) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    padding:0 0 90px 0;
+  }
+  .wrap{max-width:1300px;margin:0 auto;padding:0 32px;}
+
+  .site-nav{
+    position:sticky;top:0;z-index:200;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+  }
+  .site-nav a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav a:hover{background:#F2D9B722;}
+  .site-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .site-nav .sep{color:#F2D9B766;}
+
+  header{padding:52px 32px 34px;text-align:center;}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;
+    color:var(--accent);text-transform:uppercase;margin-bottom:16px;
+    padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;
+  }
+  h1{font-size:38px;margin:0 0 12px;color:#242229;font-weight:800;letter-spacing:-0.5px;}
+  header p.sub{color:#463F3A;font-size:15.5px;max-width:760px;margin:0 auto;line-height:1.6;}
+
+  .toc-bar{
+    position:sticky;top:42px;z-index:100;margin-top:30px;
+    background:#EFE3CCE6;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--card-border);box-shadow:0 4px 14px #00000014;
+  }
+  .toc{
+    max-width:900px;margin:0 auto;padding:12px 32px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  }
+  .toc a{
+    font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;background:#FFFFFFCC;
+    border:1.5px solid var(--card-border);padding:7px 14px;border-radius:999px;
+  }
+  .toc a:hover{border-color:var(--accent);}
+  .toc a.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  /* PERSON HEADER */
+  .person-section{margin:56px 0;scroll-margin-top:112px;}
+  .person-head{
+    display:flex;align-items:center;gap:18px;margin-bottom:22px;flex-wrap:wrap;
+  }
+  .person-avatar{
+    width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+    font-size:26px;background:#FFFFFF;border:2px solid var(--accent);flex-shrink:0;font-weight:900;color:var(--accent);
+  }
+  .person-head h2{font-size:25px;margin:0;color:#242229;}
+  .person-head p{margin:2px 0 0;font-size:13.5px;color:var(--muted);}
+
+  .person-stats{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:26px;}
+  .p-stat{
+    flex:1 1 160px;background:var(--card);border:1px solid var(--card-border);border-radius:16px;
+    padding:14px 16px;box-shadow:0 2px 10px #00000012;
+  }
+  .p-stat .num{font-size:18px;font-weight:800;color:var(--accent);}
+  .p-stat .label{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4;}
+
+  /* NOTES / QUOTE CARDS */
+  .notes-title{font-size:13px;text-transform:uppercase;letter-spacing:1.2px;color:#463F3A;font-weight:800;margin:26px 0 14px;}
+  .notes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-bottom:8px;}
+  .note-card{
+    background:var(--card);border:1px solid var(--card-border);border-left:4px solid var(--accent);
+    border-radius:14px;padding:14px 16px;font-size:13px;line-height:1.55;color:#3B3630;
+    box-shadow:0 2px 8px #00000010;
+  }
+  .note-card b{color:var(--accent);}
+
+  .good-bad{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 8px;}
+  .gb-col{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:16px 18px;}
+  .gb-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+  .gb-title.good{color:var(--good);}
+  .gb-title.bad{color:var(--bad);}
+  ul.pts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  ul.pts li{font-size:13px;line-height:1.5;color:#4B453E;padding-left:18px;position:relative;}
+  ul.pts.good li:before{content:"✓";position:absolute;left:0;color:var(--good);font-weight:800;}
+  ul.pts.bad li:before{content:"✕";position:absolute;left:0;color:var(--bad);font-weight:800;}
+
+  /* PRINT CARDS */
+  .prints-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px;margin-top:10px;}
+  .print-card{
+    background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:14px;
+    display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 10px #00000010;
+  }
+  .print-img-wrap{
+    border-radius:13px;overflow:hidden;border:1px solid var(--card-border);aspect-ratio:9/17;
+    background:#00000008;
+  }
+  .print-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .print-tag{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--accent);}
+  .print-quote{
+    font-size:12.5px;font-style:italic;color:#3B3630;line-height:1.5;background:var(--accent-soft);
+    border-radius:10px;padding:9px 11px;
+  }
+  .print-quote:before{content:"“";font-style:normal;color:var(--accent);font-weight:800;margin-right:2px;}
+  .print-quote:after{content:"”";font-style:normal;color:var(--accent);font-weight:800;margin-left:2px;}
+  .print-note{font-size:11.5px;color:var(--muted);line-height:1.5;}
+  .print-note b{color:#463F3A;}
+
+  /* SEQUENCE (bug de sincronização, storytelling em 3 telas) */
+  .sequence-wrap{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;align-items:stretch;
+    margin:14px 0 6px;
+  }
+  .seq-arrow{
+    display:none;
+  }
+  @media (min-width:900px){
+    .sequence-wrap{grid-template-columns:1fr 1fr 1fr;}
+  }
+
+  .insight-box{
+    margin:0 0 40px;padding:20px 24px;background:#FFFFFFCC;
+    border:1.5px solid var(--accent);border-radius:20px;
+  }
+  .insight-box .tag{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
+  .insight-box p{margin:0;font-size:14px;line-height:1.65;color:#3B3630;}
+
+  /* CONSOLIDATED TABLE */
+  .table-section{margin:60px 0 20px;}
+  .table-section h2{font-size:22px;color:#242229;margin:0 0 6px;}
+  .table-section p.desc{color:var(--muted);font-size:13.5px;margin:0 0 20px;max-width:760px;}
+  .table-wrap{overflow-x:auto;border-radius:18px;border:1px solid var(--card-border);background:var(--card);box-shadow:0 2px 10px #00000010;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  thead th{
+    background:var(--accent);color:#fff;text-align:left;padding:12px 16px;font-weight:700;font-size:12px;
+    text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;
+  }
+  tbody td{padding:12px 16px;border-top:1px solid var(--card-border);vertical-align:top;line-height:1.5;}
+  tbody tr:nth-child(even){background:#FFFFFF55;}
+  td.who{font-weight:800;color:var(--accent);white-space:nowrap;}
+
+  /* CONCLUSION */
+  .conclusion-section{margin:56px 0 40px;}
+  .conclusion-box{
+    background:linear-gradient(135deg, #FFFFFFF0, #FFFFFFD9);border:2px solid var(--accent);
+    border-radius:26px;padding:32px 34px;box-shadow:0 10px 30px #00000018;
+  }
+  .conclusion-box .eyebrow{position:static;margin-bottom:14px;}
+  .conclusion-box h2{font-size:24px;color:#242229;margin:0 0 14px;}
+  .conclusion-lead{font-size:14.5px;line-height:1.7;color:#3B3630;margin-bottom:22px;}
+  .conclusion-points{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:10px;}
+  .conclusion-point{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:16px 18px;}
+  .conclusion-point .num{
+    font-size:12px;font-weight:900;color:#fff;background:var(--accent);width:24px;height:24px;
+    border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:10px;
+  }
+  .conclusion-point h3{font-size:14px;margin:0 0 6px;color:#242229;}
+  .conclusion-point p{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0;}
+
+  footer{max-width:1300px;margin:40px auto 0;padding:0 32px;color:#463F3A;font-size:12.5px;line-height:1.7;border-top:1px solid #ffffff55;padding-top:24px;}
+  footer strong{color:var(--accent);}
+
+  @media (max-width:560px){
+    .good-bad{grid-template-columns:1fr;}
+    h1{font-size:28px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">🏠 Capa</a>
+  <span class="sep">/</span>
+  <a href="01-analise-usabilidade.html">🔍 Frente 01 · Usabilidade</a>
+  <span class="sep">/</span>
+  <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Frente 02 · Mercado</a>
+  <span class="sep">/</span>
+  <a href="03-feedback-existente.html" class="current">💬 Frente 03 · Feedback</a>
+</nav>
+
+<header>
+  <span class="eyebrow">Diagnóstico TAIRU · Fase 3</span>
+  <h1>Coleta de Feedbacks Existentes</h1>
+  <p class="sub">Consolidação das duas primeiras entrevistas de feedback com usuárias-teste do TAIRU, Nelson (viagem à Espanha já realizada) e Vera (três viagens em planejamento: Japão, Vietnã e Noruega). Cada seção traz o contexto de uso, os comentários literais e os prints enviados por eles como evidência.</p>
+</header>
+
+<div class="toc-bar">
+  <div class="toc" id="tocBar">
+    <a href="#nelson" data-target="nelson">🧳 Nelson</a>
+    <a href="#vera" data-target="vera">🗺️ Vera</a>
+    <a href="#consolidado" data-target="consolidado">📊 Consolidado</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="insight-box" style="margin-top:36px;">
+    <div class="tag">Dois momentos distintos de uso</div>
+    <p><strong>Nelson</strong> usou o app <em>durante</em> uma viagem já realizada, seu feedback é sobre a experiência de uso no dia a dia da viagem e a revisão pós-viagem. <strong>Vera</strong> ainda não viajou usando o app, ela está usando a ferramenta só pra <em>planejar</em> viagens futuras, seu feedback é inteiramente sobre a fase de organização, antes de embarcar. Vale manter essa diferença em mente ao ler os dois relatos: eles não avaliam a mesma etapa do produto, e é justamente essa combinação que ajuda a cobrir mais do ciclo completo do TAIRU.</p>
+  </div>
+
+  <!-- ==================== NELSON ==================== -->
+  <section class="person-section" id="nelson">
+    <div class="person-head">
+      <div class="person-avatar">N</div>
+      <div><h2>Nelson</h2><p>Viagem à Espanha (Madrid e Barcelona) já realizada, abril de 2026 · usou o app por 10 dias durante a viagem · entrevista em 20/07/2026</p></div>
+    </div>
+
+    <div class="person-stats">
+      <div class="p-stat"><div class="num">7 / 10</div><div class="label">Nota geral atribuída à experiência</div></div>
+      <div class="p-stat"><div class="num">10 dias</div><div class="label">Período de uso durante a viagem</div></div>
+      <div class="p-stat"><div class="num">Diário de viagem</div><div class="label">Uso real ficou restrito a registro manual de eventos e álbum de fotos</div></div>
+      <div class="p-stat"><div class="num">Falhou</div><div class="label">Colaboração em família não funcionou tecnicamente</div></div>
+    </div>
+
+    <div class="good-bad">
+      <div class="gb-col">
+        <div class="gb-title good">✓ O que funcionou bem</div>
+        <ul class="pts good">
+          <li>Linha do tempo fluida, organização por dia bem avaliada</li>
+          <li>Álbum de fotos e revisão pós-viagem, "principal virtude do app" na visão dele</li>
+          <li>Campo de notas por evento usado de forma orgânica pra guardar dicas práticas (ex.: hora ideal de chegar num rooftop)</li>
+        </ul>
+      </div>
+      <div class="gb-col">
+        <div class="gb-title bad">✕ O que não funcionou</div>
+        <ul class="pts bad">
+          <li>Compartilhamento/colaboração com a família, convites enviados mas ninguém via a mesma viagem</li>
+          <li>Cadastro inicial perdeu dados, precisou recomeçar</li>
+          <li>Recomendação e descoberta de locais, nunca usou (preferiu Google Maps)</li>
+          <li>Reconhecimento de fotos por IA, não usou nem sabia que existia</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="notes-title">Comentários literais e observações da entrevista</div>
+    <div class="notes-grid">
+      <div class="note-card"><b>Descoberta de funcionalidades:</b> não sabia que o app tinha IA e recursos automáticos.</div>
+      <div class="note-card"><b>Onboarding:</b> não gostou, porque cada viagem pode pedir um perfil diferente e o quiz fixa isso uma única vez.</div>
+      <div class="note-card"><b>Input manual:</b> achou ruim ter que inserir tudo manualmente, por isso só registrou os eventos grandes.</div>
+      <div class="note-card"><b>Planejamento:</b> organizou hotel e transporte fora do app; a esposa dele costuma registrar tudo em planilha à parte.</div>
+      <div class="note-card"><b>Gastos:</b> só acompanhou as despesas maiores, achou o registro constante "exaustivo".</div>
+      <div class="note-card"><b>Dicas culturais:</b> gostaria de dicas locais e culturais pra evitar perrengues, regras de gorjeta, costumes, validação de bilhete de trem etc.</div>
+      <div class="note-card"><b>Viagem em família:</b> como sempre viaja com a família e cada um quer ir a um lugar diferente, gostaria de uma forma de juntar e otimizar a viagem em grupo dentro do app.</div>
+      <div class="note-card"><b>Integrações:</b> sugeriu conectar o app ao Google Agenda ou à galeria de fotos do celular pra reduzir o input manual.</div>
+    </div>
+
+    <div class="notes-title">Prints enviados por ele</div>
+    <div class="prints-grid">
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Nelson/nelson-01-linha-tempo.jpeg" alt="Linha do tempo da viagem à Espanha" loading="lazy"></div>
+        <div class="print-tag">Linha do tempo</div>
+        <div class="print-note">Visão geral dos dias, com os eventos registrados por ele (rooftop, almoço, jogo, parque). A organização por dia foi o ponto mais elogiado na entrevista.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Nelson/nelson-02-transporte-trem.jpeg" alt="Detalhe de transporte, trem Atocha a Sants Estació" loading="lazy"></div>
+        <div class="print-tag">Transporte · trem</div>
+        <div class="print-note">Trecho Madrid → Barcelona de trem. Avaliação em estrelas ficou em branco, coerente com o relato de que só dava nota/comentário nos eventos "grandes" (lazer), não na logística.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Nelson/nelson-03-transporte-voo.jpeg" alt="Detalhe de transporte, voo Rio de Janeiro a Madrid" loading="lazy"></div>
+        <div class="print-tag">Transporte · voo</div>
+        <div class="print-note">Voo internacional registrado com custo R$ 0,00, ele contou que a compra de passagens e hospedagem foi toda feita fora do app, esse registro veio depois, só como diário.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Nelson/nelson-04-avaliacao-jogo.jpeg" alt="Avaliação do jogo Real Madrid, 5 estrelas" loading="lazy"></div>
+        <div class="print-tag">Evento grande</div>
+        <div class="print-note">Jogo do Real Madrid, 5 estrelas preenchidas. Exemplo do tipo de evento "grande" que ele de fato registrava e avaliava.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Nelson/nelson-05-evento-rooftop.jpeg" alt="Evento Rooftop com foto adicionada manualmente" loading="lazy"></div>
+        <div class="print-tag">Foto manual</div>
+        <div class="print-note">Foto do rooftop adicionada manualmente ao evento, sem uso do reconhecimento por IA (confirmado por ele como recurso não utilizado).</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Nelson/nelson-06-rooftop-notas.jpeg" alt="Rooftop com nota 4 de 5 estrelas e comentário no campo de notas" loading="lazy"></div>
+        <div class="print-tag">Campo de notas</div>
+        <div class="print-note">Nota 4/5 e comentário escrito à mão: <em>"Belo Rooftop, mas com fila pra tirar foto. A dica é chegar pelo menos 2 horas antes do pôr do sol."</em> Esse tipo de anotação prática é exatamente o material que poderia virar dica cultural/local dentro do app.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Nelson/nelson-07-parque-notas.jpeg" alt="Parque com nota 5 de 5 estrelas" loading="lazy"></div>
+        <div class="print-tag">Campo de notas</div>
+        <div class="print-note">5 estrelas e nota: <em>"Parque bem legal pra caminhar e conhecer."</em></div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Nelson/nelson-08-hotel-notas.jpeg" alt="Hotel Retiro com nota 5 de 5 estrelas" loading="lazy"></div>
+        <div class="print-tag">Campo de notas</div>
+        <div class="print-note">5 estrelas e nota: <em>"Ótimo quarto familiar."</em></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VERA ==================== -->
+  <section class="person-section" id="vera">
+    <div class="person-head">
+      <div class="person-avatar">V</div>
+      <div><h2>Vera</h2><p>Ainda não viajou usando o app, mas planeja 4 viagens dentro dele (Japão, Vietnã, Noruega e Coreia do Sul) · entrevista em 22/07/2026, prints complementares enviados em 28/07/2026</p></div>
+    </div>
+
+    <div class="person-stats">
+      <div class="p-stat"><div class="num">6 / 10</div><div class="label">Nota geral atribuída à experiência</div></div>
+      <div class="p-stat"><div class="num">4 viagens</div><div class="label">Sendo planejadas dentro do app (nenhuma realizada ainda)</div></div>
+      <div class="p-stat"><div class="num">Só planejamento</div><div class="label">Feedback é 100% sobre a fase de organização da viagem</div></div>
+      <div class="p-stat"><div class="num">3 bugs técnicos</div><div class="label">Confirmados com print e mensagem de erro (documentos, sincronização de datas)</div></div>
+    </div>
+
+    <div class="good-bad">
+      <div class="gb-col">
+        <div class="gb-title good">✓ O que funcionou bem</div>
+        <ul class="pts good">
+          <li>Mapa automático ao inserir endereço numa atividade</li>
+          <li>Agregação automática de despesas de várias atividades numa única tela</li>
+          <li>Categoria "outro" no menu de atividades, cobre casos fora de hospedagem/comida</li>
+        </ul>
+      </div>
+      <div class="gb-col">
+        <div class="gb-title bad">✕ O que não funcionou</div>
+        <ul class="pts bad">
+          <li>"Meus documentos"/"Carteira", erro real ao abrir arquivo já enviado</li>
+          <li>Só 1 destino e 1 moeda por viagem, mas viagens raramente são pra um lugar só</li>
+          <li>Faltam campos essenciais de transporte (nº do voo, horário de chegada) e hospedagem (checkout)</li>
+          <li>Navegação confusa, sem botão voltar em algumas telas, e sincronização de datas falha entre Configurações e Linha do Tempo</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="notes-title">Prints e comentários enviados por ela, um a um</div>
+    <div class="prints-grid">
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-01-destino-unico.png" alt="Tela Planejar viagem, campo Destino único" loading="lazy"></div>
+        <div class="print-tag">Planejar viagem · Destino</div>
+        <div class="print-quote">Permitir adicionar mais destinos na mesma viagem.</div>
+        <div class="print-note">Confirma o ponto já levantado na entrevista: "Destino" deveria ser "Destino(s)", e o mesmo vale pra moeda, já que cada parada pode ter uma moeda diferente.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-02-documentos-nao-funciona.png" alt="Tela Meus Documentos" loading="lazy"></div>
+        <div class="print-tag">Meus Documentos</div>
+        <div class="print-quote">Não funciona.</div>
+        <div class="print-note">Documentos aparecem listados (passaporte etc.), mas o botão de visualizar não abre o arquivo.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-03-erro-url-documento.png" alt="Tela Carteira com popup de erro" loading="lazy"></div>
+        <div class="print-tag">Carteira</div>
+        <div class="print-quote">URL do documento não disponível.</div>
+        <div class="print-note">Mensagem de erro exata do app, confirma que é um bug técnico real de armazenamento/link, não lentidão.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-04-valor-destaque.png" alt="Detalhe de transporte com valor em destaque" loading="lazy"></div>
+        <div class="print-tag">Detalhe de transporte</div>
+        <div class="print-quote">Destaque pro valor em todas as telas.</div>
+        <div class="print-note">Voo GRU → Istambul, R$ 12.496,00 em fonte grande. Reforça o achado da entrevista: valores financeiros aparecem com destaque excessivo fora da aba de gastos, inclusive em telas que poderiam ser compartilhadas com terceiros.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-05-falta-checkout.png" alt="Editar atividade de hospedagem, campo único de data e horário" loading="lazy"></div>
+        <div class="print-tag">Editar atividade · hospedagem</div>
+        <div class="print-quote">Falta horário de checkout em hospedagem.</div>
+        <div class="print-note">A tela só tem um campo de "Data e Horário", sem campo separado pra check-in e check-out.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-06-falta-numero-voo.png" alt="Detalhe de transporte de voo, sem campo de número do voo" loading="lazy"></div>
+        <div class="print-tag">Detalhe de transporte · voo</div>
+        <div class="print-quote">Falta lugar pra colocar número de voo e horário de partida e chegada.</div>
+        <div class="print-note">Só existe um horário (partida), sem campo de nº do voo nem de chegada, mesmo achado citado na entrevista original.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-07-ordem-cronologica.png" alt="Tela inicial com lista de próximas viagens fora de ordem" loading="lazy"></div>
+        <div class="print-tag">Tela inicial</div>
+        <div class="print-quote">Poderiam colocar as "próximas viagens" em ordem cronológica?</div>
+        <div class="print-note">Confirma o achado da entrevista sobre falta de ordenação cronológica das viagens futuras.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-08-falta-botao-voltar.png" alt="Galeria de fotos vazia, sem botão de voltar" loading="lazy"></div>
+        <div class="print-tag">Galeria de fotos</div>
+        <div class="print-quote">Não tem "voltar" em algumas páginas. Nessa por exemplo.</div>
+        <div class="print-note">Bug de navegação específico, complementa o relato mais genérico de "se perder no app" dado na entrevista.</div>
+      </div>
+    </div>
+
+    <div class="notes-title">Sequência: o bug de sincronização de datas passadas</div>
+    <div class="insight-box" style="margin-bottom:20px;">
+      <div class="tag">Como o bug foi descoberto</div>
+      <p>Vera tentou registrar no app uma viagem já realizada (Coreia do Sul, 2025) pra guardar como histórico. A tela de Configurações aceitou as datas passadas, mas a Linha do Tempo da viagem não atualizou junto. Só depois de entrar pelo link "Próximas Viagens" é que o app moveu a viagem sozinho pra "Viagens passadas" e a linha do tempo passou a refletir as datas corretas. Ou seja: o app tecnicamente aceita datas passadas, mas há uma falha de sincronização entre a tela de Configurações e a categorização/Linha do Tempo.</p>
+    </div>
+    <div class="sequence-wrap">
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-09-datas-passadas-config.png" alt="Configurações da viagem com datas de 2025 aceitas" loading="lazy"></div>
+        <div class="print-tag">1 · Configurações</div>
+        <div class="print-quote">...inseri as datas corretas de 2025, ele aceitou aqui nesta tela.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-10-linha-tempo-nao-atualiza.png" alt="Linha do tempo sem atividades, não refletindo a nova data" loading="lazy"></div>
+        <div class="print-tag">2 · Linha do tempo</div>
+        <div class="print-quote">Mas ele não atualiza na tela da viagem.</div>
+      </div>
+      <div class="print-card">
+        <div class="print-img-wrap"><img src="Prints_Feedback/Vera/vera-11-viagens-passadas-mensagem.png" alt="Linha do tempo da Coreia do Sul já atualizada, após acessar via Próximas Viagens" loading="lazy"></div>
+        <div class="print-tag">3 · Resolução</div>
+        <div class="print-quote">Ah, entrando pelo link da pág "próximas viagens" eu vi que a Coreia foi pra "Viagens passadas" e agora atualizou...</div>
+      </div>
+    </div>
+    <div class="print-card" style="max-width:640px;">
+      <div class="print-img-wrap" style="aspect-ratio:auto;"><img src="Prints_Feedback/Vera/vera-12-comentario-viagens-passadas.png" alt="Comentário da Vera sobre viagens passadas" loading="lazy" style="width:100%;display:block;"></div>
+      <div class="print-tag">Reflexão da Vera</div>
+      <div class="print-note">Aponta um caso de uso real que o app ainda não entrega direito: usar o TAIRU pra registrar viagens já feitas, como referência pra viagens futuras.</div>
+    </div>
+  </section>
+
+  <!-- ==================== CONSOLIDADO ==================== -->
+  <div class="table-section" id="consolidado" style="scroll-margin-top:112px;">
+    <h2>Consolidado dos dois feedbacks</h2>
+    <p class="desc">Os dois perfis são complementares: Nelson fala da experiência de uma viagem já vivida (pós-uso), Vera fala da fase de planejamento (pré-uso). Juntos, cobrem quase todo o ciclo do produto.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tema</th><th>Nelson</th><th>Vera</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="who">Nota geral</td><td>7/10</td><td>6/10</td></tr>
+          <tr><td class="who">Fase da viagem</td><td>Pós-viagem (já usou 10 dias)</td><td>Pré-viagem (só planejamento, ainda não viajou)</td></tr>
+          <tr><td class="who">Input manual</td><td>Acha cansativo, só registra eventos grandes</td><td>Também é 100% manual, mas o problema citado é falta de campos, não o esforço em si</td></tr>
+          <tr><td class="who">Colaboração/grupo</td><td>Convites falharam tecnicamente, grupo abandonou</td><td>Não testou, mas destino/moeda únicos já dificultam viagens em grupo com paradas diferentes</td></tr>
+          <tr><td class="who">Documentos/carteira</td><td>Pouco usada, preferiu carteira digital da Apple</td><td>Erro técnico confirmado: "URL do documento não disponível"</td></tr>
+          <tr><td class="who">Transporte</td><td>Registrou voo e trem sem detalhar</td><td>Aponta falta explícita de campo de nº de voo e horário de chegada</td></tr>
+          <tr><td class="who">Hospedagem</td><td>Não comentou</td><td>Falta campo de checkout</td></tr>
+          <tr><td class="who">Gastos</td><td>Só acompanhou valores grandes</td><td>Valor total aparece com destaque excessivo em várias telas</td></tr>
+          <tr><td class="who">Recomendação/IA</td><td>Não sabia que existia, nunca usou</td><td>Quiz de perfil não parece influenciar nada nas sugestões</td></tr>
+          <tr><td class="who">Ponto mais elogiado</td><td>Álbum de fotos e organização pós-viagem</td><td>Mapa automático ao inserir endereço</td></tr>
+          <tr><td class="who">Pedido em comum</td><td>Dicas culturais/locais pra evitar perrengues</td><td>Recomendações de lugares menos turísticos e comida boa e barata</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="conclusion-section">
+    <div class="conclusion-box">
+      <span class="eyebrow">Síntese · Fase 3</span>
+      <h2>Leitura conjunta dos dois feedbacks</h2>
+      <p class="conclusion-lead">Só duas entrevistas já revelam um padrão que provavelmente vai se repetir com mais usuários: o TAIRU entrega bem no fim do ciclo (diário e álbum pós-viagem) e falha nas pontas, planejamento com múltiplos destinos e colaboração em grupo. Os bugs relatados (documentos, sincronização de datas, convites) não são só polimento, são quebras de confiança logo nos primeiros contatos com o produto.</p>
+      <div class="conclusion-points">
+        <div class="conclusion-point">
+          <div class="num">1</div>
+          <h3>"Destino" e "Moeda" no singular são a raiz de vários problemas</h3>
+          <p>Vera aponta isso diretamente, e explica também a dificuldade de Nelson em gerenciar uma viagem em família com destinos diferentes.</p>
+        </div>
+        <div class="conclusion-point">
+          <div class="num">2</div>
+          <h3>Colaboração é a funcionalidade mais frágil hoje</h3>
+          <p>Falhou na prática pra Nelson (convites) e já nasce limitada pra Vera (só 1 destino por viagem). É um recurso citado como desejado por ambos, mas não testado com sucesso por nenhum dos dois.</p>
+        </div>
+        <div class="conclusion-point">
+          <div class="num">3</div>
+          <h3>O input manual incomoda menos que a falta de campos certos</h3>
+          <p>Nelson reclama do esforço de digitar; Vera reclama de não ter onde digitar o que precisa (nº de voo, checkout). São dois problemas diferentes que pedem soluções diferentes.</p>
+        </div>
+        <div class="conclusion-point">
+          <div class="num">4</div>
+          <h3>Personalização (quiz, IA) ainda não entrega valor percebido</h3>
+          <p>Nelson nem sabia que existia; Vera percebeu que existe, mas acha que não influencia nada. Nos dois casos, o resultado prático é o mesmo: zero impacto percebido na experiência.</p>
+        </div>
+        <div class="conclusion-point">
+          <div class="num">5</div>
+          <h3>Dicas locais e culturais aparecem como pedido espontâneo dos dois</h3>
+          <p>Nelson quer evitar perrengues (gorjeta, transporte); Vera quer lugares menos turísticos e comida boa e barata. É o pedido de funcionalidade nova mais consistente entre os dois relatos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="wrap" style="padding:0;">
+    Fonte: transcrições geradas automaticamente ("Anotações do Gemini") das entrevistas com Nelson (20/07/2026) e Vera (22/07/2026), complementadas por anotações manuais de Adriana durante as conversas e por prints enviados pelos próprios usuários via WhatsApp (Nelson em 20/07/2026, Vera em 22/07 e 28/07/2026). Arquivos originais preservados nas pastas <strong>FeedbackNelson</strong> e <strong>FeedbackVera</strong> do projeto.<br><br>
+    <strong>TAIRU · Diagnóstico Inicial de Produto, Usabilidade e Mercado</strong>, preparado por Adriana, Consultoria de Produto &amp; Estratégia.
+  </div>
+</footer>
+
+<script>
+  var sections = document.querySelectorAll('.person-section, .table-section');
+  var links = document.querySelectorAll('#tocBar a');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var active = document.querySelector('#tocBar a[data-target="'+entry.target.id+'"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ observer.observe(s); });
+</script>
+
+</body>
+</html>
