@@ -28,7 +28,7 @@ Fonte: pesquisa de mercado fornecida pela consultoria (documento colado no chat,
 **Wanderlog** — planejador colaborativo mais robusto do mercado leisure.
 - Mapa + cronograma no mesmo ecrã, drag-and-drop, cálculo de trajeto em tempo real, edição colaborativa (estilo Google Docs), onboarding gamificado.
 - Monetização: freemium, Pro a US$ 39,99/ano (offline completo, otimização de rota por IA, alertas de preço, exportação para Google Maps).
-- Fraquezas: performance ruim em roteiros extensos no mobile; mapa "salta" (jumping) ao rolar listas; parsing de e-mail imaturo.
+- Fraquezas: performance ruim em roteiros extensos no mobile; mapa "salta" (jumping) ao rolar listas; parsing de e-mail imaturo; teste gratuito de apenas 7 dias, com onboarding longo — na prática, não dá tempo de testar o app numa viagem real inteira antes do trial acabar.
 
 **Polarsteps** — diário automático pós-viagem.
 - Rastreamento GPS passivo offline, fotos/vídeos georreferenciados, estatísticas e mapa compartilhável.
@@ -52,7 +52,7 @@ Fonte: pesquisa de mercado fornecida pela consultoria (documento colado no chat,
 - Itinerário assistido por IA, controle financeiro com divisão de conta em grupo, checklist de bagagem vinculada a etapas, vídeo automático a partir de fotos do diário.
 - Monetização: freemium; Pro €24,99/ano (ou R$ 19,90/mês) remove limite de IA e dá offline total.
 - Forças: centraliza tarefas que exigiriam várias apps; UI renovada em 2026.
-- Fraquezas: instabilidade de sincronização entre plataformas; bugs em Android mais antigo; conversão cambial limitada fora de USD/EUR.
+- Fraquezas: instabilidade de sincronização entre plataformas; bugs em Android mais antigo; conversão cambial limitada fora de USD/EUR; versão gratuita permite criar apenas 1 viagem sozinho — qualquer outro recurso (colaboração, viagens adicionais) exige assinatura.
 
 **Tripsy** — app premium exclusivo do ecossistema Apple.
 - Reservas via encaminhamento de e-mail, sync nativo com calendário Apple, notificações de voo, relatório de despesas multi-moeda.

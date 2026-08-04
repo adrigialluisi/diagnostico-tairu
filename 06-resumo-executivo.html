@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Resumo Executivo | TAIRU</title>
+<style>
+  :root{
+    --bg-top:#F2D9B7;
+    --bg-mid:#DCCCAE;
+    --bg-low:#A7BBB4;
+    --bg-bottom:#4F6C72;
+    --accent:#9C2B44;
+    --accent-2:#C4526B;
+    --accent-soft:#F4DCDF;
+    --card:#F7F0E4;
+    --card-border:#E1D3B8;
+    --text:#2B2A2E;
+    --muted:#7A7468;
+    --good:#3F6B4A;
+    --bad:#A02E3C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-mid) 32%, var(--bg-low) 66%, var(--bg-bottom) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    padding:0 0 90px 0;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+  .site-nav{
+    position:sticky;top:0;z-index:200;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+  }
+  .site-nav a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav a:hover{background:#F2D9B722;}
+  .site-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .site-nav .sep{color:#F2D9B766;}
+
+  header{padding:52px 32px 30px;text-align:center;}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;
+    color:var(--accent);text-transform:uppercase;margin-bottom:16px;
+    padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;
+  }
+  h1{font-size:36px;margin:0 0 12px;color:#242229;font-weight:800;letter-spacing:-0.5px;}
+  header p.sub{color:#463F3A;font-size:15.5px;max-width:720px;margin:0 auto;line-height:1.6;}
+
+  .toc-bar{
+    position:sticky;top:42px;z-index:100;margin-top:28px;
+    background:#EFE3CCE6;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--card-border);box-shadow:0 4px 14px #00000014;
+  }
+  .toc{max-width:900px;margin:0 auto;padding:12px 32px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+  .toc a{font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;background:#FFFFFFCC;border:1.5px solid var(--card-border);padding:7px 14px;border-radius:999px;}
+  .toc a:hover{border-color:var(--accent);}
+
+  section{margin:52px 0;scroll-margin-top:110px;}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .sec-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;background:#FFFFFF;border:2px solid var(--accent);flex-shrink:0;}
+  .sec-head h2{font-size:22px;margin:0;color:#242229;}
+  .sec-head p{margin:2px 0 0;font-size:13px;color:var(--muted);}
+
+  .prose{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:18px 22px;font-size:13.5px;line-height:1.65;color:#3B3630;}
+
+  .placar-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:18px;}
+  .placar-stat{flex:1 1 150px;background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:14px 16px;text-align:center;box-shadow:0 2px 8px #00000010;}
+  .placar-stat .n{font-size:20px;font-weight:900;color:var(--accent);}
+  .placar-stat .l{font-size:10.5px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.4px;line-height:1.4;}
+
+  .duo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:16px;}
+  .duo-card{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:18px 20px;}
+  .duo-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+  .duo-name{font-size:15px;font-weight:800;color:#242229;}
+  .duo-score{font-size:12px;font-weight:800;color:var(--accent);background:var(--accent-soft);padding:3px 10px;border-radius:999px;}
+  .duo-card p{margin:0;font-size:12.5px;line-height:1.55;color:#3B3630;}
+
+  .conc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+  .conc-card{background:var(--card);border:1px solid var(--card-border);border-left:4px solid var(--accent);border-radius:14px;padding:16px 18px;box-shadow:0 2px 8px #00000010;}
+  .conc-card p{margin:0;font-size:13px;line-height:1.55;color:#3B3630;}
+
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;}
+  .step-card{background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:20px 22px;}
+  .step-num{width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+  .step-card h3{margin:0 0 8px;font-size:15.5px;color:#242229;}
+  .step-card p{font-size:12.5px;color:var(--muted);line-height:1.55;margin:0;}
+  @media(min-width:900px){ .steps{grid-template-columns:1fr 1fr 1fr;} }
+
+  .invest-box{background:var(--card);border:1px solid var(--card-border);border-radius:20px;padding:30px;display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:space-between;}
+  .invest-num{text-align:center;}
+  .invest-num .big{font-size:36px;font-weight:900;color:var(--accent);line-height:1;}
+  .invest-num .lbl{font-size:11.5px;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:0.5px;}
+  .invest-total{flex:1;min-width:220px;font-size:14px;color:#242229;font-weight:700;}
+
+  footer{max-width:1200px;margin:40px auto 0;padding:0 32px;color:#463F3A;font-size:12.5px;line-height:1.7;border-top:1px solid #ffffff55;padding-top:24px;}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">🏠 Capa</a>
+  <span class="sep">/</span>
+  <a href="01-analise-usabilidade.html">🔍 Frente 01 · Usabilidade</a>
+  <span class="sep">/</span>
+  <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Frente 02 · Mercado</a>
+  <span class="sep">/</span>
+  <a href="03-feedback-existente.html">💬 Frente 03 · Feedback</a>
+  <span class="sep">/</span>
+  <a href="04-consolidacao-achados.html">🧩 Frente 04 · Consolidação</a>
+  <span class="sep">/</span>
+  <a href="05-proposta-modelo-trabalho.html">🚀 Frente 05 · Proposta</a>
+  <span class="sep">/</span>
+  <a href="06-resumo-executivo.html" class="current">⚡ Frente 06 · Resumo</a>
+</nav>
+
+<header>
+  <span class="eyebrow">Diagnóstico TAIRU · Fase 6</span>
+  <h1>Resumo Executivo</h1>
+  <p class="sub">A leitura de 2 minutos: mercado, usabilidade e feedbacks, conclusão do diagnóstico, proposta de trabalho, vantagens e investimento. Versão completa em <code>10-proposta-validacao-mvp-simplificado.md</code> (seção 0).</p>
+</header>
+
+<div class="toc-bar">
+  <div class="toc">
+    <a href="#mercado">🌍 Mercado</a>
+    <a href="#usabilidade">🔍 Usabilidade &amp; Feedback</a>
+    <a href="#conclusao">📋 Conclusão</a>
+    <a href="#proposta">🗓️ Proposta de trabalho</a>
+    <a href="#vantagens">🎯 Vantagens</a>
+    <a href="#investimento">💰 Investimento</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="mercado">
+    <div class="sec-head">
+      <div class="sec-icon">🌍</div>
+      <div><h2>Resumo do mercado</h2><p>O que a Frente 02 mostrou</p></div>
+    </div>
+    <div class="placar-row">
+      <div class="placar-stat"><div class="n">US$ 13,38 bi</div><div class="l">Mercado global de IA em turismo até 2030</div></div>
+      <div class="placar-stat"><div class="n">4-6 → 2-3</div><div class="l">Apps baixados vs. usados por jornada</div></div>
+      <div class="placar-stat"><div class="n">0 de 4</div><div class="l">Quadrantes do mercado cobertos com qualidade por um só player</div></div>
+      <div class="placar-stat"><div class="n">~R$ 20/mês</div><div class="l">Preço médio dos concorrentes robustos — já em PT-BR</div></div>
+    </div>
+    <div class="prose">O mercado de IA em turismo está em forte expansão, mas sofre de excesso de oferta fragmentada, não de falta dela. Nenhum concorrente cobre os 4 quadrantes (planejamento, agregação de reservas, diário passivo, IA-native) com qualidade madura. Concorrentes robustos como Wanderlog, Stippl e Tripsy já têm versão em português e não são caros — o problema real é que acabam genéricos ("planeje tudo", pra qualquer viajante) ou viram marketplace via comissão de reserva/afiliado, perdendo o apelo pessoal pra uma dor e um público específicos.</div>
+  </section>
+
+  <section id="usabilidade">
+    <div class="sec-head">
+      <div class="sec-icon">🔍</div>
+      <div><h2>Resumo da usabilidade e dos feedbacks</h2><p>O que as Frentes 01 e 03 mostraram — Nelson e Vera</p></div>
+    </div>
+    <div class="prose">A análise de usabilidade encontrou uma UI/UX estruturalmente quebrada: bugs de sincronização, campos essenciais ausentes (nº de voo, checkout, múltiplos destinos/moedas), navegação com opções ambíguas e colaboração em grupo que não funciona.</div>
+    <div class="duo-grid">
+      <div class="duo-card">
+        <div class="duo-top"><span class="duo-name">🧳 Nelson</span><span class="duo-score">7/10</span></div>
+        <p>Usou o app numa viagem real de 10 dias. Achou o input manual cansativo, só registrou eventos grandes, a colaboração com a família falhou tecnicamente, e nem sabia que o app tinha IA — mas elogiou muito o álbum de fotos pós-viagem.</p>
+      </div>
+      <div class="duo-card">
+        <div class="duo-top"><span class="duo-name">🗺️ Vera</span><span class="duo-score">6/10</span></div>
+        <p>Usou o app só pra planejamento. Confirmou bugs técnicos reais (erro ao abrir documentos, sincronização de datas falha) e apontou a limitação de 1 destino/1 moeda por viagem.</p>
+      </div>
+    </div>
+    <div class="prose" style="margin-top:14px;">Os dois, de forma independente, relataram o mesmo padrão: planejamento muito manual, viagem sempre acompanhada (família ou amigos), forte desejo de colaboração e sugestões, e um perfil de viagem que muda a cada vez — o mesmo padrão de dor do próprio fundador.</div>
+  </section>
+
+  <section id="conclusao">
+    <div class="sec-head">
+      <div class="sec-icon">📋</div>
+      <div><h2>Resumo da conclusão</h2><p>O diagnóstico em três frases</p></div>
+    </div>
+    <div class="prose" style="margin-bottom:16px;">O mercado de IA em turismo está em franca expansão — mas é um erro achar que existe uma solução única "para todos os públicos". Os principais concorrentes têm muitas funcionalidades, e bastante complexas; prometem fluxos automáticos por IA que também não são 100% fluidos. Ainda não existe, nem no mercado global nem no Brasil, um app que entregue a jornada de ponta a ponta — do planejamento até a memória final da viagem.</div>
+    <div class="conc-grid">
+      <div class="conc-card"><p><strong>O "MVP" do Tairu não é um MVP de fato.</strong> Foi construído sem direcionamento claro do que fazer primeiro e como — resultado são várias funcionalidades quebradas e com bugs.</p></div>
+      <div class="conc-card"><p><strong>Sem proposta de valor clara nem ICP definido.</strong> Não há entrega de valor clara para um público específico — consequência direta de tentar atender todo mundo.</p></div>
+      <div class="conc-card"><p><strong>Experiência prejudicada pelos problemas de sistema.</strong> Bugs e falhas de usabilidade comprometem a experiência mesmo onde a ideia do produto funciona.</p></div>
+    </div>
+    <div class="prose" style="margin-top:14px;border-left:4px solid var(--good);"><strong>O lado positivo:</strong> os feedbacks de Nelson e Vera revelaram um padrão comum — foi possível identificar uma hipótese de ICP e o problema que ele compartilha, o que dá um ponto de partida muito mais próximo do ideal do que o início do projeto.</div>
+  </section>
+
+  <section id="proposta">
+    <div class="sec-head">
+      <div class="sec-icon">🗓️</div>
+      <div><h2>Resumo da proposta de trabalho</h2><p>3 meses para validar antes de construir</p></div>
+    </div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Mês 1</h3>
+        <p>Recrutamento de mais pessoas com o perfil de ICP identificado (40/45+ anos, viaja com frequência — pelo menos 1x/ano — geralmente é quem planeja a viagem do grupo). Validação se compartilham a mesma dor identificada com Nelson e Vera, e mapeamento de como fazem esse fluxo hoje.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Mês 2</h3>
+        <p>Redesenho do fluxo e das telas do app — não só usabilidade, mas definição de ponta a ponta do que é essencial para resolver o problema do público. Definição de 1 modelo comercial para testar com o ICP.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Mês 3</h3>
+        <p>Novo teste com o ICP e coleta de feedback. Entrega de todas as etapas — o MVP mínimo viável que de fato entrega valor, mais um backlog para a fase 2. Só depois disso entra o desenvolvimento do que já foi validado e que o público está disposto a pagar.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="vantagens">
+    <div class="sec-head">
+      <div class="sec-icon">🎯</div>
+      <div><h2>Vantagens de trabalhar assim</h2><p>Por que validar antes de construir</p></div>
+    </div>
+    <div class="conc-grid">
+      <div class="conc-card"><p><strong>Desenvolvimento mais certeiro.</strong> Sem desperdício de tempo e recurso construindo o que ainda não foi validado.</p></div>
+      <div class="conc-card"><p><strong>Público e canal de venda definidos.</strong> Com o ICP mapeado, já se sabe o caminho de como abordar o público certo — em vez de pedir pra "todo mundo baixar o app".</p></div>
+      <div class="conc-card"><p><strong>Primeira versão real de ponta a ponta.</strong> Funcionalidades essenciais funcionando sem quebras, não uma lista de features soltas.</p></div>
+    </div>
+  </section>
+
+  <section id="investimento">
+    <div class="sec-head">
+      <div class="sec-icon">💰</div>
+      <div><h2>Resumo do investimento</h2><p>Parcela mensal fixa pelo ciclo de 3 meses</p></div>
+    </div>
+    <div class="invest-box">
+      <div class="invest-num">
+        <div class="big">R$ 5.500</div>
+        <div class="lbl">por mês</div>
+      </div>
+      <div class="invest-total">R$ 16.500 no total pelo ciclo de 3 meses.</div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  TAIRU · Diagnóstico Inicial de Produto, Usabilidade e Mercado, preparado por Adriana, Consultoria de Produto &amp; Estratégia.
+</footer>
+
+<script>
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.toc a');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var active = document.querySelector('.toc a[href="#'+entry.target.id+'"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ observer.observe(s); });
+</script>
+
+</body>
+</html>

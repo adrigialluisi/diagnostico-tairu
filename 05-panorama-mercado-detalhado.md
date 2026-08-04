@@ -67,6 +67,7 @@ O mercado se organiza em quatro categorias, cada uma dominada por players difere
 - Performance degrada sensivelmente em dispositivos móveis quando o roteiro é extenso ou tem muitos anexos (lentidão perceptível).
 - Erro clássico de UX: o mapa sofre "jumping" (reposicionamento indesejado) durante a rolagem vertical da lista de paradas.
 - Importação de dados por e-mail existe, mas é imatura comparada a concorrentes especializados em agregação (TripIt).
+- Trial gratuito de apenas 7 dias, combinado com um onboarding longo no início — na prática, 7 dias não é tempo suficiente para testar o app ao longo de uma viagem real, o que reduz a chance de o usuário converter tendo de fato validado o produto em uso.
 
 **Monetização**: freemium; Pro a US$ 39,99/ano — desbloqueia mapas e notas offline completos, otimização automática de rota por IA, alertas de flutuação de preço e exportação direta para Google Maps.
 
@@ -141,6 +142,7 @@ O mercado se organiza em quatro categorias, cada uma dominada por players difere
 - Instabilidades ocasionais de sincronização de dados entre plataformas móvel e web.
 - Falhas pontuais de estabilidade em telefones Android mais antigos.
 - Conversão cambial fora do eixo USD/EUR tem limitações.
+- A versão gratuita permite criar apenas 1 viagem, sozinho — qualquer outro recurso (colaboração com outras pessoas, viagens adicionais, etc.) já exige assinatura Pro, o que reduz bastante o quanto dá pra testar o produto de fato antes de pagar.
 
 **Monetização**: freemium bastante completo; Pro a €24,99/ano (ou R$ 19,90/mês) remove limite de interações de IA e dá acesso offline total.
 

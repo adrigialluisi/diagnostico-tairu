@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Consolidação dos Achados | TAIRU</title>
+<style>
+  :root{
+    --bg-top:#F2D9B7;
+    --bg-mid:#DCCCAE;
+    --bg-low:#A7BBB4;
+    --bg-bottom:#4F6C72;
+    --accent:#9C2B44;
+    --accent-2:#C4526B;
+    --accent-soft:#F4DCDF;
+    --card:#F7F0E4;
+    --card-border:#E1D3B8;
+    --text:#2B2A2E;
+    --muted:#7A7468;
+    --good:#3F6B4A;
+    --warn:#A67C1C;
+    --bad:#A02E3C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-mid) 32%, var(--bg-low) 66%, var(--bg-bottom) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    padding:0 0 90px 0;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+  .site-nav{
+    position:sticky;top:0;z-index:200;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+  }
+  .site-nav a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav a:hover{background:#F2D9B722;}
+  .site-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .site-nav .sep{color:#F2D9B766;}
+
+  header{padding:52px 32px 30px;text-align:center;}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;
+    color:var(--accent);text-transform:uppercase;margin-bottom:16px;
+    padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;
+  }
+  h1{font-size:36px;margin:0 0 12px;color:#242229;font-weight:800;letter-spacing:-0.5px;}
+  header p.sub{color:#463F3A;font-size:15.5px;max-width:720px;margin:0 auto;line-height:1.6;}
+
+  .toc-bar{
+    position:sticky;top:42px;z-index:100;margin-top:28px;
+    background:#EFE3CCE6;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--card-border);box-shadow:0 4px 14px #00000014;
+  }
+  .toc{max-width:900px;margin:0 auto;padding:12px 32px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+  .toc a{font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;background:#FFFFFFCC;border:1.5px solid var(--card-border);padding:7px 14px;border-radius:999px;}
+  .toc a:hover{border-color:var(--accent);}
+
+  section{margin:52px 0;scroll-margin-top:110px;}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .sec-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;background:#FFFFFF;border:2px solid var(--accent);flex-shrink:0;}
+  .sec-head h2{font-size:22px;margin:0;color:#242229;}
+  .sec-head p{margin:2px 0 0;font-size:13px;color:var(--muted);}
+
+  /* Placar */
+  .placar-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:24px;}
+  .placar-stat{flex:1 1 150px;background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:16px 18px;text-align:center;box-shadow:0 2px 8px #00000010;}
+  .placar-stat .n{font-size:26px;font-weight:900;}
+  .placar-stat .n.green{color:var(--good);}
+  .placar-stat .n.yellow{color:var(--warn);}
+  .placar-stat .n.red{color:var(--bad);}
+  .placar-stat .l{font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.4px;}
+
+  /* Prometido x real */
+  .promise-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+  .promise-card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:15px 17px;box-shadow:0 2px 8px #00000010;}
+  .promise-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;}
+  .promise-title{font-size:13.5px;font-weight:800;color:#242229;}
+  .badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap;}
+  .badge.green{background:#3F6B4A1A;color:var(--good);border:1px solid #3F6B4A55;}
+  .badge.yellow{background:#A67C1C1A;color:var(--warn);border:1px solid #A67C1C55;}
+  .badge.red{background:#A02E3C1A;color:var(--bad);border:1px solid #A02E3C55;}
+  .promise-card p{margin:0;font-size:12.5px;line-height:1.5;color:#3B3630;}
+
+  /* Padrão geral */
+  .pattern-list{display:flex;flex-direction:column;gap:12px;}
+  .pattern-item{display:flex;gap:14px;background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:14px 18px;align-items:flex-start;}
+  .pattern-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-weight:900;font-size:12.5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .pattern-item p{margin:0;font-size:13px;line-height:1.55;color:#3B3630;}
+  .pattern-item p b{color:var(--accent);}
+
+  /* Gap fora do pitch */
+  .gap-box{background:linear-gradient(135deg,var(--accent-soft),#F7F0E4);border:1.5px solid var(--accent);border-radius:18px;padding:22px 26px;}
+  .gap-box .lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--accent);margin-bottom:8px;display:block;}
+  .gap-box p{margin:0;font-size:13.5px;line-height:1.6;color:#242229;}
+
+  /* Conclusões */
+  .conc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+  .conc-card{background:var(--card);border:1px solid var(--card-border);border-left:4px solid var(--accent);border-radius:14px;padding:16px 18px;box-shadow:0 2px 8px #00000010;}
+  .conc-card .tag{font-size:10.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;display:block;}
+  .conc-card p{margin:0;font-size:12.5px;line-height:1.55;color:#3B3630;}
+
+  footer{max-width:1200px;margin:40px auto 0;padding:0 32px;color:#463F3A;font-size:12.5px;line-height:1.7;border-top:1px solid #ffffff55;padding-top:24px;}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">🏠 Capa</a>
+  <span class="sep">/</span>
+  <a href="01-analise-usabilidade.html">🔍 Frente 01 · Usabilidade</a>
+  <span class="sep">/</span>
+  <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Frente 02 · Mercado</a>
+  <span class="sep">/</span>
+  <a href="03-feedback-existente.html">💬 Frente 03 · Feedback</a>
+  <span class="sep">/</span>
+  <a href="04-consolidacao-achados.html" class="current">🧩 Frente 04 · Consolidação</a>
+  <span class="sep">/</span>
+  <a href="05-proposta-modelo-trabalho.html">🚀 Frente 05 · Proposta</a>
+  <span class="sep">/</span>
+  <a href="06-resumo-executivo.html">⚡ Frente 06 · Resumo</a>
+</nav>
+
+<header>
+  <span class="eyebrow">Diagnóstico TAIRU · Fase 4</span>
+  <h1>Consolidação dos Achados</h1>
+  <p class="sub">Leitura cruzada de tudo: o que o pitch prometeu (proposta de valor ideal) vs. o que a análise de usabilidade e os feedbacks de Nelson e Vera confirmam sobre o app hoje. Versão completa em <code>09-entrega-prometida-vs-real.md</code>.</p>
+</header>
+
+<div class="toc-bar">
+  <div class="toc">
+    <a href="#placar">📊 Placar geral</a>
+    <a href="#prometido">⚖️ Prometido × real</a>
+    <a href="#padrao">🔁 Padrão geral</a>
+    <a href="#gap">🗺️ Gap fora do pitch</a>
+    <a href="#conclusoes">📋 Conclusões</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="placar">
+    <div class="sec-head">
+      <div class="sec-icon">📊</div>
+      <div><h2>Placar geral</h2><p>Das 10 promessas centrais do pitch, quantas se sustentam na prática</p></div>
+    </div>
+    <div class="placar-row">
+      <div class="placar-stat"><div class="n green">1</div><div class="l">Acima do prometido</div></div>
+      <div class="placar-stat"><div class="n" style="color:#7A7468">0</div><div class="l">Entregas plenas</div></div>
+      <div class="placar-stat"><div class="n yellow">3</div><div class="l">Parciais</div></div>
+      <div class="placar-stat"><div class="n red">7</div><div class="l">Não entregues</div></div>
+    </div>
+  </section>
+
+  <section id="prometido">
+    <div class="sec-head">
+      <div class="sec-icon">⚖️</div>
+      <div><h2>Proposta ideal (pitch) × entrega real</h2><p>Cada promessa do <em>Apresentação TAIRU 2.pdf</em>, contra o que a usabilidade e os feedbacks confirmam</p></div>
+    </div>
+    <div class="promise-grid">
+      <div class="promise-card"><div class="promise-top"><span class="promise-title">1. Planejamento assistido</span><span class="badge red">Não entregue</span></div><p>Trilha 100% manual, sem autocomplete; quiz de perfil não influencia sugestões.</p></div>
+      <div class="promise-card"><div class="promise-top"><span class="promise-title">2. Carteira de documentos</span><span class="badge yellow">Parcial</span></div><p>Conceito bom, mas "ver documento" quebra com erro de URL.</p></div>
+      <div class="promise-card"><div class="promise-top"><span class="promise-title">3. Timeline automática</span><span class="badge red">Não entregue</span></div><p>Cada evento é criado manualmente; único recurso de IA testado errou o local.</p></div>
+      <div class="promise-card"><div class="promise-top"><span class="promise-title">4. Mapa dinâmico</span><span class="badge yellow">Parcial</span></div><p>Funciona por evento manual, não por rastreamento passivo em tempo real.</p></div>
+      <div class="promise-card"><div class="promise-top"><span class="promise-title">5. Controle financeiro</span><span class="badge yellow">Parcial</span></div><p>Existe, mas sem multi-moeda, sem split em grupo, e preso à criação de evento.</p></div>
+      <div class="promise-card"><div class="promise-top"><span class="promise-title">6. Notificações automáticas</span><span class="badge red">Não entregue</span></div><p>Falta até o campo de nº de voo/horário — dado-base nem existe.</p></div>
+      <div class="promise-card"><div class="promise-top"><span class="promise-title">7. Automação central</span><span class="badge red">Não entregue</span></div><p>Maior gap: o produto é mais manual que os concorrentes que tenta superar.</p></div>
+      <div class="promise-card"><div class="promise-top"><span class="promise-title">8. Assistente conversacional</span><span class="badge red">Não entregue</span></div><p>Usuário nem sabia que a IA existia — falha de descoberta.</p></div>
+      <div class="promise-card"><div class="promise-top"><span class="promise-title">9. Sincronização em grupo</span><span class="badge red">Não entregue</span></div><p>Convites falharam tecnicamente; e-mail chegou com dado desatualizado.</p></div>
+      <div class="promise-card"><div class="promise-top"><span class="promise-title">10. Consolidação de apps</span><span class="badge red">Não entregue</span></div><p>Usuário seguiu usando Google Maps, carteira Apple e planilha em paralelo.</p></div>
+      <div class="promise-card" style="border:1.5px solid var(--good);"><div class="promise-top"><span class="promise-title">Álbum de fotos / diário</span><span class="badge green">Acima do prometido</span></div><p>Item mais elogiado nas duas fontes — "principal virtude do app".</p></div>
+    </div>
+  </section>
+
+  <section id="padrao">
+    <div class="sec-head">
+      <div class="sec-icon">🔁</div>
+      <div><h2>Padrão geral que emerge do cruzamento</h2><p>O TAIRU entrega bem no fim do ciclo e falha de forma consistente nas mesmas quatro frentes</p></div>
+    </div>
+    <div class="pattern-list">
+      <div class="pattern-item"><div class="pattern-num">1</div><p><b>Promessa central de automação:</b> produto é hoje mais manual do que Wanderlog e TripIt, os concorrentes que tenta superar.</p></div>
+      <div class="pattern-item"><div class="pattern-num">2</div><p><b>Pontas estruturais do dado:</b> "Destino" e "Moeda" no singular, sem campo de voo/checkout — falha de modelagem, não de polimento visual.</p></div>
+      <div class="pattern-item"><div class="pattern-num">3</div><p><b>Colaboração em grupo:</b> a funcionalidade mais pedida pelos dois entrevistados é também a mais quebrada tecnicamente.</p></div>
+      <div class="pattern-item"><div class="pattern-num">4</div><p><b>Discovery de IA:</b> mesmo onde a IA existe, o usuário não sabe, não confia, ou não percebe efeito — risco reputacional a mais.</p></div>
+    </div>
+  </section>
+
+  <section id="gap">
+    <div class="sec-head">
+      <div class="sec-icon">🗺️</div>
+      <div><h2>O pedido que ficou fora do pitch</h2><p>Gap de produto mais consistente entre os dois relatos</p></div>
+    </div>
+    <div class="gap-box">
+      <span class="lbl">Dicas culturais e locais</span>
+      <p>Nelson e Vera pediram, de forma independente, dicas pra evitar perrengues, costumes, gorjeta, lugares menos turísticos e comida boa e barata — algo que o pitch não promete e que hoje só existe de forma improvisada no campo de notas livre.</p>
+    </div>
+  </section>
+
+  <section id="conclusoes">
+    <div class="sec-head">
+      <div class="sec-icon">📋</div>
+      <div><h2>Conclusões desta frente</h2><p>O que essa leitura cruzada muda na decisão sobre o produto</p></div>
+    </div>
+    <div class="conc-grid">
+      <div class="conc-card"><span class="tag">Estrutural, não cosmética</span><p>7 das 10 promessas centrais não existem hoje. São lacunas de modelagem de dados e arquitetura, não de ajuste de UI.</p></div>
+      <div class="conc-card"><span class="tag">Diferencial é o mais fraco</span><p>O produto compete em desvantagem em todos os quadrantes de mercado ao mesmo tempo, sem vencer nenhum, porque a automação prometida não existe.</p></div>
+      <div class="conc-card"><span class="tag">Núcleo de valor real é outro</span><p>Timeline organizada, notas e álbum de memórias apontam pra um produto mais próximo do Polarsteps do que do Wanderlog/TripIt.</p></div>
+      <div class="conc-card"><span class="tag">Risco de confiança</span><p>Colaboração em grupo falhou em três frentes ao mesmo tempo — técnica, estrutural e informacional.</p></div>
+      <div class="conc-card"><span class="tag">Pedido não mapeado</span><p>Dicas culturais/locais vieram dos dois usuários sem que pitch ou pesquisa de mercado tivessem previsto essa dor.</p></div>
+      <div class="conc-card"><span class="tag">Decisão em aberto</span><p>Fechar o gap de automação e sustentar o "tudo em um", ou reposicionar em torno do que já funciona — ver Frente 05.</p></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  TAIRU · Diagnóstico Inicial de Produto, Usabilidade e Mercado, preparado por Adriana, Consultoria de Produto &amp; Estratégia.
+</footer>
+
+<script>
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.toc a');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var active = document.querySelector('.toc a[href="#'+entry.target.id+'"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ observer.observe(s); });
+</script>
+
+</body>
+</html>
