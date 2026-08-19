@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Ciclo de Validação · 3 Meses | TAIRU</title>
+<style>
+  :root{
+    --bg-top:#F2D9B7;
+    --bg-mid:#DCCCAE;
+    --bg-low:#A7BBB4;
+    --bg-bottom:#4F6C72;
+    --accent:#9C2B44;
+    --accent-2:#C4526B;
+    --accent-soft:#F4DCDF;
+    --card:#F7F0E4;
+    --card-border:#E1D3B8;
+    --text:#2B2A2E;
+    --muted:#7A7468;
+    --good:#3F6B4A;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-mid) 32%, var(--bg-low) 66%, var(--bg-bottom) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    min-height:100vh;
+    padding:0 0 70px 0;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:0 32px;}
+
+  .site-nav{
+    position:sticky;top:0;z-index:300;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+  }
+  .site-nav > a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav > a:hover{background:#F2D9B722;}
+  .site-nav > a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown{position:relative;}
+  .nav-dropdown-btn{background:none;color:#F2D9B7;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;font-size:12.5px;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
+  .nav-dropdown-btn:hover{background:#F2D9B722;}
+  .nav-dropdown-btn.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown-btn .car{font-size:9px;transition:transform .15s ease;}
+  .nav-dropdown.open .nav-dropdown-btn .car{transform:rotate(180deg);}
+  .nav-dropdown-menu{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#2E2A25F5;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #F2D9B733;border-radius:14px;padding:8px;display:none;flex-direction:column;gap:2px;min-width:250px;box-shadow:0 14px 30px #00000038;z-index:310;}
+  .nav-dropdown.open .nav-dropdown-menu{display:flex;}
+  .nav-dropdown-menu a{color:#F2D9B7;text-decoration:none;font-weight:600;padding:9px 12px;border-radius:9px;font-size:12.5px;white-space:nowrap;display:block;}
+  .nav-dropdown-menu a:hover{background:#F2D9B722;}
+  .nav-dropdown-menu a.current{background:var(--accent);color:#fff;font-weight:700;}
+  .site-nav .sep{color:#F2D9B766;}
+
+  header{padding:64px 32px 20px;text-align:center;}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;
+    color:var(--accent);text-transform:uppercase;margin-bottom:18px;
+    padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;
+  }
+  h1{font-size:40px;margin:0 0 14px;color:#242229;font-weight:800;letter-spacing:-0.5px;}
+  header p.sub{color:#463F3A;font-size:16px;max-width:680px;margin:0 auto;line-height:1.65;}
+  header p.by{color:var(--muted);font-size:13px;margin-top:18px;}
+
+  .progress-wrap{max-width:520px;margin:32px auto 0;}
+  .progress-label{display:flex;justify-content:space-between;font-size:12px;color:#463F3A;font-weight:700;margin-bottom:8px;}
+  .progress-track{height:10px;background:#FFFFFF77;border:1px solid var(--card-border);border-radius:999px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:999px;}
+
+  .months{display:flex;flex-direction:column;gap:22px;margin-top:50px;}
+
+  .month-card{background:var(--card);border:1px solid var(--card-border);border-radius:22px;padding:28px 30px;box-shadow:0 3px 14px #00000014;}
+  .month-card.done{border-left:6px solid var(--good);}
+  .month-card.pending{border-left:6px solid #C7BBA3;opacity:0.92;}
+
+  .month-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:10px;}
+  .month-head{display:flex;align-items:center;gap:14px;}
+  .month-num{width:44px;height:44px;border-radius:12px;background:#FFFFFF;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:var(--accent);flex-shrink:0;}
+  .month-title{font-size:19px;font-weight:800;color:#242229;margin:0;}
+  .month-status{font-size:11px;font-weight:800;padding:6px 14px;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;}
+  .month-status.done{background:#3F6B4A1A;color:var(--good);border:1px solid #3F6B4A55;}
+  .month-status.pending{background:#8B85791A;color:var(--muted);border:1px solid #8B857955;}
+
+  .month-obj{font-size:13.5px;line-height:1.6;color:#463F3A;margin:10px 0 18px;max-width:820px;}
+
+  .entrega-list{display:flex;flex-direction:column;gap:10px;}
+  .entrega-item{display:flex;align-items:center;gap:14px;background:#FFFFFFCC;border:1px solid var(--card-border);border-radius:14px;padding:14px 18px;text-decoration:none;color:var(--text);transition:transform .15s ease, box-shadow .15s ease;}
+  a.entrega-item:hover{transform:translateY(-2px);box-shadow:0 8px 18px #00000018;border-color:var(--accent);}
+  .entrega-item.locked{opacity:0.65;}
+  .entrega-icon{width:36px;height:36px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+  .entrega-item.locked .entrega-icon{background:#EFE9DD;}
+  .entrega-body{flex:1;}
+  .entrega-title{font-size:13.5px;font-weight:800;color:#242229;}
+  .entrega-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-top:2px;}
+  .entrega-badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
+  .entrega-badge.ready{background:#3F6B4A1A;color:var(--good);border:1px solid #3F6B4A55;}
+  .entrega-badge.wait{background:#8B85791A;color:var(--muted);border:1px solid #8B857955;}
+  .entrega-arrow{font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0;}
+
+  footer{max-width:1100px;margin:50px auto 0;padding:0 32px;color:#463F3A;font-size:12px;line-height:1.6;text-align:center;}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">🏠 Home</a>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn" type="button">📋 Diagnóstico <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="01-analise-usabilidade.html">🔍 Usabilidade</a>
+      <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Mercado</a>
+      <a href="03-feedback-existente.html">💬 Feedback</a>
+      <a href="04-consolidacao-achados.html">🧩 Consolidação</a>
+      <a href="05-proposta-modelo-trabalho.html">🚀 Proposta</a>
+      <a href="06-resumo-executivo.html">⚡ Resumo</a>
+    </div>
+  </div>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn current" type="button">🧪 Ciclo de Validação <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="12-capa-ciclo-validacao.html" class="current">🗺️ Visão geral (3 meses)</a>
+      <a href="13-validacao-icp-mes1.html">🧭 Mês 1 · Validação do ICP</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <span class="eyebrow">TAIRU · Consultoria de Produto &amp; Estratégia</span>
+  <h1>Ciclo de Validação — 3 Meses</h1>
+  <p class="sub">Validar antes de construir: 3 meses para confirmar o ICP e a proposta de valor, desenhar o protótipo e testar o fluxo com o público real — sem desenvolvimento de software até que valha a pena. Continuação do <a href="05-proposta-modelo-trabalho.html" style="color:var(--accent);font-weight:700;">Diagnóstico Inicial</a>.</p>
+  <p class="by">3 fases · clique numa entrega disponível pra abrir o documento</p>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Progresso do ciclo</span><span id="progressText">1 de 3 entregas principais</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:33.3%"></div></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="months">
+
+    <div class="month-card done">
+      <div class="month-top">
+        <div class="month-head">
+          <div class="month-num">01</div>
+          <h2 class="month-title">Mês 1 · Definição de ICP e proposta de valor</h2>
+        </div>
+        <span class="month-status done">✓ Concluído</span>
+      </div>
+      <p class="month-obj">Pesquisa com o ICP (mínimo de 4-6 pessoas fora do círculo do fundador, que nunca viram o app), validando se o problema é o mesmo de Nando, Nelson e Vera, e se a proposta de valor faz sentido pra esse público. Entrega prevista: ICP definido + proposta de valor validada + critérios de sucesso/fracasso pro Mês 3.</p>
+      <div class="entrega-list">
+        <a class="entrega-item" href="13-validacao-icp-mes1.html">
+          <div class="entrega-icon">🧭</div>
+          <div class="entrega-body">
+            <div class="entrega-title">Validação do ICP — Fase 1</div>
+            <div class="entrega-desc">10 entrevistas comparadas com o padrão de dor de Nelson e Vera; proposta de valor avaliada e critérios de sucesso definidos pro Mês 3.</div>
+          </div>
+          <span class="entrega-badge ready">✓ Disponível</span>
+          <span class="entrega-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="month-card pending">
+      <div class="month-top">
+        <div class="month-head">
+          <div class="month-num">02</div>
+          <h2 class="month-title">Mês 2 · Desenho do protótipo</h2>
+        </div>
+        <span class="month-status pending">⏳ Pendente</span>
+      </div>
+      <p class="month-obj">Protótipo desenhado a partir dos feedbacks coletados no Mês 1, seguindo um fluxo mais linear e simples de ponta a ponta — sem IA generativa. Entrega prevista: protótipo navegável do fluxo de ponta a ponta + roteiro de teste.</p>
+      <div class="entrega-list">
+        <div class="entrega-item locked">
+          <div class="entrega-icon">🎨</div>
+          <div class="entrega-body">
+            <div class="entrega-title">Protótipo navegável + roteiro de teste</div>
+            <div class="entrega-desc">Aguardando início — depende dos direcionamentos definidos na validação do ICP.</div>
+          </div>
+          <span class="entrega-badge wait">⏳ Em breve</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="month-card pending">
+      <div class="month-top">
+        <div class="month-head">
+          <div class="month-num">03</div>
+          <h2 class="month-title">Mês 3 · Teste do fluxo com o ICP e do modelo comercial</h2>
+        </div>
+        <span class="month-status pending">⏳ Pendente</span>
+      </div>
+      <p class="month-obj">Teste do protótipo com o ICP e teste de 1 modelo comercial, na mesma rodada de pesquisa. Consolidação dos resultados indicando o que vale ser implementado e o que precisa de ajuste. Entrega prevista: relatório com o que implementar e o que ajustar.</p>
+      <div class="entrega-list">
+        <div class="entrega-item locked">
+          <div class="entrega-icon">📊</div>
+          <div class="entrega-body">
+            <div class="entrega-title">Relatório de teste do fluxo + modelo comercial</div>
+            <div class="entrega-desc">Aguardando conclusão do Mês 2.</div>
+          </div>
+          <span class="entrega-badge wait">⏳ Em breve</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  TAIRU · Ciclo de Validação de 3 Meses, preparado por Adriana, Consultoria de Produto &amp; Estratégia.
+</footer>
+
+<script>
+(function(){
+  document.querySelectorAll('.nav-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var dd = btn.closest('.nav-dropdown');
+      var wasOpen = dd.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+      if(!wasOpen) dd.classList.add('open');
+    });
+  });
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

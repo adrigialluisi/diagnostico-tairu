@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Validação do ICP — Mês 1 | TAIRU</title>
+<style>
+  :root{
+    --bg-top:#F2D9B7;
+    --bg-mid:#DCCCAE;
+    --bg-low:#A7BBB4;
+    --bg-bottom:#4F6C72;
+    --accent:#9C2B44;
+    --accent-2:#C4526B;
+    --accent-soft:#F4DCDF;
+    --card:#F7F0E4;
+    --card-border:#E1D3B8;
+    --text:#2B2A2E;
+    --muted:#7A7468;
+    --good:#3F6B4A;
+    --warn:#A67C1C;
+    --bad:#A02E3C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-mid) 32%, var(--bg-low) 66%, var(--bg-bottom) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    padding:0 0 90px 0;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+  .site-nav{
+    position:sticky;top:0;z-index:300;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+  }
+  .site-nav > a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav > a:hover{background:#F2D9B722;}
+  .site-nav > a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown{position:relative;}
+  .nav-dropdown-btn{background:none;color:#F2D9B7;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;font-size:12.5px;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
+  .nav-dropdown-btn:hover{background:#F2D9B722;}
+  .nav-dropdown-btn.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown-btn .car{font-size:9px;transition:transform .15s ease;}
+  .nav-dropdown.open .nav-dropdown-btn .car{transform:rotate(180deg);}
+  .nav-dropdown-menu{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#2E2A25F5;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #F2D9B733;border-radius:14px;padding:8px;display:none;flex-direction:column;gap:2px;min-width:250px;box-shadow:0 14px 30px #00000038;z-index:310;}
+  .nav-dropdown.open .nav-dropdown-menu{display:flex;}
+  .nav-dropdown-menu a{color:#F2D9B7;text-decoration:none;font-weight:600;padding:9px 12px;border-radius:9px;font-size:12.5px;white-space:nowrap;display:block;}
+  .nav-dropdown-menu a:hover{background:#F2D9B722;}
+  .nav-dropdown-menu a.current{background:var(--accent);color:#fff;font-weight:700;}
+  .site-nav .sep{color:#F2D9B766;}
+
+  header{padding:52px 32px 30px;text-align:center;}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;
+    color:var(--accent);text-transform:uppercase;margin-bottom:16px;
+    padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;
+  }
+  h1{font-size:36px;margin:0 0 12px;color:#242229;font-weight:800;letter-spacing:-0.5px;}
+  header p.sub{color:#463F3A;font-size:15.5px;max-width:760px;margin:0 auto;line-height:1.6;}
+  .dl-link{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;background:#FFFFFFCC;border:1.5px solid var(--accent);padding:8px 16px;border-radius:999px;}
+  .dl-link:hover{background:var(--accent);color:#fff;}
+
+  .toc-bar{
+    position:sticky;top:42px;z-index:100;margin-top:28px;
+    background:#EFE3CCE6;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--card-border);box-shadow:0 4px 14px #00000014;
+  }
+  .toc{max-width:980px;margin:0 auto;padding:12px 32px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+  .toc a{font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;background:#FFFFFFCC;border:1.5px solid var(--card-border);padding:7px 14px;border-radius:999px;}
+  .toc a:hover{border-color:var(--accent);}
+
+  section{margin:52px 0;scroll-margin-top:110px;}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .sec-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;background:#FFFFFF;border:2px solid var(--accent);flex-shrink:0;}
+  .sec-head h2{font-size:22px;margin:0;color:#242229;}
+  .sec-head p{margin:2px 0 0;font-size:13px;color:var(--muted);}
+
+  .prose{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:18px 22px;font-size:13.5px;line-height:1.65;color:#3B3630;margin-bottom:14px;}
+
+  .placar-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:20px;}
+  .placar-stat{flex:1 1 150px;background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:16px 18px;text-align:center;box-shadow:0 2px 8px #00000010;}
+  .placar-stat .n{font-size:24px;font-weight:900;color:var(--accent);}
+  .placar-stat .l{font-size:10.5px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.4px;line-height:1.4;}
+
+  /* tabela */
+  .table-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--card-border);box-shadow:0 2px 8px #00000010;margin-bottom:8px;}
+  table.data-table{width:100%;border-collapse:collapse;background:var(--card);min-width:640px;}
+  .data-table th{background:var(--accent);color:#fff;text-align:left;padding:11px 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.4px;white-space:nowrap;}
+  .data-table td{padding:10px 14px;font-size:12.5px;line-height:1.5;color:#3B3630;border-top:1px solid var(--card-border);vertical-align:top;}
+  .data-table tr:nth-child(even) td{background:#FFFFFF77;}
+
+  .pill{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;white-space:nowrap;}
+  .pill.sim{background:#3F6B4A1A;color:var(--good);border:1px solid #3F6B4A55;}
+  .pill.parcial{background:#A67C1C1A;color:var(--warn);border:1px solid #A67C1C55;}
+  .pill.nao{background:#A02E3C1A;color:var(--bad);border:1px solid #A02E3C55;}
+
+  /* padrão / pattern list */
+  .pattern-list{display:flex;flex-direction:column;gap:12px;margin-bottom:8px;}
+  .pattern-item{display:flex;gap:14px;background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:14px 18px;align-items:flex-start;}
+  .pattern-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-weight:900;font-size:12.5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .pattern-item.diverge .pattern-num{background:var(--bad);}
+  .pattern-item p{margin:0;font-size:13px;line-height:1.55;color:#3B3630;}
+  .pattern-item p b{color:var(--accent);}
+  .pattern-item.diverge p b{color:var(--bad);}
+
+  /* temas recorrentes */
+  .theme-list{display:flex;flex-direction:column;gap:10px;}
+  .theme-item{display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:11px 16px;}
+  .theme-item span.txt{font-size:12.5px;line-height:1.5;color:#3B3630;}
+  .theme-item span.count{flex-shrink:0;font-size:12px;font-weight:800;color:#fff;background:var(--accent);padding:4px 11px;border-radius:999px;}
+
+  /* quote */
+  .quote-block{background:#FFFFFFCC;border-left:4px solid var(--accent);border-radius:0 14px 14px 0;padding:14px 18px;margin:10px 0;font-size:13px;line-height:1.6;color:#3B3630;font-style:italic;}
+  .quote-block .attrib{display:block;margin-top:6px;font-style:normal;font-weight:700;color:var(--accent);font-size:11.5px;}
+
+  /* conclusões */
+  .conc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+  .conc-card{background:var(--card);border:1px solid var(--card-border);border-left:4px solid var(--accent);border-radius:14px;padding:16px 18px;box-shadow:0 2px 8px #00000010;}
+  .conc-card .tag{font-size:10.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;display:block;}
+  .conc-card p{margin:0;font-size:12.5px;line-height:1.55;color:#3B3630;}
+
+  .gate-note{margin-top:14px;background:#FFFFFF;border:1px dashed var(--accent);border-radius:12px;padding:14px 18px;font-size:12.5px;line-height:1.6;color:#3B3630;}
+  .gate-note b{color:var(--bad);}
+  .gate-note.ok b{color:var(--good);}
+
+  .dir-box{background:linear-gradient(135deg,var(--accent-soft),#F7F0E4);border:1.5px solid var(--accent);border-radius:18px;padding:22px 26px;margin-top:18px;}
+  .dir-box .lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);margin-bottom:10px;display:block;}
+  .dir-box ul{margin:0;padding-left:20px;}
+  .dir-box li{font-size:13px;line-height:1.6;color:#242229;margin-bottom:10px;}
+  .dir-box li:last-child{margin-bottom:0;}
+  .dir-box li b{color:var(--accent);}
+
+  footer{max-width:1200px;margin:40px auto 0;padding:0 32px;color:#463F3A;font-size:12.5px;line-height:1.7;border-top:1px solid #ffffff55;padding-top:24px;}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">🏠 Home</a>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn" type="button">📋 Diagnóstico <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="01-analise-usabilidade.html">🔍 Usabilidade</a>
+      <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Mercado</a>
+      <a href="03-feedback-existente.html">💬 Feedback</a>
+      <a href="04-consolidacao-achados.html">🧩 Consolidação</a>
+      <a href="05-proposta-modelo-trabalho.html">🚀 Proposta</a>
+      <a href="06-resumo-executivo.html">⚡ Resumo</a>
+    </div>
+  </div>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn current" type="button">🧪 Ciclo de Validação <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="12-capa-ciclo-validacao.html">🗺️ Visão geral (3 meses)</a>
+      <a href="13-validacao-icp-mes1.html" class="current">🧭 Mês 1 · Validação do ICP</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <span class="eyebrow">Ciclo de Validação TAIRU · Mês 1 · Entrega 1</span>
+  <h1>Validação do ICP — Fase 1</h1>
+  <p class="sub">10 entrevistas com o público-alvo (ICP), fora do círculo pessoal do fundador, comparadas com o padrão de dor já identificado com Nelson e Vera — e avaliação de como a proposta de valor do Tairu é recebida por esse público.</p>
+  <br>
+  <a class="dl-link" href="Tairu_Validacao_ICP_Mes1.docx">📄 Baixar relatório completo em Word</a>
+</header>
+
+<div class="toc-bar">
+  <div class="toc">
+    <a href="#objetivo">🎯 Objetivo</a>
+    <a href="#perfil">👥 Perfil</a>
+    <a href="#padroes">🧩 4 padrões</a>
+    <a href="#dores">🔥 Dores</a>
+    <a href="#temas">🔁 Temas</a>
+    <a href="#proposta">💡 Proposta de valor</a>
+    <a href="#comparacao">🔗 Nelson &amp; Vera</a>
+    <a href="#conclusoes">📋 Conclusões</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="objetivo">
+    <div class="sec-head">
+      <div class="sec-icon">🎯</div>
+      <div><h2>Objetivo e metodologia</h2><p>Por que essas 10 conversas aconteceram e como foram conduzidas</p></div>
+    </div>
+    <div class="placar-row">
+      <div class="placar-stat"><div class="n">10</div><div class="l">entrevistas ICP realizadas</div></div>
+      <div class="placar-stat"><div class="n">10–15 ago</div><div class="l">período das conversas</div></div>
+      <div class="placar-stat"><div class="n">0</div><div class="l">rejeições à proposta de valor</div></div>
+      <div class="placar-stat"><div class="n">10/10</div><div class="l">têm o planejamento concentrado em 1 pessoa (nem sempre a própria)</div></div>
+    </div>
+    <div class="prose">A Fase 1 do ciclo de 3 meses consistiu em entrevistar 10 pessoas do público-alvo (ICP) pra verificar se sentem as mesmas dores identificadas com Nando (fundador), Nelson e Vera — e sentir, sem viés, se a proposta de valor do Tairu faz sentido pra esse público mais amplo. Critério de seleção: 40/45 anos ou mais; viaja pelo menos 1x/ano; costuma ser quem planeja a viagem do grupo; fora do círculo pessoal do fundador; nunca usou o Tairu.</div>
+    <div class="prose">As entrevistas seguiram um roteiro estruturado em 4 blocos — planejamento pré-viagem, durante a viagem, colaboração/memória, e só no Bloco 4 a reação à proposta de valor foi coletada, pra não contaminar as respostas anteriores. <b>Importante:</b> essas 10 conversas são pré-produto — ninguém tinha ouvido falar do Tairu antes do Bloco 4. Já Nelson e Vera vêm de sessões de uso real do app (nota 7/10 e 6/10), então trazem tanto o padrão de dor original quanto problemas específicos de execução do produto. A comparação a seguir separa esses dois níveis.</div>
+  </section>
+
+  <section id="perfil">
+    <div class="sec-head">
+      <div class="sec-icon">👥</div>
+      <div><h2>Perfil dos 10 entrevistados</h2><p>Variação relevante de perfil dentro do critério de seleção do ICP</p></div>
+    </div>
+    <div class="prose" style="margin-bottom:14px;">Nomes completos conforme autoapresentação em áudio na entrevista. Anna, Beto e Elba não pronunciaram sobrenome na gravação — mantido o identificador da chamada nesses três casos.</div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <tr><th>Nome</th><th>Idade</th><th>Frequência de viagem</th><th>Com quem viaja</th><th>Perfil observado</th></tr>
+        <tr><td>Anna Alves</td><td>53</td><td>1x/ano internacional (às vezes 2x) + 2-3x nacional + ~10x Brasília</td><td>Amigos ou sozinha (nunca com a família); contrata agência quando viaja só</td><td>Não-planejadora — concentra o planejamento em outra pessoa (amiga, quando em grupo; agência paga, quando sozinha), sempre dando diretrizes antes</td></tr>
+        <tr><td>Roberta Lessa Zangarini (Beta)</td><td>42</td><td>~2x/ano</td><td>Núcleo familiar (cônjuge, filho) e grupos maiores (pais, sogros, sobrinhos)</td><td>Planejadora única, roteiro variado (relax x urbano)</td></tr>
+        <tr><td>Beto Rando</td><td>48</td><td>Pelo menos 1x/ano em família (variável)</td><td>Esposa e filha</td><td>Casal organiza junto via WhatsApp; perfil muda com a filha</td></tr>
+        <tr><td>Beatriz Carram Lacerda de Almeida (Bia)</td><td>60</td><td>1 grande viagem/ano + curtas nacionais</td><td>Cônjuge (viagens recentes majoritariamente a dois); ocasionalmente com a filha</td><td>Planejadora detalhista (Word, IA); recém-aposentada, inclui trechos solo</td></tr>
+        <tr><td>Elba Augusta</td><td>49</td><td>3-4x/ano internacional + nacional frequente</td><td>Alterna entre solo (por opção, ao menos 1x/ano) e acompanhada (namorado, amigas, família)</td><td>Busca imersão cultural e autonomia; valoriza sua própria pesquisa prévia</td></tr>
+        <tr><td>Emiliano Fontoura (Emi)</td><td>58</td><td>2-3 semanas/ano visitando família + 1-2x/ano internacional</td><td>Sozinho nas visitas à família; com o companheiro nas férias principais</td><td>Planejador de longo prazo; valoriza surpresa, resiste a expor todos os detalhes</td></tr>
+        <tr><td>Luciana Aray (Lu)</td><td>53</td><td>~2x/ano, 10-15 dias</td><td>Prefere viajar sozinha; também com amigos/irmão, varia muito</td><td>Gosta do processo de planejar; abandona apps pouco intuitivos</td></tr>
+        <tr><td>Luís Roberto Correia de Toledo</td><td>60</td><td>2-3x/ano</td><td>Companheiro, amigas, irmã; viagens solo pouco frequentes</td><td>Lidera com uns, colabora mais com o companheiro; notas desorganizadas</td></tr>
+        <tr><td>Priscila Moreira Argentim (Pri)</td><td>43</td><td>Mensal (família) + viagens de lazer</td><td>Cônjuge e filho (2 adultos + 1 criança); ocasionalmente amigos</td><td>Planejadora única e responsável por tudo</td></tr>
+        <tr><td>Vânia Belini Rodovalho</td><td>60</td><td>~4x/ano</td><td>Majoritariamente com o cônjuge; reúne a família inteira ~1x/ano</td><td>Espontânea; delega tarefas pontuais à filha e ao marido</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="padroes">
+    <div class="sec-head">
+      <div class="sec-icon">🧩</div>
+      <div><h2>Os 4 padrões observados em Nelson e Vera — quantos se confirmam no ICP</h2><p>Mesmos 4 padrões testados em cada uma das 10 conversas</p></div>
+    </div>
+    <div class="pattern-list">
+      <div class="pattern-item"><div class="pattern-num">1</div><p><b>Planejamento concentrado em 1 pessoa — 10/10 confirmam</b> algum grau (6 fortes + 4 parciais). Confirmado de forma universal — inclusive Anna, que concentra o planejamento em outra pessoa (nunca ela mesma): quando é a amiga Elba, é a mesma dinâmica de Nelson (alguém do grupo carrega o peso sem remuneração); quando é uma agência contratada, é terceirização paga, uma categoria à parte — a agência não é candidata a usar o Tairu, e Anna já resolveu a distribuição do trabalho pagando por isso.</p></div>
+      <div class="pattern-item"><div class="pattern-num">2</div><p><b>Viaja sempre acompanhado(a) — 4/10 fortes + 5 mistos</b> (alternam solo/grupo: Bia, Elba, Emi, Lu, Luis), e só Anna não confirma (amigos ou sozinha, nunca com a família). É o padrão menos consistente do ICP — quase metade da amostra intercala viagens solo e acompanhadas.</p></div>
+      <div class="pattern-item"><div class="pattern-num">3</div><p><b>Deseja colaboração/sugestões de terceiros — 8/10</b> reagem positivamente; Emi prefere não expor todos os detalhes ao parceiro pra preservar a "mágica" da viagem — mas reagiu bem à ideia de um app colaborativo em si; Bia é cética/condicional.</p></div>
+      <div class="pattern-item"><div class="pattern-num">4</div><p><b>Perfil de viagem muda a cada vez — 9/10 confirmam</b> algum grau (7 fortes + 2 parciais); Emi é a única exceção clara, com preferência consistentemente urbana. Segue sendo o padrão mais confirmado da amostra.</p></div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:20px;">
+      <table class="data-table">
+        <tr><th>Nome</th><th>1. Concentrado</th><th>2. Sempre acompanhado</th><th>3. Deseja colaboração</th><th>4. Perfil muda</th></tr>
+        <tr><td>Anna Alves</td><td><span class="pill sim">Sim (no outro — amiga ou agência)</span></td><td><span class="pill nao">Não</span></td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td></tr>
+        <tr><td>Roberta Lessa Zangarini (Beta)</td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td></tr>
+        <tr><td>Beto Rando</td><td><span class="pill parcial">Parcial</span></td><td><span class="pill sim">Sim</span></td><td><span class="pill parcial">Parcial</span></td><td><span class="pill sim">Sim</span></td></tr>
+        <tr><td>Beatriz Carram Lacerda de Almeida (Bia)</td><td><span class="pill sim">Sim</span></td><td>Misto (inclui solo)</td><td><span class="pill parcial">Cético/condicional</span></td><td><span class="pill parcial">Parcial</span></td></tr>
+        <tr><td>Elba Augusta</td><td><span class="pill sim">Sim (é solo/agência)</span></td><td>Misto (alterna solo/acompanhada)</td><td><span class="pill sim">Sim (na centralização)</span></td><td><span class="pill sim">Parcial/Sim</span></td></tr>
+        <tr><td>Emiliano Fontoura (Emi)</td><td><span class="pill parcial">Parcial</span></td><td>Misto (só c/ família, casal nas férias)</td><td><span class="pill nao">Não (prefere não expor tudo)</span></td><td><span class="pill nao">Não (perfil urbano consistente)</span></td></tr>
+        <tr><td>Luciana Aray (Lu)</td><td><span class="pill sim">Sim</span></td><td>Misto</td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td></tr>
+        <tr><td>Luís Roberto Correia de Toledo</td><td><span class="pill parcial">Parcial</span></td><td>Misto</td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td></tr>
+        <tr><td>Priscila Moreira Argentim (Pri)</td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td></tr>
+        <tr><td>Vânia Belini Rodovalho</td><td><span class="pill parcial">Parcial</span></td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td><td><span class="pill sim">Sim</span></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="dores">
+    <div class="sec-head">
+      <div class="sec-icon">🔥</div>
+      <div><h2>As 3 dores mais fortes por entrevistado</h2><p>Na ordem em que cada pessoa mais insistiu nelas durante a conversa</p></div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <tr><th>Nome</th><th>Dor 1</th><th>Dor 2</th><th>Dor 3</th></tr>
+        <tr><td>Anna Alves</td><td>Gasto inesperado por falta de referência de câmbio/preço</td><td>Falta de tempo/vontade de planejar logística (por isso delega)</td><td>Ansiedade com perda de sinal/acesso a documentos (mantém redundância celular+nuvem+impresso)</td></tr>
+        <tr><td>Roberta Lessa Zangarini (Beta)</td><td>Logística de traslado/transporte para grupos grandes</td><td>Achar restaurante que acomode todo o grupo</td><td>Falta de tempo/energia para montar álbum pós-viagem (fala em "pecar" nisso)</td></tr>
+        <tr><td>Beto Rando</td><td>Achar hospedagem com cozinha (demorado e cansativo)</td><td>Burocracia de seguro e documentos (chato)</td><td>Perda de qualidade das fotos compartilhadas por WhatsApp</td></tr>
+        <tr><td>Beatriz Carram Lacerda de Almeida (Bia)</td><td>Pesquisa de passagens/conexões (chata, cara, sujeita a erro)</td><td>Experiências ruins com locadoras/Airbnb pouco confiáveis</td><td>Rejeição a excursões/pacotes guiados ("a quantidade de mico é absurda")</td></tr>
+        <tr><td>Elba Augusta</td><td>Dificuldade de imersão cultural genuína como mulher solo em certos destinos</td><td>Perda de documentos em viagem (passaporte perdido, tratada como suspeita no aeroporto)</td><td>Percepção de risco é sentida por quem viaja com ela, não por ela mesma</td></tr>
+        <tr><td>Emiliano Fontoura (Emi)</td><td>Volatilidade de preço/horário de passagens aéreas</td><td>Compra de passagens com múltiplos trechos em sites de companhias com falhas técnicas</td><td>(poucas queixas — processo tido como prazeroso)</td></tr>
+        <tr><td>Luciana Aray (Lu)</td><td>Abandona ferramentas pouco intuitivas</td><td>Preguiça/desorganização pessoal no controle financeiro da viagem</td><td>(poucas queixas — gosta do processo de planejar)</td></tr>
+        <tr><td>Luís Roberto Correia de Toledo</td><td>Controle de orçamento é a parte mais desgastante/evitada</td><td>Documentação não é centralizada de forma sistemática</td><td>Notas de roteiro desorganizadas no celular</td></tr>
+        <tr><td>Priscila Moreira Argentim (Pri)</td><td>Mapas não permitem detalhe descritivo por ponto de interesse</td><td>Falta de acompanhamento em tempo real / mapa+roteiro unificado</td><td>Trabalho 100% presencial limita flexibilidade para viajar mais ("é triste")</td></tr>
+        <tr><td>Vânia Belini Rodovalho</td><td>Busca de passagens aéreas (preço, bagagem, conexões)</td><td>Fotos dispersas sem sistema de organização pós-viagem</td><td>Controle financeiro reativo — só percebe o gasto real quando a fatura chega</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="temas">
+    <div class="sec-head">
+      <div class="sec-icon">🔁</div>
+      <div><h2>Temas recorrentes entre as 10 entrevistas</h2><p>Quantas pessoas, de 10, trouxeram cada tema espontaneamente</p></div>
+    </div>
+    <div class="theme-list">
+      <div class="theme-item"><span class="txt">Desejo de dicas culturais/locais (Anna, Emi, Lu, Vania, Elba, Pri)</span><span class="count">6/10</span></div>
+      <div class="theme-item"><span class="txt">Resistência a assinatura mensal, preferência por pagamento único/uso/valor agregado</span><span class="count">6/10</span></div>
+      <div class="theme-item"><span class="txt">Fotos/memórias dispersas, sem curadoria pós-viagem (Anna, Beto, Luis, Vania, Beta)</span><span class="count">5/10</span></div>
+      <div class="theme-item"><span class="txt">Planejamento concentrado numa pessoa é fato estrutural em quase todo mundo (ver Padrão 1), mas só Beta verbaliza isso como desgaste explícito ("eu peco... o pós eu não faço") — para Bia e Lu, por exemplo, planejar é descrito como prazer, não fardo</span><span class="count">1/10 verbaliza desgaste</span></div>
+      <div class="theme-item"><span class="txt">Controle financeiro disperso / múltiplas moedas — já parcialmente resolvido com Splitwise, Tricount, Wise</span><span class="count">5/10</span></div>
+      <div class="theme-item"><span class="txt">Desejo de combinar as escolhas do grupo no roteiro trazido espontaneamente (Pri); Beta, Beto e Vania endossaram positivamente quando a ideia foi apresentada pela entrevistadora, mas não é claro que já sentissem essa falta antes</span><span class="count">1/10 espontâneo + 3 endossos</span></div>
+      <div class="theme-item"><span class="txt">Documentos dispersos, sem centralização sistemática (Luis, Pri) — Bia já resolveu isso com pastas no Gmail + backup impresso</span><span class="count">2/10</span></div>
+      <div class="theme-item"><span class="txt">Medo de um app engessar ou burocratizar a viagem (Beto, Emi, Luis)</span><span class="count">3/10</span></div>
+    </div>
+    <div class="prose" style="margin-top:14px;">Passagens aéreas surgem como a tarefa mais tediosa e sujeita a erro do planejamento em quase metade das entrevistas — um ponto de fricção que não fazia parte do enunciado original da proposta de valor do Tairu e que pode ser uma oportunidade a considerar.</div>
+  </section>
+
+  <section id="proposta">
+    <div class="sec-head">
+      <div class="sec-icon">💡</div>
+      <div><h2>Reação à proposta de valor (Bloco 4)</h2><p>Apresentada sem citar o Tairu, só depois de toda a conversa livre</p></div>
+    </div>
+    <div class="quote-block">Imagina um app onde cada pessoa do grupo entra, escolhe os lugares que quer visitar, e o app monta um roteiro que combina as escolhas de todo mundo. Durante a viagem, todo mundo registra fotos e documentos juntos num só lugar, e no final sai uma espécie de retrospectiva da viagem, feita com a contribuição de todos, pra guardar e compartilhar.</div>
+
+    <div class="table-wrap" style="margin-top:18px;">
+      <table class="data-table">
+        <tr><th>Nome</th><th>Resolveria dor real?</th><th>Trocaria o método atual?</th><th>Pagaria — como?</th></tr>
+        <tr><td>Anna Alves</td><td>Sim — doc./offline/retrospectiva</td><td>Não afirmado — vê o app como complementar (documentos/offline/retrospectiva), não substituto da agência/amiga que hoje monta o roteiro</td><td>Por viagem realizada</td></tr>
+        <tr><td>Roberta Lessa Zangarini (Beta)</td><td>Sim, com ressalvas</td><td>Sim, se fácil/offline/acessível a idosos</td><td>Pagamento pontual, não assinatura (já paga clube de férias fixo)</td></tr>
+        <tr><td>Beto Rando</td><td>Parcial — cético à retrospectiva</td><td>Sim, se ajudar orçamento/roteiro por perfil</td><td>Por uso (ex.: por período de viagem)</td></tr>
+        <tr><td>Beatriz Carram Lacerda de Almeida (Bia)</td><td>Cético à retrospectiva estilo Spotify; positiva quanto a roteiro colaborativo + documentos</td><td>Só se entregar valor real (segurança, garantias)</td><td>Só com valor tangível claro</td></tr>
+        <tr><td>Elba Augusta</td><td>Sim — na centralização da própria pesquisa</td><td>Condicional</td><td>Só com benefício tangível (descontos)</td></tr>
+        <tr><td>Emiliano Fontoura (Emi)</td><td>Achou a ideia "muito legal" em abstrato, mas ao comparar direto com seu método (Excel), disse que não acha que facilitaria</td><td>Provavelmente não — seu processo depende de redescoberta espontânea, não de roteiro estruturado</td><td>Prefere grátis; reluta em assinar (mas já paga por armazenamento de fotos, que valoriza muito)</td></tr>
+        <tr><td>Luciana Aray (Lu)</td><td>Sim — financeiro e escolhas compartilhadas</td><td>Sim, se for muito intuitivo</td><td>Incerta — duvida do valor de uma assinatura dada sua baixa frequência (2x/ano); cashback é só sugestão especulativa, sem compromisso</td></tr>
+        <tr><td>Luís Roberto Correia de Toledo</td><td>Sim — resolveria dispersão/desorganização</td><td>Substituiria as notas do celular, mas com reservas (não quer roteirização automática; teme não manter disciplina de uso)</td><td>Quer avaliar em trial antes de decidir ("talvez, talvez pagasse")</td></tr>
+        <tr><td>Priscila Moreira Argentim (Pri)</td><td>Sim, muito útil</td><td>Trocaria a planilha, condicionado a ter visão dia a dia + panorama geral</td><td>Confirma que pagaria (modelo/valor não discutido)</td></tr>
+        <tr><td>Vânia Belini Rodovalho</td><td>Sim, quer testar usabilidade</td><td>Provável, quer validar uso</td><td>Sugere trial gratuito seguido de cobrança automática, condicionado ao uso real</td></tr>
+      </table>
+    </div>
+
+    <div class="prose" style="margin-top:18px;">Nenhum dos 10 entrevistados rejeitou a proposta central. As ressalvas mais recorrentes foram: usabilidade/simplicidade, funcionamento offline, flexibilidade (não pode "engessar" a viagem), e ceticismo pontual quanto à retrospectiva "estilo Spotify" como funcionalidade isolada (Bia, Beto) — mesmo essa sendo a funcionalidade favorita de Nelson depois de usar o app de verdade. Isso sugere que a retrospectiva conquista mais no uso do que na descrição. A disposição de trocar o método atual também varia bastante: 6 pessoas (Beta, Beto, Lu, Luis, Pri, Vania) topariam trocar sob condições de usabilidade/oferta; Bia e Elba só trocariam com uma condição forte específica; Anna e Emi não confirmam que trocariam — Emi inclusive foi explicitamente cético ao comparar a proposta com seu método atual (Excel).</div>
+
+    <div class="quote-block">A gente tem um grupo da viagem no WhatsApp e vai mandando as fotos... mas depois fica ali, ninguém mexe mais. Se uma hora perder as mensagens do WhatsApp, ninguém faz nada.<span class="attrib">Vania, sobre fotos dispersas</span></div>
+    <div class="quote-block">Acho que se tivesse a opção de ver dia a dia e ver também um panorama geral assim, eu trocaria [a planilha].<span class="attrib">Pri, sobre a proposta de valor</span></div>
+    <div class="quote-block">Eu sou o tipo de usuário que quando o bagulho começa a entravar a minha experiência, eu desisto. Não importa o que eu esteja fazendo.<span class="attrib">Lu, sobre usabilidade</span></div>
+  </section>
+
+  <section id="comparacao">
+    <div class="sec-head">
+      <div class="sec-icon">🔗</div>
+      <div><h2>Comparação com o feedback de Nelson e Vera</h2><p>O que se repete fora do círculo pessoal do fundador, e o que diverge</p></div>
+    </div>
+
+    <h3 style="font-size:14.5px;color:var(--good);margin:0 0 10px;">✅ O que se confirma</h3>
+    <div class="pattern-list">
+      <div class="pattern-item"><div class="pattern-num">✓</div><p><b>Concentração do planejamento numa pessoa</b> — ecoa o padrão de Nelson (a esposa dele geralmente registra tudo em planilha); confirmado em 10/10 do ICP.</p></div>
+      <div class="pattern-item"><div class="pattern-num">✓</div><p><b>Desejo de dicas culturais/locais</b> — foi o pedido nº1 de Nelson (regras, costumes, evitar perrengues); aparece em 6/10 do ICP, com o mesmo motivo.</p></div>
+      <div class="pattern-item"><div class="pattern-num">✓</div><p><b>Desejo de combinar as escolhas do grupo no roteiro</b> — ecoa o pedido de Nelson de otimizar a viagem em família quando cada um quer ir a um lugar diferente; trazido espontaneamente por Pri, e bem recebido por Beta, Beto e Vania quando apresentado.</p></div>
+      <div class="pattern-item"><div class="pattern-num">✓</div><p><b>Valor da retrospectiva/álbum de fotos</b> — foi o que Nelson mais gostou no app de verdade; o desejo de organizar fotos aparece em 5/10 do ICP.</p></div>
+      <div class="pattern-item"><div class="pattern-num">✓</div><p><b>Exaustão ao orçar/planejar as finanças da viagem</b> — Nelson achava exaustivo alimentar o sistema; Luis descreve desgaste parecido ao montar o orçamento total (embora já use Tricount no dia a dia). Beta e Bia, ao contrário, descrevem métodos manuais que funcionam bem pra elas — não é um padrão universal de exaustão.</p></div>
+      <div class="pattern-item"><div class="pattern-num">✓</div><p><b>Múltiplos destinos/moedas por viagem</b> — é o pedido literal da Vera ("Destino(s)"/"Moeda(s)" no plural); aparece em 5/10 do ICP.</p></div>
+      <div class="pattern-item"><div class="pattern-num">✓</div><p><b>Centralizar documentos com confiabilidade</b> — ecoa o bug de "Meus Documentos" da Vera; no ICP aparece como desejo de centralização sistemática.</p></div>
+    </div>
+
+    <h3 style="font-size:14.5px;color:var(--bad);margin:26px 0 10px;">⚠️ O que diverge ou nuança o padrão original</h3>
+    <div class="pattern-list">
+      <div class="pattern-item diverge"><div class="pattern-num">!</div><p><b>"Viaja sempre acompanhado" é o padrão menos consistente no ICP</b> — Bia, Elba, Emi, Lu e Luis alternam entre viagens solo e em grupo (metade da amostra); só Anna nunca viaja com a família (amigos ou sozinha). O padrão de Nelson/Vera é real, mas bem mais restrito do que o público total validado.</p></div>
+      <div class="pattern-item diverge"><div class="pattern-num">!</div><p><b>Nem todo mundo quer colaboração total</b> — Emi prefere não compartilhar todos os detalhes operacionais com o parceiro pra preservar a "mágica" da viagem (mas reagiu bem à ideia de um app colaborativo em si); Bia só valoriza a proposta se vier com segurança/garantias, não com colaboração em si.</p></div>
+      <div class="pattern-item diverge"><div class="pattern-num">!</div><p><b>Retrospectiva "estilo Spotify" gera ceticismo quando só descrita</b> (Bia, Beto) — mesma funcionalidade que foi a favorita de Nelson depois de usar. Indício de que se prova no uso, não na promessa.</p></div>
+      <div class="pattern-item diverge"><div class="pattern-num">!</div><p><b>Modelo de pagamento é um dado novo</b> — Nelson e Vera não opinaram sobre isso; o ICP é muito claro: rejeita assinatura mensal (6/10) e prefere pagamento por viagem, uso, trial, ou valor agregado.</p></div>
+      <div class="pattern-item diverge"><div class="pattern-num">!</div><p><b>Emi foi explicitamente cético ao comparar a proposta com seu método atual</b> — achou a ideia "legal" em abstrato, mas quando confrontado com a comparação direta ao seu processo hoje (Excel + Google Maps), disse que não acha que o app facilitaria. Sinal de que a proposta agrada em abstrato, mas pode não converter quem já tem um processo pessoal maduro.</p></div>
+    </div>
+  </section>
+
+  <section id="conclusoes">
+    <div class="sec-head">
+      <div class="sec-icon">📋</div>
+      <div><h2>Conclusões e direcionamentos</h2><p>O que muda na decisão sobre o ICP, a proposta de valor e o Mês 3</p></div>
+    </div>
+    <div class="prose">A proposta de valor central do Tairu — centralizar o planejamento colaborativo do roteiro, documentos e orçamento, e fechar a viagem com uma retrospectiva coletiva — foi bem recebida de forma consistente: nenhuma das 10 pessoas a rejeitou. Mas a disposição de trocar o método atual varia: 6 pessoas (Beta, Beto, Lu, Luis, Pri, Vania) topariam trocar sob condições de usabilidade/oferta; Bia e Elba só trocariam com uma condição forte específica (segurança, benefício tangível); Anna e Emi não confirmam que trocariam — Emi inclusive foi cético ao comparar a proposta diretamente com seu método atual. O problema não é exclusivo do círculo pessoal do fundador, mas a conversão de "acho legal" para "eu trocaria" não é automática.</div>
+
+    <div class="conc-grid">
+      <div class="conc-card"><span class="tag">Padrão 1 · confirmado</span><p>Planejamento concentrado numa pessoa se sustenta em 10/10 — pilar sólido do ICP e do MVP.</p></div>
+      <div class="conc-card"><span class="tag">Padrão 2 · não universal</span><p>Viajar sempre acompanhado NÃO se sustenta como padrão universal — metade da amostra alterna solo/grupo; repensar como filtro rígido de seleção.</p></div>
+      <div class="conc-card"><span class="tag">Padrão 3 · maioria com exceção</span><p>Desejo de colaboração confirma-se em 8/10, mas exige opção de não expor tudo ao grupo.</p></div>
+      <div class="conc-card"><span class="tag">Padrão 4 · confirmado</span><p>Perfil de viagem que muda a cada vez é o padrão mais universal (9/10, Emi como exceção) — outro pilar sólido.</p></div>
+    </div>
+
+    <div class="gate-note"><b>Risco 1 — Execução, não conceito, é o que pode falhar:</b> os problemas de Nelson e Vera (colaboração que não conectava convidados, "Meus Documentos" quebrado, input manual excessivo) são bugs, não rejeição da proposta. O ICP reage bem à ideia; o risco real é entregar um MVP que repita essas falhas.</div>
+    <div class="gate-note"><b>Risco 2 — Rigidez mata a proposta:</b> 3 entrevistados alertaram espontaneamente contra um app que "engesse" a viagem — deve virar critério de design explícito.</div>
+    <div class="gate-note"><b>Risco 3 — Assinatura mensal é o modelo errado:</b> 6/10 rejeitam esse formato; testar pagamento por viagem/uso, trial gratuito, ou parcerias com desconto no Mês 3.</div>
+
+    <div class="gate-note ok" style="margin-top:20px;"><b>Critérios de sucesso sugeridos pro Mês 3:</b> ≥7/10 usuários do MVP dizem que trocariam o método atual (dado usabilidade+offline+flexibilidade); colaboração (convite/visualização compartilhada) funcionando sem falhas técnicas; disposição de pagamento validada de forma concreta sob modelo por viagem/uso ou trial.</div>
+
+    <div class="dir-box">
+      <span class="lbl">Direcionamentos recomendados</span>
+      <ul>
+        <li><b>Manter os padrões 1 e 4 como pilares do ICP</b> — planejamento concentrado numa pessoa e perfil de viagem que muda a cada vez são os mais universais; seguem como base do desenho do protótipo no Mês 2.</li>
+        <li><b>Relaxar o critério "viaja sempre acompanhado"</b> na definição final do ICP — a amostra mostra viajantes solo genuínos que também sentem a dor central; um filtro rígido restringiria o público sem necessidade real.</li>
+        <li><b>Desenhar a colaboração como opcional, não obrigatória</b> — permitir que quem valoriza autonomia/surpresa (como Emi) use o app sem expor todo o roteiro ao grupo.</li>
+        <li><b>Priorizar a execução técnica da colaboração acima de tudo</b> — foi o que mais frustrou Nelson; se essa funcionalidade falhar de novo no Mês 2/3, a proposta de valor esvazia mesmo sendo bem recebida em teoria.</li>
+        <li><b>Não vender a retrospectiva como o gancho principal</b> — ela convence mais depois de usada (caso Nelson) do que na descrição (ceticismo de Bia e Beto); tratar como reforço de retenção, não como argumento de entrada.</li>
+        <li><b>Testar modelo de pagamento por viagem/uso ou trial no Mês 3</b>, nunca assinatura mensal recorrente como opção única — 6/10 já sinalizaram rejeição a esse formato.</li>
+        <li><b>Incorporar flexibilidade como critério de design explícito</b> no protótipo do Mês 2 — o medo de um app "engessar" a viagem apareceu de forma espontânea e recorrente.</li>
+        <li><b>Considerar dicas culturais/locais e passagens aéreas como possíveis frentes de diferenciação</b> — apareceram com força no ICP e ecoam o pedido nº1 de Nelson, mas não fazem parte do escopo central testado até aqui.</li>
+      </ul>
+    </div>
+
+    <div class="prose" style="margin-top:20px;border-left:4px solid var(--good);">Em síntese: o problema é real e se repete além do círculo pessoal do fundador, e a proposta de valor faz sentido pra maioria do ICP tal como descrita — mas nem todo mundo se converteria de "acho legal" para "eu trocaria" (Anna e Emi são os casos mais claros de resistência). O maior risco para o Mês 3 não é só convencer o público de que o Tairu resolve algo — é entregar essa solução sem repetir os atritos técnicos que já derrubaram a nota de Nelson e Vera, e sem perder pelo caminho quem já tem um processo pessoal maduro e só troca com uma comparação concreta muito favorável.</div>
+  </section>
+
+</div>
+
+<footer>
+  TAIRU · Ciclo de Validação de 3 Meses, preparado por Adriana, Consultoria de Produto &amp; Estratégia.
+</footer>
+
+<script>
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.toc a');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var active = document.querySelector('.toc a[href="#'+entry.target.id+'"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ observer.observe(s); });
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('.nav-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var dd = btn.closest('.nav-dropdown');
+      var wasOpen = dd.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+      if(!wasOpen) dd.classList.add('open');
+    });
+  });
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
