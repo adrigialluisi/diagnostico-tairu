@@ -31,12 +31,23 @@
   .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
 
   .site-nav{
-    position:sticky;top:0;z-index:200;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-    display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+    position:sticky;top:0;z-index:300;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
   }
-  .site-nav a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
-  .site-nav a:hover{background:#F2D9B722;}
-  .site-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .site-nav > a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav > a:hover{background:#F2D9B722;}
+  .site-nav > a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown{position:relative;}
+  .nav-dropdown-btn{background:none;color:#F2D9B7;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;font-size:12.5px;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
+  .nav-dropdown-btn:hover{background:#F2D9B722;}
+  .nav-dropdown-btn.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown-btn .car{font-size:9px;transition:transform .15s ease;}
+  .nav-dropdown.open .nav-dropdown-btn .car{transform:rotate(180deg);}
+  .nav-dropdown-menu{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#2E2A25F5;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #F2D9B733;border-radius:14px;padding:8px;display:none;flex-direction:column;gap:2px;min-width:250px;box-shadow:0 14px 30px #00000038;z-index:310;}
+  .nav-dropdown.open .nav-dropdown-menu{display:flex;}
+  .nav-dropdown-menu a{color:#F2D9B7;text-decoration:none;font-weight:600;padding:9px 12px;border-radius:9px;font-size:12.5px;white-space:nowrap;display:block;}
+  .nav-dropdown-menu a:hover{background:#F2D9B722;}
+  .nav-dropdown-menu a.current{background:var(--accent);color:#fff;font-weight:700;}
   .site-nav .sep{color:#F2D9B766;}
 
   header{padding:52px 32px 30px;text-align:center;}
@@ -122,19 +133,25 @@
 <body>
 
 <nav class="site-nav">
-  <a href="index.html">🏠 Capa</a>
-  <span class="sep">/</span>
-  <a href="01-analise-usabilidade.html">🔍 Frente 01 · Usabilidade</a>
-  <span class="sep">/</span>
-  <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Frente 02 · Mercado</a>
-  <span class="sep">/</span>
-  <a href="03-feedback-existente.html">💬 Frente 03 · Feedback</a>
-  <span class="sep">/</span>
-  <a href="04-consolidacao-achados.html">🧩 Frente 04 · Consolidação</a>
-  <span class="sep">/</span>
-  <a href="05-proposta-modelo-trabalho.html" class="current">🚀 Frente 05 · Proposta</a>
-  <span class="sep">/</span>
-  <a href="06-resumo-executivo.html">⚡ Frente 06 · Resumo</a>
+  <a href="index.html">🏠 Home</a>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn current" type="button">📋 Diagnóstico <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="01-analise-usabilidade.html">🔍 Usabilidade</a>
+      <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Mercado</a>
+      <a href="03-feedback-existente.html">💬 Feedback</a>
+      <a href="04-consolidacao-achados.html">🧩 Consolidação</a>
+      <a href="05-proposta-modelo-trabalho.html" class="current">🚀 Proposta</a>
+      <a href="06-resumo-executivo.html">⚡ Resumo</a>
+    </div>
+  </div>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn" type="button">🧪 Ciclo de Validação <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="12-capa-ciclo-validacao.html">🗺️ Visão geral (3 meses)</a>
+      <a href="13-validacao-icp-mes1.html">🧭 Mês 1 · Validação do ICP</a>
+    </div>
+  </div>
 </nav>
 
 <header>
@@ -305,6 +322,28 @@
     });
   }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
   sections.forEach(function(s){ observer.observe(s); });
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('.nav-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var dd = btn.closest('.nav-dropdown');
+      var wasOpen = dd.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+      if(!wasOpen) dd.classList.add('open');
+    });
+  });
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+    }
+  });
+})();
 </script>
 
 </body>

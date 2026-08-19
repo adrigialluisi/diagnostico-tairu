@@ -82,35 +82,62 @@
   footer{max-width:1100px;margin:50px auto 0;padding:0 32px;color:#463F3A;font-size:12px;line-height:1.6;text-align:center;}
 
   .site-nav{
-    position:sticky;top:0;z-index:200;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-    display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+    position:sticky;top:0;z-index:300;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
   }
-  .site-nav a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
-  .site-nav a:hover{background:#F2D9B722;}
-  .site-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .site-nav > a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav > a:hover{background:#F2D9B722;}
+  .site-nav > a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown{position:relative;}
+  .nav-dropdown-btn{background:none;color:#F2D9B7;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;font-size:12.5px;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
+  .nav-dropdown-btn:hover{background:#F2D9B722;}
+  .nav-dropdown-btn.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown-btn .car{font-size:9px;transition:transform .15s ease;}
+  .nav-dropdown.open .nav-dropdown-btn .car{transform:rotate(180deg);}
+  .nav-dropdown-menu{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#2E2A25F5;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #F2D9B733;border-radius:14px;padding:8px;display:none;flex-direction:column;gap:2px;min-width:250px;box-shadow:0 14px 30px #00000038;z-index:310;}
+  .nav-dropdown.open .nav-dropdown-menu{display:flex;}
+  .nav-dropdown-menu a{color:#F2D9B7;text-decoration:none;font-weight:600;padding:9px 12px;border-radius:9px;font-size:12.5px;white-space:nowrap;display:block;}
+  .nav-dropdown-menu a:hover{background:#F2D9B722;}
+  .nav-dropdown-menu a.current{background:var(--accent);color:#fff;font-weight:700;}
   .site-nav .sep{color:#F2D9B766;}
 </style>
 </head>
 <body>
 
 <nav class="site-nav">
-  <a href="00-capa-diagnostico-tairu.html" class="current">🏠 Capa</a>
-  <span class="sep">/</span>
-  <a href="01-analise-usabilidade.html">🔍 Frente 01 · Usabilidade</a>
-  <span class="sep">/</span>
-  <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Frente 02 · Mercado</a>
+  <a href="index.html">🏠 Home</a>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn current" type="button">📋 Diagnóstico <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="01-analise-usabilidade.html">🔍 Usabilidade</a>
+      <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Mercado</a>
+      <a href="03-feedback-existente.html">💬 Feedback</a>
+      <a href="04-consolidacao-achados.html">🧩 Consolidação</a>
+      <a href="05-proposta-modelo-trabalho.html">🚀 Proposta</a>
+      <a href="06-resumo-executivo.html">⚡ Resumo</a>
+    </div>
+  </div>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn" type="button">🧪 Ciclo de Validação <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="12-capa-ciclo-validacao.html">🗺️ Visão geral (3 meses)</a>
+      <a href="13-validacao-icp-mes1.html">🧭 Mês 1 · Validação do ICP</a>
+    </div>
+  </div>
 </nav>
 
 <header>
   <span class="eyebrow">TAIRU · Consultoria de Produto &amp; Estratégia</span>
   <h1>Diagnóstico Inicial</h1>
   <p class="sub">Um raio-X estratégico do TAIRU para identificar o que já funciona, validar a proposta de valor frente ao mercado e desenhar o caminho de evolução do produto.</p>
-  <p class="by">Seis frentes de análise · clique numa frente pronta para abrir o documento</p>
+  <p class="by">Seis frentes de análise · clique numa frente pra abrir o documento</p>
 
   <div class="progress-wrap">
-    <div class="progress-label"><span>Progresso do diagnóstico</span><span id="progressText">2 de 6 frentes</span></div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:33.3%"></div></div>
+    <div class="progress-label"><span>Progresso do diagnóstico</span><span id="progressText">6 de 6 frentes</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:100%"></div></div>
   </div>
+
+  <p class="by" style="margin-top:22px;">Diagnóstico concluído → agora em andamento: <a href="12-capa-ciclo-validacao.html" style="color:var(--accent);font-weight:700;">Ciclo de Validação — 3 Meses</a></p>
 </header>
 
 <div class="wrap">
@@ -132,33 +159,37 @@
       <span class="front-cta">Abrir documento →</span>
     </a>
 
-    <div class="front-card disabled">
+    <a class="front-card" href="03-feedback-existente.html">
       <div class="front-top"><div class="front-num">03</div><div class="front-icon">💬</div></div>
-      <div class="front-title">Feedback existente e proposta de coleta</div>
-      <div class="front-desc">Consolidação do feedback já disponível e desenho de um processo simples para ampliar essa coleta de forma contínua.</div>
-      <span class="front-status pending">⏳ Em breve</span>
-    </div>
+      <div class="front-title">Coleta de feedbacks existentes</div>
+      <div class="front-desc">Consolidação das entrevistas com Nelson (usou o app durante uma viagem) e Vera (está usando o app para planejar as suas viagens), dois momentos distintos de uso, com prints, comentários literais e leitura conjunta dos dois relatos.</div>
+      <span class="front-status ready">✓ Disponível</span>
+      <span class="front-cta">Abrir documento →</span>
+    </a>
 
-    <div class="front-card disabled">
-      <div class="front-top"><div class="front-num">04</div><div class="front-icon">⚖️</div></div>
-      <div class="front-title">Entrega prometida vs. entrega real</div>
-      <div class="front-desc">Comparação entre o que o produto comunica e promete e o que de fato é entregue na experiência atual de uso.</div>
-      <span class="front-status pending">⏳ Em breve</span>
-    </div>
+    <a class="front-card" href="04-consolidacao-achados.html">
+      <div class="front-top"><div class="front-num">04</div><div class="front-icon">🧩</div></div>
+      <div class="front-title">Consolidação dos achados</div>
+      <div class="front-desc">Leitura cruzada de tudo: qual era a proposta de valor ideal vs. o que de fato está no app hoje, o que os feedbacks de usuários revelam, e o que a análise de usabilidade e os dados de mercado confirmam ou contradizem.</div>
+      <span class="front-status ready">✓ Disponível</span>
+      <span class="front-cta">Abrir documento →</span>
+    </a>
 
-    <div class="front-card disabled">
-      <div class="front-top"><div class="front-num">05</div><div class="front-icon">🎯</div></div>
-      <div class="front-title">Validação da proposta de valor</div>
-      <div class="front-desc">Leitura crítica sobre até que ponto a proposta de valor atual resolve um problema real e relevante para o público pretendido.</div>
-      <span class="front-status pending">⏳ Em breve</span>
-    </div>
+    <a class="front-card" href="05-proposta-modelo-trabalho.html">
+      <div class="front-top"><div class="front-num">05</div><div class="front-icon">🚀</div></div>
+      <div class="front-title">Proposta de modelo de trabalho</div>
+      <div class="front-desc">Conclusões, hipótese a validar, ciclo de 3 meses, entregáveis e investimento — versão resumida de apresentação.</div>
+      <span class="front-status ready">✓ Disponível</span>
+      <span class="front-cta">Abrir documento →</span>
+    </a>
 
-    <div class="front-card disabled">
-      <div class="front-top"><div class="front-num">06</div><div class="front-icon">🚀</div></div>
-      <div class="front-title">Formatos de trabalho e continuidade</div>
-      <div class="front-desc">Modelos possíveis de continuidade da consultoria, conectados aos próximos passos de evolução do produto e estratégias comerciais.</div>
-      <span class="front-status pending">⏳ Em breve</span>
-    </div>
+    <a class="front-card" href="06-resumo-executivo.html">
+      <div class="front-top"><div class="front-num">06</div><div class="front-icon">⚡</div></div>
+      <div class="front-title">Resumo executivo</div>
+      <div class="front-desc">A leitura de 2 minutos: mercado, usabilidade e feedbacks, conclusão do diagnóstico, proposta de trabalho e investimento, tudo numa página só.</div>
+      <span class="front-status ready">✓ Disponível</span>
+      <span class="front-cta">Abrir documento →</span>
+    </a>
 
   </div>
 </div>
@@ -166,6 +197,28 @@
 <footer>
   TAIRU · Diagnóstico Inicial de Produto, Usabilidade e Mercado, preparado por Adriana, Consultoria de Produto &amp; Estratégia.
 </footer>
+
+<script>
+(function(){
+  document.querySelectorAll('.nav-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var dd = btn.closest('.nav-dropdown');
+      var wasOpen = dd.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+      if(!wasOpen) dd.classList.add('open');
+    });
+  });
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
