@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Fluxo Proposto — Mês 2 | TAIRU</title>
+<style>
+  :root{
+    --bg-top:#F2D9B7;
+    --bg-mid:#DCCCAE;
+    --bg-low:#A7BBB4;
+    --bg-bottom:#4F6C72;
+    --accent:#9C2B44;
+    --accent-2:#C4526B;
+    --accent-soft:#F4DCDF;
+    --card:#F7F0E4;
+    --card-border:#E1D3B8;
+    --text:#2B2A2E;
+    --muted:#7A7468;
+    --good:#3F6B4A;
+    --warn:#A67C1C;
+    --bad:#A02E3C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-mid) 32%, var(--bg-low) 66%, var(--bg-bottom) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    padding:0 0 90px 0;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+  .site-nav{
+    position:sticky;top:0;z-index:300;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+  }
+  .site-nav > a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav > a:hover{background:#F2D9B722;}
+  .site-nav > a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown{position:relative;}
+  .nav-dropdown-btn{background:none;color:#F2D9B7;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;font-size:12.5px;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
+  .nav-dropdown-btn:hover{background:#F2D9B722;}
+  .nav-dropdown-btn.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown-btn .car{font-size:9px;transition:transform .15s ease;}
+  .nav-dropdown.open .nav-dropdown-btn .car{transform:rotate(180deg);}
+  .nav-dropdown-menu{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#2E2A25F5;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #F2D9B733;border-radius:14px;padding:8px;display:none;flex-direction:column;gap:2px;min-width:250px;box-shadow:0 14px 30px #00000038;z-index:310;}
+  .nav-dropdown.open .nav-dropdown-menu{display:flex;}
+  .nav-dropdown-menu a{color:#F2D9B7;text-decoration:none;font-weight:600;padding:9px 12px;border-radius:9px;font-size:12.5px;white-space:nowrap;display:block;}
+  .nav-dropdown-menu a:hover{background:#F2D9B722;}
+  .nav-dropdown-menu a.current{background:var(--accent);color:#fff;font-weight:700;}
+  .site-nav .sep{color:#F2D9B766;}
+
+  header{padding:52px 32px 30px;text-align:center;}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;
+    color:var(--accent);text-transform:uppercase;margin-bottom:16px;
+    padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;
+  }
+  h1{font-size:36px;margin:0 0 12px;color:#242229;font-weight:800;letter-spacing:-0.5px;}
+  header p.sub{color:#463F3A;font-size:15.5px;max-width:780px;margin:0 auto;line-height:1.6;}
+  .dl-link{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;background:#FFFFFFCC;border:1.5px solid var(--accent);padding:8px 16px;border-radius:999px;}
+  .dl-link:hover{background:var(--accent);color:#fff;}
+
+  .toc-bar{
+    position:sticky;top:42px;z-index:100;margin-top:28px;
+    background:#EFE3CCE6;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--card-border);box-shadow:0 4px 14px #00000014;
+  }
+  .toc{max-width:1000px;margin:0 auto;padding:12px 32px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+  .toc a{font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;background:#FFFFFFCC;border:1.5px solid var(--card-border);padding:7px 14px;border-radius:999px;}
+  .toc a:hover{border-color:var(--accent);}
+
+  section{margin:52px 0;scroll-margin-top:110px;}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .sec-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;background:#FFFFFF;border:2px solid var(--accent);flex-shrink:0;}
+  .sec-head h2{font-size:22px;margin:0;color:#242229;}
+  .sec-head p{margin:2px 0 0;font-size:13px;color:var(--muted);}
+
+  .prose{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:18px 22px;font-size:13.5px;line-height:1.65;color:#3B3630;margin-bottom:14px;}
+
+  .placar-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:20px;}
+  .placar-stat{flex:1 1 150px;background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:16px 18px;text-align:center;box-shadow:0 2px 8px #00000010;}
+  .placar-stat .n{font-size:24px;font-weight:900;color:var(--accent);}
+  .placar-stat .l{font-size:10.5px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.4px;line-height:1.4;}
+
+  .table-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--card-border);box-shadow:0 2px 8px #00000010;margin-bottom:8px;}
+  table.data-table{width:100%;border-collapse:collapse;background:var(--card);min-width:640px;}
+  .data-table th{background:var(--accent);color:#fff;text-align:left;padding:11px 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.4px;white-space:nowrap;}
+  .data-table td{padding:10px 14px;font-size:12.5px;line-height:1.5;color:#3B3630;border-top:1px solid var(--card-border);vertical-align:top;}
+  .data-table tr:nth-child(even) td{background:#FFFFFF77;}
+
+  .pill{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;white-space:nowrap;}
+  .pill.revisto{background:#4A87CC1A;color:#2E5C8A;border:1px solid #4A87CC55;}
+  .pill.modificado{background:#A67C1C1A;color:var(--warn);border:1px solid #A67C1C55;}
+  .pill.novo{background:#3F6B4A1A;color:var(--good);border:1px solid #3F6B4A55;}
+
+  .pattern-list{display:flex;flex-direction:column;gap:12px;margin-bottom:8px;}
+  .pattern-item{display:flex;gap:14px;background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:14px 18px;align-items:flex-start;}
+  .pattern-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-weight:900;font-size:12.5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .pattern-item.diverge .pattern-num{background:var(--bad);}
+  .pattern-item p{margin:0;font-size:13px;line-height:1.55;color:#3B3630;}
+  .pattern-item p b{color:var(--accent);}
+
+  .quote-block{background:#FFFFFFCC;border-left:4px solid var(--accent);border-radius:0 14px 14px 0;padding:14px 18px;margin:10px 0;font-size:13px;line-height:1.6;color:#3B3630;font-style:italic;}
+  .quote-block .attrib{display:block;margin-top:6px;font-style:normal;font-weight:700;color:var(--accent);font-size:11.5px;}
+
+  .conc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+  .conc-card{background:var(--card);border:1px solid var(--card-border);border-left:4px solid var(--accent);border-radius:14px;padding:16px 18px;box-shadow:0 2px 8px #00000010;}
+  .conc-card .tag{font-size:10.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;display:block;}
+  .conc-card p{margin:0;font-size:12.5px;line-height:1.55;color:#3B3630;}
+
+  .gate-note{margin-top:14px;background:#FFFFFF;border:1px dashed var(--accent);border-radius:12px;padding:14px 18px;font-size:12.5px;line-height:1.6;color:#3B3630;}
+  .gate-note b{color:var(--bad);}
+  .gate-note.ok b{color:var(--good);}
+
+  .dir-box{background:linear-gradient(135deg,var(--accent-soft),#F7F0E4);border:1.5px solid var(--accent);border-radius:18px;padding:22px 26px;margin-top:18px;}
+  .dir-box .lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);margin-bottom:10px;display:block;}
+  .dir-box ul{margin:0;padding-left:20px;}
+  .dir-box li{font-size:13px;line-height:1.6;color:#242229;margin-bottom:10px;}
+  .dir-box li:last-child{margin-bottom:0;}
+  .dir-box li b{color:var(--accent);}
+
+  .steps3-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;}
+  .steps3-card{flex:1 1 220px;background:var(--card);border:1.5px solid var(--card-border);border-radius:18px;padding:22px;box-shadow:0 2px 8px #00000010;}
+  .steps3-num{width:34px;height:34px;border-radius:10px;background:var(--accent);color:#fff;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+  .steps3-card h3{font-size:16px;margin:0 0 6px;color:#242229;}
+  .steps3-card p{font-size:13px;line-height:1.55;color:var(--muted);margin:0;}
+
+  /* fases do fluxo */
+  .fase-head{display:flex;align-items:center;gap:12px;margin:34px 0 16px;}
+  .fase-head .fase-badge{background:var(--accent);color:#fff;font-weight:900;font-size:12px;padding:6px 16px;border-radius:999px;white-space:nowrap;}
+  .fase-head .fase-desc{font-size:12.5px;color:var(--muted);}
+  .fase-head:first-child{margin-top:0;}
+
+  .flow-step{background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:20px 24px;margin-bottom:16px;box-shadow:0 2px 10px #00000012;}
+  .flow-step-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:10px;}
+  .flow-step-num{width:34px;height:34px;border-radius:10px;background:var(--accent);color:#fff;font-weight:900;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .flow-step-title{font-size:15.5px;font-weight:800;color:#242229;margin:2px 0 0;}
+  .flow-step-body{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:6px;}
+  @media(max-width:760px){.flow-step-body{grid-template-columns:1fr;}}
+  .flow-step-col .lbl{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--accent);margin-bottom:6px;display:block;}
+  .flow-step-col p{margin:0;font-size:12.8px;line-height:1.6;color:#3B3630;}
+  .flow-step-col.defesa .lbl{color:var(--good);}
+
+  .fora-list{display:flex;flex-direction:column;gap:10px;}
+  .fora-item{background:var(--card);border:1px solid var(--card-border);border-left:4px solid var(--bad);border-radius:12px;padding:13px 18px;}
+  .fora-item .tt{font-size:13px;font-weight:800;color:var(--bad);margin-bottom:3px;}
+  .fora-item p{margin:0;font-size:12.5px;line-height:1.55;color:#3B3630;}
+
+  footer{max-width:1200px;margin:40px auto 0;padding:0 32px;color:#463F3A;font-size:12.5px;line-height:1.7;border-top:1px solid #ffffff55;padding-top:24px;}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">🏠 Home</a>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn" type="button">📋 Diagnóstico <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="01-analise-usabilidade.html">🔍 Usabilidade</a>
+      <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Mercado</a>
+      <a href="03-feedback-existente.html">💬 Feedback</a>
+      <a href="04-consolidacao-achados.html">🧩 Consolidação</a>
+      <a href="05-proposta-modelo-trabalho.html">🚀 Proposta</a>
+      <a href="06-resumo-executivo.html">⚡ Resumo</a>
+    </div>
+  </div>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn current" type="button">🧪 Ciclo de Validação <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="12-capa-ciclo-validacao.html">🗺️ Visão geral (3 meses)</a>
+      <a href="13-validacao-icp-mes1.html">🧭 Mês 1 · Validação do ICP</a>
+      <a href="14-fluxo-proposto-mes2.html" class="current">🎨 Fluxo Proposto</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <span class="eyebrow">Ciclo de Validação TAIRU · Mês 1 · Complemento (base para o Mês 2)</span>
+  <h1>Fluxo Proposto — Versão Simples</h1>
+  <p class="sub">A partir dos resultados do Mês 1 (10 entrevistas do ICP + o padrão já confirmado com Nelson e Vera), esta página propõe um fluxo de ponta a ponta simplificado para o TAIRU — sem IA generativa, sem onboarding fixo, sem funcionalidades que ninguém pediu. Cada etapa vem com a dor que resolve e a evidência que a sustenta. Este documento ainda faz parte do Mês 1 (definição do fluxo); o redesenho das telas em si é o trabalho do Mês 2.</p>
+  <br>
+  <a class="dl-link" href="Tairu_Fluxo_Proposto_Mes2.docx">📄 Baixar em Word</a>
+</header>
+
+<div class="toc-bar">
+  <div class="toc">
+    <a href="#objetivo">🎯 Objetivo</a>
+    <a href="#recap-mes1">📋 O que o Mês 1 mostrou</a>
+    <a href="#principios">🧭 Princípios de desenho</a>
+    <a href="#fluxo">🗺️ Fluxo ponta a ponta</a>
+    <a href="#telas">📱 Detalhamento de telas</a>
+    <a href="#fluxograma">📐 Fluxograma visual</a>
+    <a href="#fora">🚫 O que ficou de fora</a>
+    <a href="#mapa">🔗 Dor → Funcionalidade</a>
+    <a href="#revisao">🛠️ Existente, revisto e novo</a>
+    <a href="#proximos">➡️ Próximos passos</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="objetivo">
+    <div class="sec-head">
+      <div class="sec-icon">🎯</div>
+      <div><h2>Objetivo desta entrega</h2><p>Por que este fluxo, e por que agora</p></div>
+    </div>
+    <div class="prose">O <a href="10-proposta-validacao-mvp-simplificado.md" style="color:var(--accent);font-weight:700;">plano de 3 meses</a> definiu o Mês 2 como o momento de desenhar "o protótipo de acordo com os feedbacks coletados, seguindo um fluxo mais linear e simples de ponta a ponta". Esta página cumpre essa etapa: não é uma lista de funcionalidades soltas, é um fluxo sequenciado — da criação da viagem até a retrospectiva final — em que cada tela e cada decisão de design respondem a algo que uma pessoa real disse nas entrevistas do <a href="13-validacao-icp-mes1.html" style="color:var(--accent);font-weight:700;">Mês 1</a> ou nas sessões de uso real com Nelson e Vera.</div>
+    <div class="prose">Regra usada para incluir qualquer coisa neste fluxo: <b>se ninguém pediu, não entrou.</b> O app atual falhou por tentar fazer tudo ao mesmo tempo sem dor nem público definidos (C1-C3 do diagnóstico). Este fluxo faz o oposto — é deliberadamente mais curto do que o pitch original, e cada etapa carrega a citação ou o padrão que a justifica.</div>
+  </section>
+
+  <section id="recap-mes1">
+    <div class="sec-head">
+      <div class="sec-icon">📋</div>
+      <div><h2>O que o Mês 1 mostrou — resumo consolidado</h2><p>Resultados e conclusões da validação do ICP (10 entrevistas, 10-15/ago/2026), comparados com Nelson e Vera</p></div>
+    </div>
+
+    <div class="placar-row">
+      <div class="placar-stat"><div class="n">0/10</div><div class="l">rejeitaram a proposta de valor central</div></div>
+      <div class="placar-stat"><div class="n">10/10</div><div class="l">planejamento concentrado em 1 pessoa</div></div>
+      <div class="placar-stat"><div class="n">9/10</div><div class="l">perfil de viagem muda a cada vez</div></div>
+      <div class="placar-stat"><div class="n">6/10</div><div class="l">só trocariam o método atual sob condições de usabilidade</div></div>
+    </div>
+
+    <div class="pattern-list">
+      <div class="pattern-item"><div class="pattern-num">1</div><p><b>Planejamento concentrado em 1 pessoa — confirmado em 10/10.</b> É o padrão mais universal da amostra, inclusive quando essa pessoa não é a própria entrevistada (caso de Anna, que delega à amiga ou a uma agência). Pilar do fluxo: alguém sempre carrega o peso de organizar — o fluxo precisa permitir dividir esse peso sem obrigar ninguém a fazer isso.</p></div>
+      <div class="pattern-item"><div class="pattern-num">2</div><p><b>"Viaja sempre acompanhado" é o padrão MENOS universal — só 4/10 fortes.</b> Metade da amostra (Bia, Elba, Emi, Lu, Luis) alterna viagens solo e em grupo. Implicação direta pro fluxo: colaboração não pode ser obrigatória, e o app precisa funcionar bem sozinho.</p></div>
+      <div class="pattern-item"><div class="pattern-num">3</div><p><b>Desejo de colaboração/sugestões de terceiros — 8/10 reagem bem.</b> Mas com exceções reais: Emi não quer expor todos os detalhes ao parceiro (preserva a "mágica" da viagem); Bia só valoriza com segurança/garantias. Colaboração tem que ser opt-in, não tudo-ou-nada.</p></div>
+      <div class="pattern-item"><div class="pattern-num">4</div><p><b>Perfil de viagem muda a cada vez — confirmado em 9/10.</b> Emi é a única exceção (perfil urbano consistente). Confirma, na prática, que o quiz de onboarding único e fixo do app atual é um erro conceitual — cada viagem precisa do seu próprio perfil.</p></div>
+    </div>
+
+    <div class="gate-note" style="margin-top:18px;"><b>Risco 1 confirmado no Mês 1:</b> os problemas de Nelson e Vera (colaboração que não conectava convidados, "Meus Documentos" quebrado, input manual excessivo) são falhas de execução, não rejeição da proposta. O ICP recebeu bem a ideia central — o risco real está em repetir esses mesmos erros técnicos no próximo protótipo.</div>
+    <div class="gate-note"><b>Risco 2 confirmado no Mês 1:</b> 3 entrevistados (Beto, Emi, Luis) alertaram, sem que fosse perguntado, contra um app que "engesse" a viagem. Vira critério de design explícito neste fluxo.</div>
+    <div class="gate-note"><b>Risco 3 confirmado no Mês 1:</b> 6/10 rejeitam assinatura mensal. Não faz parte do fluxo em si, mas nenhuma etapa abaixo pressupõe cobrança recorrente obrigatória — isso fica para o teste de modelo comercial do Mês 3.</div>
+
+    <div class="prose" style="margin-top:18px;">Reação à proposta de valor (Bloco 4 das entrevistas): nenhuma das 10 pessoas rejeitou a ideia central de um app colaborativo que combina roteiro, documentos e memória de viagem. Mas a disposição de <i>trocar</i> o método atual variou — 6 pessoas (Beta, Beto, Lu, Luis, Pri, Vania) topariam trocar sob condições de usabilidade/oferta; Bia e Elba só com uma condição forte específica; Anna e Emi não confirmaram que trocariam, e Emi foi explicitamente cético ao comparar a proposta com seu método atual (Excel). Esse fluxo é desenhado para maximizar a conversão desse grupo condicional — não para forçar quem já tem um processo pessoal maduro.</div>
+  </section>
+
+  <section id="principios">
+    <div class="sec-head">
+      <div class="sec-icon">🧭</div>
+      <div><h2>Princípios de desenho usados no fluxo</h2><p>Regras que valem para todas as etapas abaixo, não só para uma tela isolada</p></div>
+    </div>
+    <div class="conc-grid">
+      <div class="conc-card"><span class="tag">Linear, não ramificado</span><p>Um passo de cada vez, sem menus com opções simultâneas ambíguas. Corrige o achado C6 do diagnóstico (navegação confusa) e o alerta espontâneo de Beto, Emi e Luis contra rigidez — aqui "linear" significa fácil de seguir, não engessado: dá pra pular qualquer etapa opcional.</p></div>
+      <div class="conc-card"><span class="tag">Colaboração opcional</span><p>Nenhuma etapa exige convidar ninguém. O app funciona de ponta a ponta no modo solo. Resposta direta ao Padrão 2 (metade do ICP viaja sozinha às vezes) e à ressalva de Emi.</p></div>
+      <div class="conc-card"><span class="tag">Sem IA generativa</span><p>Toda sugestão vem de dados reais (agenda cultural, eventos, distância/tempo) — nunca de texto gerado. Resposta direta à C2 (a única automação do app atual, geolocalização por IA, errou) e à H1b do plano de validação.</p></div>
+      <div class="conc-card"><span class="tag">Funciona offline nos pontos críticos</span><p>Documentos e roteiro salvos localmente. Resposta ao pedido explícito de Beta ("fácil/offline/acessível a idosos") e à ansiedade de Anna com perda de sinal.</p></div>
+      <div class="conc-card"><span class="tag">Input mínimo por padrão</span><p>Cada campo tem um valor default sensato; nada obriga preenchimento detalhado. Resposta a Nelson (só registrou eventos grandes porque input manual cansava) e a Lu ("quando o bagulho começa a entravar, eu desisto").</p></div>
+      <div class="conc-card"><span class="tag">Nenhuma etapa sem dono</span><p>Toda funcionalidade abaixo tem pelo menos 1 entrevistado do Mês 1 ou o caso de Nelson/Vera como evidência direta — nada foi incluído por intuição de produto.</p></div>
+    </div>
+  </section>
+
+  <section id="fluxo">
+    <div class="sec-head">
+      <div class="sec-icon">🗺️</div>
+      <div><h2>Fluxo de ponta a ponta — versão simples</h2><p>11 etapas em 3 fases: planejar, viajar, guardar a memória. Cada etapa é opcional além da criação da viagem em si.</p></div>
+    </div>
+
+    <div class="fase-head"><span class="fase-badge">FASE 1 · PLANEJAMENTO</span><span class="fase-desc">Antes de embarcar — o que hoje cai inteiro nas costas de 1 pessoa</span></div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">1</div><div class="flow-step-title">Criar a viagem — nome, datas, um ou mais destinos, uma ou mais moedas</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>Tela única de criação: nome da viagem, período, e campos de destino e moeda que aceitam múltiplos valores desde o início (não 1 único destino/1 única moeda, como hoje).</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Pedido literal de Vera: "Destino(s)" e "Moeda(s)" no plural — ela não conseguia registrar uma viagem com mais de um destino no app atual. No ICP, viagens multi-destino ou multi-moeda aparecem em pelo menos 5/10 entrevistas (tema recorrente de controle financeiro disperso entre moedas).</p></div>
+      </div>
+    </div>
+
+    <div class="gate-note" style="border-color:#4A87CC;margin-top:-4px;">
+      <span class="pill" style="background:#4A87CC1A;color:#2E5C8A;border:1px solid #4A87CC55;margin-right:6px;">Hipótese · testar no Mês 3</span>
+      Cogitamos aqui uma entrada alternativa: em vez de criar a viagem do zero, selecionar uma região e ver opções de roteiro já prontas pra adaptar. Diferente do resto deste fluxo, essa ideia não tem pedido direto de nenhum entrevistado do Mês 1 — o sinal mais próximo é o de Beto, que topa trocar de método "se ajudar orçamento/roteiro por perfil", e ela segue um padrão comum em apps de viagem, mas não foi validada pela amostra. Pela mesma régua usada no resto deste documento ("nenhuma etapa sem dono"), ela não entra como etapa confirmada do fluxo agora — fica marcada como hipótese a testar com o protótipo navegável do Mês 3, ao lado da etapa 4 (roteiro combinado a partir das escolhas do grupo, essa sim validada pelo Mês 1).
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">2</div><div class="flow-step-title">Convidar companheiros de viagem — totalmente opcional</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>Um botão "Convidar" visível mas nunca bloqueante. Quem não convida ninguém segue o fluxo inteiro sozinho, sem telas vazias nem mensagens de erro.</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Metade do ICP (Bia, Elba, Emi, Lu, Luis) alterna entre viagens solo e em grupo — "sempre acompanhado" não é universal. Um fluxo que força convite exclui esse grupo. Além disso, o convite de convidados foi exatamente o que falhou tecnicamente com Nelson.</p></div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">3</div><div class="flow-step-title">Quiz curto de perfil — por viagem, não fixo no cadastro</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>2-3 perguntas rápidas (relax x urbano, ritmo, orçamento aproximado) repetidas a cada nova viagem, nunca só uma vez no onboarding da conta. <b>As respostas alimentam diretamente as etapas seguintes</b>: personalizam as dicas locais (etapa 5) e ajudam a ordenar as sugestões do roteiro combinado (etapa 4) de acordo com o perfil daquela viagem específica. Além disso, essas respostas vão se acumulando de viagem em viagem e formam, aos poucos, um <b>perfil de gostos pessoais do usuário</b> — diferente do perfil da viagem, que muda a cada vez — sem precisar de uma etapa extra de cadastro nem de travar esse perfil num quiz único no primeiro contato com o app.</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Padrão 4 confirmado em 9/10: o perfil de viagem muda a cada vez (só Emi tem perfil urbano consistente). Um quiz único e fixo — como o app atual tem hoje — foi identificado como erro conceitual já na análise de usabilidade original. Beto também sinalizou que topa trocar de método "se ajudar orçamento/roteiro por perfil" — é justamente esse quiz curto que dá ao roteiro e às dicas o contexto que hoje não existe. A construção gradual do perfil de gostos é a própria recomendação da análise de usabilidade original: em vez de um quiz fixo no primeiro contato — que a própria Vera sentiu não influenciar nada nas sugestões —, extrair o perfil de gostos aos poucos, a partir do quiz de cada viagem, até formá-lo organicamente ao longo do tempo.</p></div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">4</div><div class="flow-step-title">Cada membro escolhe seus lugares — o app sugere um roteiro combinado e flexível</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>Ao entrar nessa etapa, logo após o quiz (etapa 3), o app já sugere lugares e atrações buscados em fontes reais da internet (sem IA generativa), filtrados pelo destino e pelo perfil da viagem — a pessoa marca o que quer visitar a partir dessas sugestões ou adiciona algo por conta própria. Quem topar participar marca os lugares/atrações que quer visitar; o app devolve um roteiro dia a dia que combina as escolhas de todo o grupo, otimizado por distância e tempo — e pelo perfil informado no quiz (por exemplo, priorizando dias mais leves para quem marcou "relax"). O roteiro não é fixo: dá pra arrastar um lugar pra outro dia ou marcar se foi ou não a cada ponto, e o app recalcula o resto do roteiro a partir do que sobrou — sem que uma pessoa precise montar tudo, nem que alguém precise ceder tudo.</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Pedido original de Nelson (otimizar a viagem quando cada um da família quer ir a um lugar diferente); trazido espontaneamente por Pri no Mês 1 e bem recebido por Beta, Beto e Vania quando apresentado. Quem não quer participar (como Emi, que prefere preservar a "mágica") simplesmente não usa esta etapa — o roteiro sai só das escolhas de quem participou. A flexibilidade de mover e recalcular responde direto ao Risco 2 do Mês 1: Beto, Emi e Luis alertaram, sem que fosse perguntado, contra um app que "engesse" a viagem — um roteiro sugerido só funciona se der pra mudar de ideia no meio do caminho sem travar o resto do plano. A busca de sugestões usa a mesma regra já aplicada nas dicas locais (etapa 5): dados reais de fontes públicas, nunca texto gerado por IA — o mesmo princípio que corrige a C2 do diagnóstico (a geolocalização por IA que errou).</p></div>
+      </div>
+      <div class="quote-block">Acho que se tivesse a opção de ver dia a dia e ver também um panorama geral assim, eu trocaria [a planilha].<span class="attrib">Pri, sobre a proposta de valor</span></div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">5</div><div class="flow-step-title">Dicas locais por cidade e data — de fontes reais, sem IA generativa</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>Ao inserir cidade e data, o app mostra eventos e informações práticas reais daquele período (agenda cultural, regras, costumes) — nunca texto gerado por IA. O perfil do quiz (etapa 3) direciona quais dicas aparecem primeiro — eventos culturais pra quem marcou perfil urbano, dicas de descanso pra quem marcou relax.</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Foi o pedido nº1 de Nelson (dicas locais e culturais pra evitar perrengues) e aparece em 6/10 das entrevistas do ICP (Anna, Emi, Lu, Vania, Elba, Pri). A restrição "sem IA generativa" existe porque a única automação já testada no app (geolocalização por IA) errou — não se reintroduz o mesmo risco onde a confiança já foi perdida.</p></div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">6</div><div class="flow-step-title">Reservas (transporte e hospedagem) — lista viva, ativa nas Fases 1 e 2</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>Uma lista de reservas — voos, trens, ônibus, hospedagens — com campos completos (transporte: número do voo, horário de partida E chegada, companhia aérea; hospedagem: check-in e check-out separados, hoje um único campo de "data e horário"). Cada item pode ser adicionado por preenchimento manual ou enviando o voucher/confirmação (PDF ou print), que o app lê sozinho — a pessoa só revisa e confirma. O ponto principal: essa tela funciona como a de documentos (etapa 8) — uma lista aberta, não um formulário único preenchido de uma vez só. Dá pra adicionar a próxima hospedagem ou trecho de transporte durante a própria viagem, não só antes de embarcar.</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Correção direta de dois bugs de estrutura de dados reportados por Vera com prints específicos: falta número de voo/horário de chegada, e falta horário de checkout. Bia e Beto também descreveram a busca de passagens como a tarefa mais tediosa do planejamento. Como o público geralmente reserva em outras plataformas e já tem o voucher em mãos, o upload com preenchimento automático elimina a redigitação manual — a mesma fricção que fez Nelson e Lu abandonarem input manual em outras etapas (não é IA generativa: é extração de dados de um documento que a pessoa já possui, sempre com revisão antes de confirmar). A estrutura de lista, em vez de formulário único, reflete a realidade de planejamento: ninguém tem 100% das reservas fechadas antes de viajar — hospedagem e transporte de trechos seguintes costumam ser reservados ao longo da própria viagem, o mesmo padrão que já usamos nos documentos (etapa 8).</p></div>
+      </div>
+    </div>
+
+    <div class="fase-head"><span class="fase-badge">FASE 2 · DURANTE A VIAGEM</span><span class="fase-desc">No dia a dia — o que hoje se perde em grupos de WhatsApp e planilhas soltas. As reservas (etapa 6) continuam ativas aqui — dá pra adicionar uma nova reserva a qualquer momento, sem voltar pro início do fluxo.</span></div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">7</div><div class="flow-step-title">Linha do tempo simples — registra só o que a pessoa quiser</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>Edição rápida, sem obrigar granularidade — dá pra registrar só os eventos grandes e ignorar o resto, sem que o app cobre preenchimento completo.</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Nelson só registrou os eventos grandes da viagem porque achou o input manual cansativo — e mesmo assim deu nota 7/10. Lu descreve abandonar ferramentas que "entravam" sua experiência. Um input opcional e leve evita repetir esse atrito.</p></div>
+      </div>
+      <div class="quote-block">Eu sou o tipo de usuário que quando o bagulho começa a entravar a minha experiência, eu desisto. Não importa o que eu esteja fazendo.<span class="attrib">Lu, sobre usabilidade</span></div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">8</div><div class="flow-step-title">Carteira de documentos compartilhada — com acesso offline</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>Documentos (passaporte, seguro, reservas) centralizados e acessíveis offline; quem está no grupo pode ver os documentos dos outros membros em caso de emergência (bateria zerada, item perdido).</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Corrige o bug real reportado por Vera ("URL do documento não disponível"). Responde à ansiedade de Anna (mantém redundância celular+nuvem+impresso por medo de perder acesso) e ao medo concreto de Elba de perder o passaporte e ser tratada como suspeita no aeroporto. Compartilhar entre membros do grupo é uma rede de segurança que nenhuma das duas tem hoje sozinha.</p></div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">9</div><div class="flow-step-title">Controle financeiro — o que cada um lançou, com rateio final</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>Cada membro lança seus próprios gastos; ao lançar, basta informar o local (cidade/país) — o app já reconhece a moeda local sozinho e faz a conversão pra moeda de referência da viagem, sem precisar selecionar a moeda manualmente toda vez. A tela mostra o que cada pessoa registrou e, ao final, monta um rateio consolidado — quem gastou quanto e quem deve pra quem, no estilo Splitwise.</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Resolve o gasto inesperado de Anna por falta de referência de câmbio e o controle reativo de Vania ("só vejo quando a fatura chega"). Reconhecer a moeda pelo local evita exatamente o erro que gerou o gasto inesperado da Anna — ela não tinha como saber a taxa de câmbio na hora H. O rateio ao final é a própria evolução que a análise de usabilidade já recomendava para a tela de Gastos atual ("cada membro cadastra seus próprios gastos, de forma enxuta, e o app cuida da divisão entre o grupo automaticamente") — e é o que fecha o ciclo pra quem viaja em grupo, sem exigir que ninguém acerte contas na mão depois.</p></div>
+      </div>
+      <div class="gate-note" style="border-color:#6B5FB3;margin-top:14px;">
+        <span class="pill" style="background:#6B5FB31A;color:#4A3F8A;border:1px solid #6B5FB355;margin-right:6px;">Ferramenta de apoio</span>
+        Além da conversão automática ao lançar um gasto, um <b>conversor de moedas</b> fica disponível como ferramenta independente, acessível a qualquer momento (não amarrado a lançar um gasto) — útil pra conferir câmbio rápido antes de uma compra ou passeio, sem precisar abrir a tela de Gastos. Complementa diretamente a ansiedade de câmbio da Anna, sem depender de a pessoa já estar no meio de um lançamento.
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">10</div><div class="flow-step-title">Fotos — direto da galeria do celular, com identificação de quem enviou</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>Acesso simplificado à galeria do celular para envio de fotos ao longo da viagem, com uma tag automática de qual membro do grupo enviou cada uma.</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Beto reclamou da perda de qualidade das fotos compartilhadas por WhatsApp; Vania descreve fotos "dispersas" que ninguém organiza depois; Beta lamenta não ter tempo/energia para montar o álbum pós-viagem ("eu peco... o pós eu não faço"). Esta etapa também alimenta a retrospectiva final (etapa 11).</p></div>
+      </div>
+      <div class="quote-block">A gente tem um grupo da viagem no WhatsApp e vai mandando as fotos... mas depois fica ali, ninguém mexe mais. Se uma hora perder as mensagens do WhatsApp, ninguém faz nada.<span class="attrib">Vania, sobre fotos dispersas</span></div>
+    </div>
+
+    <div class="fase-head"><span class="fase-badge">FASE 3 · MEMÓRIA</span><span class="fase-desc">Depois de voltar — o que fecha o ciclo e traz gente de volta ao app</span></div>
+
+    <div class="flow-step">
+      <div class="flow-step-top"><div class="flow-step-num">11</div><div class="flow-step-title">Retrospectiva "melhores momentos" — opcional, surpresa no final</div></div>
+      <div class="flow-step-body">
+        <div class="flow-step-col"><span class="lbl">O que faz</span><p>Ao final da viagem, um resumo automático estilo "retrospectiva anual" das fotos e destaques, com contribuição de todos os membros, pronto pra guardar e compartilhar. É opcional — a pessoa escolhe se quer gerar a retrospectiva ou não, com um convite simples ao final da viagem, sem forçar essa etapa. E é editável: depois de gerada, dá pra trocar fotos, reordenar destaques e ajustar o texto antes de salvar ou compartilhar — a retrospectiva automática é o ponto de partida, não a versão final.</p></div>
+        <div class="flow-step-col defesa"><span class="lbl">Por que</span><p>Foi a funcionalidade favorita de Nelson depois de usar o app de verdade — mas no Mês 1, quando só descrita (sem uso real), gerou ceticismo em Bia e Beto. Conclusão do Mês 1: essa funcionalidade se prova no uso, não na promessa. Por isso o desenho aqui não vende a retrospectiva como argumento de entrada no app — ela aparece como recompensa ao final, quando a pessoa já viveu o valor de usar o app durante a viagem.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="telas">
+    <div class="sec-head">
+      <div class="sec-icon">📱</div>
+      <div><h2>Detalhamento de telas por etapa</h2><p>Quantas telas cada etapa deve virar no Mês 2, e onde dá pra juntar coisas na mesma tela pra agilizar o processo</p></div>
+    </div>
+    <div class="prose">As 11 etapas do fluxo não viram 11 telas — algumas etapas precisam de mais de uma tela, e outras cabem inteiras numa tela só quando combinadas com a etapa vizinha. Esta tabela existe pra dar ao Mês 2 uma estimativa concreta de quanto vai ser desenhado, e pra registrar, etapa por etapa, onde juntar ações na mesma tela evita telas e cliques extras — sem tirar nada do que já foi validado no Mês 1, só organizando a execução.</div>
+    <div class="placar-row">
+      <div class="placar-stat"><div class="n">13</div><div class="l">telas no total (12 do fluxo + 1 ferramenta de apoio)</div></div>
+      <div class="placar-stat"><div class="n">11</div><div class="l">etapas do fluxo</div></div>
+      <div class="placar-stat"><div class="n">2</div><div class="l">etapas com 2 telas (roteiro, financeiro)</div></div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <tr><th>Etapa</th><th>Tela(s) proposta(s)</th><th>Sugestão pra agilizar (mesma tela)</th></tr>
+        <tr><td>1. Criar a viagem</td><td><b>1 tela:</b> nome, datas, destino(s) e moeda(s)</td><td>Os 4 campos já ficam juntos numa única tela de criação, em seções — evita o padrão comum de 1 tela por campo.</td></tr>
+        <tr><td>2. Convidar companheiros</td><td><b>1 tela</b> (opcional, pode ser pulada): convidar + status</td><td>Enviar convite e ver quem já aceitou ficam na mesma tela, em vez de uma tela de envio e outra de status separada.</td></tr>
+        <tr><td>3. Quiz de perfil da viagem</td><td><b>1 tela:</b> as 2-3 perguntas numa rolagem só</td><td>Diferente do quiz atual ("Pergunta 1 de 7", uma tela por pergunta), as poucas perguntas cabem numa tela só com rolagem — de 7 telas pra 1.</td></tr>
+        <tr><td>4. Roteiro combinado e flexível</td><td><b>2 telas:</b> (a) selecionar lugares, com sugestões de busca real (sem IA); (b) roteiro dia a dia, editável</td><td>Mover, marcar "feito/pulei" e recalcular acontecem direto na tela do roteiro (b) — sem tela extra só pra editar. As dicas locais (etapa 5) viram uma aba dentro dessa mesma tela, filtrada pelo dia.</td></tr>
+        <tr><td>5. Dicas locais</td><td><b>0 telas novas</b> — aba dentro da tela de roteiro (4b)</td><td>Como a pessoa já está olhando o roteiro por dia, as dicas daquele dia aparecem ali mesmo — evita uma tela e uma navegação a mais.</td></tr>
+        <tr><td>6. Reservas (transporte + hospedagem)</td><td><b>1 tela:</b> lista de reservas (abas transporte/hospedagem) + adicionar item, a qualquer momento — manual ou upload de voucher</td><td>Igual ao padrão da etapa 8 (documentos): uma lista viva, não um formulário único. Antes eram 2 telas separadas — agora é 1, no mesmo modelo de "lista + adicionar".</td></tr>
+        <tr><td>7. Linha do tempo</td><td><b>1 tela:</b> visualização + adicionar evento</td><td>Adicionar evento é uma ação (botão +) dentro da própria linha do tempo, não uma tela de cadastro separada.</td></tr>
+        <tr><td>8. Documentos compartilhados</td><td><b>1 tela:</b> lista de documentos + upload</td><td>Upload de documento novo é uma ação dentro da própria lista (botão +), sem tela dedicada.</td></tr>
+        <tr><td>9. Financeiro com rateio final</td><td><b>2 telas:</b> (a) lançar gasto, com moeda detectada pelo local informado; (b) lançamentos + rateio, em abas</td><td>"O que cada um lançou" e "rateio final" são duas abas da mesma tela (b), em vez de duas telas separadas.</td></tr>
+        <tr><td>10. Fotos</td><td><b>1 tela:</b> galeria da viagem + enviar</td><td>Enviar foto é uma ação dentro da própria galeria (acesso direto à galeria do celular), sem tela de upload separada.</td></tr>
+        <tr><td>11. Retrospectiva (opcional e editável)</td><td><b>1 tela:</b> a retrospectiva gerada, com edição inline (trocar fotos, reordenar, ajustar texto)</td><td>A pergunta "quer gerar a retrospectiva?" é um modal rápido, não uma tela cheia — e a edição acontece na própria tela da retrospectiva, sem tela separada de "editar".</td></tr>
+        <tr><td>Ferramenta de apoio: Conversor de moedas</td><td><b>1 tela</b> — acessível a qualquer momento, não amarrada a uma etapa específica</td><td>Reaproveita a mesma lógica de câmbio da etapa 9 (moeda por local); não precisa de tela nova de configuração.</td></tr>
+      </table>
+    </div>
+    <div class="gate-note ok" style="margin-top:16px;"><b>Leitura pro Mês 2:</b> 13 telas (12 do fluxo + o conversor de moedas) é uma estimativa de planejamento, não um número fechado. O ponto principal é que só 2 das 11 etapas (roteiro, financeiro) precisam de 2 telas — inclusive a etapa 6 caiu de 2 telas pra 1 ao virar lista, no mesmo modelo da etapa 8.</div>
+  </section>
+
+  <section id="fluxograma">
+    <div class="sec-head">
+      <div class="sec-icon">📐</div>
+      <div><h2>Fluxograma visual do fluxo</h2><p>As 12 telas das 11 etapas acima + 1 ferramenta de apoio, desenhadas em nível de tela — com pontos de decisão e quem realiza cada ação</p></div>
+    </div>
+    <div class="prose">Mesmo conteúdo da tabela de detalhamento de telas acima, em formato de fluxograma: início/fim em amarelo, telas do app em roxo, decisões em losango azul, e as pequenas elipses coloridas marcam quem realiza a ação em cada ponto (organizador(a), grupo, o próprio app, ou todos os viajantes). Cada caixa roxa já corresponde a 1 tela — não mais à etapa conceitual inteira — servindo de referência direta pro que será desenhado no Mês 2. A caixa de <b>Reservas</b> aparece com borda tracejada porque fica ativa nas Fases 1 e 2 — não é uma etapa que se conclui e fica pra trás. O <b>conversor de moedas</b> também aparece com conexão tracejada: é uma ferramenta de apoio, acessível a qualquer momento, e não uma etapa sequencial do fluxo principal.</div>
+    <div class="table-wrap" style="background:#fff;padding:8px;">
+      <img src="tairu-fluxograma-mes2.png" alt="Fluxograma do fluxo proposto do TAIRU" style="width:100%;height:auto;display:block;border-radius:10px;">
+    </div>
+  </section>
+
+  <section id="fora">
+    <div class="sec-head">
+      <div class="sec-icon">🚫</div>
+      <div><h2>O que ficou de fora do fluxo — e por quê</h2><p>Tão importante quanto o que entrou: decisões explícitas de não incluir</p></div>
+    </div>
+    <div class="fora-list">
+      <div class="fora-item"><div class="tt">IA generativa em qualquer ponto do fluxo</div><p>A única automação por IA já testada no app (geolocalização) falhou (C2 do diagnóstico) e nenhum entrevistado do Mês 1 pediu "inteligência artificial" — pediram dados confiáveis. Reintroduzir IA generativa arriscaria repetir a mesma perda de confiança, sem que ninguém tenha pedido isso.</p></div>
+      <div class="fora-item"><div class="tt">Quiz de onboarding único, fixo na conta</div><p>Substituído pelo quiz por viagem (etapa 3) porque o Padrão 4 (perfil muda a cada vez) é o mais confirmado da amostra — um perfil fixo por conta não reflete como essas pessoas realmente viajam. O mesmo vale para o perfil de gostos pessoais: em vez de uma etapa dedicada no cadastro, ele se forma aos poucos a partir das respostas acumuladas do quiz por viagem — exatamente como a análise de usabilidade original recomendou no lugar do quiz fixo de 7 perguntas que existe hoje.</p></div>
+    </div>
+  </section>
+
+  <section id="mapa">
+    <div class="sec-head">
+      <div class="sec-icon">🔗</div>
+      <div><h2>Mapa dor → funcionalidade → evidência</h2><p>Visão rápida de defensibilidade: cada linha do fluxo, a dor que resolve e quem a validou</p></div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <tr><th>Etapa do fluxo</th><th>Dor que resolve</th><th>Evidência (Mês 1 / Nelson &amp; Vera)</th></tr>
+        <tr><td>1. Multi-destino / multi-moeda</td><td>Impossível registrar viagens reais com mais de 1 destino ou moeda</td><td>Vera (bug reportado com prints); 5/10 do ICP com tema de moedas dispersas</td></tr>
+        <tr><td>2. Convite opcional</td><td>Excluir viajantes solo de um app "para grupos"</td><td>Padrão 2 (só 4/10 fortes em "sempre acompanhado"); colaboração quebrada com Nelson</td></tr>
+        <tr><td>3. Quiz por viagem (constrói perfil de gostos aos poucos)</td><td>Perfil de viagem que não reflete a viagem atual; perfil de gostos que nunca se forma (Vera: "quiz não parece influenciar nada")</td><td>Padrão 4 (9/10); Vera; recomendação original da análise de usabilidade</td></tr>
+        <tr><td>4. Roteiro combinado e flexível</td><td>Um só monta tudo; escolhas do grupo não se conversam; roteiro fixo que não se adapta a mudanças no meio da viagem; sugestões de lugares hoje vêm de geolocalização por IA, que já falhou (C2)</td><td>Nelson (pedido original); Pri (espontâneo); Beta/Beto/Vania (endosso); Risco 2 — Beto/Emi/Luis contra engessamento</td></tr>
+        <tr><td>5. Dicas locais reais</td><td>Falta de informação prática/cultural do destino</td><td>Nelson (pedido nº1); 6/10 do ICP (Anna, Emi, Lu, Vania, Elba, Pri)</td></tr>
+        <tr><td>6. Reservas — lista viva + upload de voucher</td><td>Dados essenciais de voo e checkout ausentes; redigitação manual de reservas feitas em outras plataformas; formulário único não reflete que reservas seguintes são feitas ao longo da própria viagem</td><td>Vera (bugs reportados com prints); Bia/Beto (fricção com passagens); Nelson/Lu (input manual excessivo). A estrutura em lista (em vez de formulário único) é decisão de produto da Adriana, no mesmo padrão já usado nos documentos (etapa 8).</td></tr>
+        <tr><td>7. Linha do tempo leve</td><td>Input manual excessivo derruba o uso</td><td>Nelson (só registrou eventos grandes); Lu ("eu desisto")</td></tr>
+        <tr><td>8. Documentos compartilhados offline</td><td>Perda de acesso a documentos essenciais em viagem</td><td>Vera (bug real); Anna (ansiedade de redundância); Elba (medo de perder passaporte)</td></tr>
+        <tr><td>9. Financeiro com rateio final + moeda automática</td><td>Gasto inesperado / controle reativo / acerto de contas manual no fim da viagem; ansiedade de câmbio (Anna, que não sabia a taxa na hora H)</td><td>Anna, Vania (dor real); recomendação já feita na análise de usabilidade original. Reconhecer a moeda pelo local é decisão de produto da Adriana, direcionada ao mesmo caso da Anna.</td></tr>
+        <tr><td>10. Fotos com tag automática</td><td>Fotos dispersas, sem curadoria pós-viagem</td><td>Beto, Vania, Beta — tema recorrente em 5/10</td></tr>
+        <tr><td>11. Retrospectiva no final, opcional e editável</td><td>Falta de memória coletiva bonita da viagem; retrospectiva automática nem sempre reflete o que a pessoa quer guardar</td><td>Favorita de Nelson após uso; ceticismo de Bia/Beto só na descrição. A edição inline é decisão de produto da Adriana.</td></tr>
+        <tr><td>Ferramenta de apoio: Conversor de moedas</td><td>Ansiedade de câmbio fora do momento de lançar um gasto — ex.: conferir preço antes de comprar</td><td>Anna (dor real, Mês 1). Existir como ferramenta independente é decisão de produto da Adriana.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="revisao">
+    <div class="sec-head">
+      <div class="sec-icon">🛠️</div>
+      <div><h2>O que muda no app: existente, revisto e novo</h2><p>Ponto de partida para o redesenho de telas do Mês 2 — o que já existe hoje no TAIRU e só precisa de revisão de usabilidade, o que já existe mas muda de comportamento/dado, e o que é inteiramente novo</p></div>
+    </div>
+    <div class="prose">Categorização de cada peça do fluxo contra o inventário atual do app, levantado na <a href="01-analise-usabilidade.html" style="color:var(--accent);font-weight:700;">análise de usabilidade</a> e nos testes com Nelson e Vera. Serve pra calibrar esforço no Mês 2: revisão de usabilidade tende a ser retrabalho de tela; modificação mexe em dado/comportamento; novo é tela e lógica do zero.</div>
+    <div class="placar-row">
+      <div class="placar-stat"><div class="n">3</div><div class="l"><span class="pill revisto">Revisto</span> só usabilidade, mesma função</div></div>
+      <div class="placar-stat"><div class="n">7</div><div class="l"><span class="pill modificado">Modificado</span> existe, muda dado/comportamento</div></div>
+      <div class="placar-stat"><div class="n">3</div><div class="l"><span class="pill novo">Novo</span> não existe hoje no app</div></div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <tr><th>Funcionalidade</th><th>Categoria</th><th>O que muda e por quê</th></tr>
+        <tr><td>Destino e moeda da viagem</td><td><span class="pill modificado">Modificado</span></td><td>Hoje aceita só 1 destino e 1 moeda por viagem. Passa a aceitar múltiplos valores desde a criação — pedido literal da Vera ("Destino(s)"/"Moeda(s)").</td></tr>
+        <tr><td>Convite de membros</td><td><span class="pill modificado">Modificado</span></td><td>Hoje só por e-mail, lista de contatos sugeridos inconsistente entre sessões, status pendente não aparece dentro da própria viagem. Passa a ter link compartilhável e status visível na viagem, sempre opcional.</td></tr>
+        <tr><td>Quiz de onboarding</td><td><span class="pill modificado">Modificado</span></td><td>Hoje é único, fixo na conta, com seleção única na 1ª pergunta, e a própria Vera notou que "não parece influenciar nada nas sugestões". Passa a se repetir a cada viagem, com seleção múltipla, tratado como preferência daquela viagem — e as respostas acumuladas ao longo do tempo formam organicamente o perfil de gostos do usuário, sem etapa de cadastro dedicada.</td></tr>
+        <tr><td>Selecionar lugares / roteiro combinado e flexível</td><td><span class="pill novo">Novo</span></td><td>Não existe hoje nenhuma forma de combinar as escolhas de lugares de vários membros num roteiro só. Nasce do pedido original de Nelson e do endosso de Pri/Beta/Beto/Vania no Mês 1 — e do Risco 2 (Beto, Emi, Luis): o roteiro sugerido pode ser reorganizado e recalculado a qualquer momento, em vez de travar a viagem num plano fixo.</td></tr>
+        <tr><td>Dicas locais por cidade/data</td><td><span class="pill novo">Novo</span></td><td>Não existe hoje — é diferente da geolocalização por IA (usada só pra marcar local de uma atividade, e que errou no teste de usabilidade). Substitui a promessa de "automação" por dados reais, sem IA generativa — mesma regra usada na sugestão de lugares (etapa 4), que também busca em fontes reais da internet, nunca por IA generativa.</td></tr>
+        <tr><td>Reservas (transporte + hospedagem)</td><td><span class="pill modificado">Modificado</span></td><td>Hoje faltam número do voo e horário de chegada no transporte (bug reportado pela Vera com prints), e hospedagem tem um único campo de "data e horário" em vez de check-in/check-out separados (outro bug da Vera). Campos passam a ser completos, com opção de upload de voucher pra preencher tudo automaticamente — e a tela vira uma lista viva, no mesmo padrão da carteira de documentos, já que ninguém tem 100% das reservas fechadas antes de viajar.</td></tr>
+        <tr><td>Linha do tempo</td><td><span class="pill revisto">Revisto</span></td><td>Filtro de categoria pré-aplicado sem indicação visual de que é um filtro, e ícone de "3 pontinhos" sem função nenhuma. Revisão de clareza, sem mudar o que a tela faz.</td></tr>
+        <tr><td>Carteira de documentos</td><td><span class="pill modificado">Modificado</span></td><td>Hoje é individual, e teve bug real reportado pela Vera ("URL do documento não disponível"). Passa a ser compartilhada entre os membros do grupo, com acesso offline.</td></tr>
+        <tr><td>Controle financeiro (Gastos)</td><td><span class="pill modificado">Modificado</span></td><td>Hoje é moeda única, exige criar um evento pra lançar um gasto, e o valor aparece em destaque exagerado em várias telas (achados de usabilidade + Vera). Passa a aceitar múltiplas moedas com reconhecimento automático pelo local informado, lançamento direto por cada membro, e um rateio final consolidado — evolução que a própria análise de usabilidade já recomendava.</td></tr>
+        <tr><td>Conversor de moedas</td><td><span class="pill novo">Novo</span></td><td>Não existe hoje. Ferramenta de apoio independente, acessível a qualquer momento, complementar à conversão automática ao lançar um gasto — pensada pra ansiedade de câmbio da Anna em momentos fora do lançamento (ex.: antes de uma compra).</td></tr>
+        <tr><td>Fotos / galeria</td><td><span class="pill modificado">Modificado</span></td><td>Falta identificar quem enviou cada foto (capacidade nova) e há bug de navegação — falta botão "voltar" no estado vazio, reportado pela Vera. Ambos entram no redesenho.</td></tr>
+        <tr><td>Retrospectiva "melhores momentos"</td><td><span class="pill revisto">Revisto</span></td><td>Já existe e já funciona bem — foi a funcionalidade favorita de Nelson depois de usar o app de verdade. Não muda de escopo, só de posicionamento: deixa de ser gancho de entrada e vira recompensa no final, e passa a ser explicitamente opcional (achados do Mês 1).</td></tr>
+        <tr><td>Menções</td><td><span class="pill revisto">Revisto</span></td><td>Tela trava em carregamento indefinido hoje — achado da análise de usabilidade. Corrigir e simplificar antes de qualquer redesenho visual; não está no fluxo principal proposto.</td></tr>
+      </table>
+    </div>
+    <div class="gate-note ok" style="margin-top:16px;"><b>Leitura pro Mês 2:</b> a maior parte do trabalho (7 de 13 itens) é modificação de funcionalidades que já existem — o que reduz o tanto de tela nova a desenhar do zero. 3 itens são genuinamente novos (roteiro combinado, dicas locais e o conversor de moedas); os dois primeiros vêm de pedidos explícitos e repetidos nas entrevistas, e o conversor é uma extensão direta da dor de câmbio da Anna, como ferramenta de apoio decidida pela Adriana.</div>
+  </section>
+
+  <section id="proximos">
+    <div class="sec-head">
+      <div class="sec-icon">➡️</div>
+      <div><h2>Próximos passos</h2><p>Fluxo, fluxograma e tabela de revisão fecham o Mês 1 — os 3 passos seguintes</p></div>
+    </div>
+    <div class="steps3-row">
+      <div class="steps3-card">
+        <div class="steps3-num">1</div>
+        <h3>Redesenhar as telas</h3>
+        <p>De acordo com o fluxo definido aqui — sem adicionar funcionalidades novas.</p>
+      </div>
+      <div class="steps3-card">
+        <div class="steps3-num">2</div>
+        <h3>Prototipar 1 cenário</h3>
+        <p>Protótipo navegável com as telas novas.</p>
+      </div>
+      <div class="steps3-card">
+        <div class="steps3-num">3</div>
+        <h3>Testar com os usuários</h3>
+        <p>Validar o protótipo com as pessoas já entrevistadas.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  TAIRU · Ciclo de Validação de 3 Meses, preparado por Adriana, Consultoria de Produto &amp; Estratégia.
+</footer>
+
+<script>
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.toc a');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var active = document.querySelector('.toc a[href="#'+entry.target.id+'"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ observer.observe(s); });
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('.nav-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var dd = btn.closest('.nav-dropdown');
+      var wasOpen = dd.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+      if(!wasOpen) dd.classList.add('open');
+    });
+  });
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
