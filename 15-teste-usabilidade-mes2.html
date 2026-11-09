@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TAIRU · Teste de usabilidade · Mês 2</title>
+<style>
+  :root{
+    --bg-top:#F2D9B7;--bg-mid:#DCCCAE;--bg-low:#A7BBB4;--bg-bottom:#4F6C72;
+    --accent:#9C2B44;--accent-2:#C4526B;--accent-soft:#F4DCDF;
+    --card:#F7F0E4;--card-border:#E1D3B8;--text:#2B2A2E;--muted:#7A7468;
+    --good:#3F6B4A;--warn:#A67C1C;--bad:#9C2B44;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;color:var(--text);
+    background:linear-gradient(180deg,var(--bg-top) 0%,var(--bg-mid) 32%,var(--bg-low) 66%,var(--bg-bottom) 100%);
+    background-attachment:fixed;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    overflow:hidden;
+  }
+
+  /* ===== menu do site (igual às outras páginas) ===== */
+  .site-nav{position:sticky;top:0;z-index:300;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;}
+  .site-nav > a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
+  .site-nav > a:hover{background:#F2D9B722;}
+  .nav-dropdown{position:relative;}
+  .nav-dropdown-btn{background:none;color:#F2D9B7;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;font-size:12.5px;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
+  .nav-dropdown-btn:hover{background:#F2D9B722;}
+  .nav-dropdown-btn.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-dropdown-btn .car{font-size:9px;transition:transform .15s ease;}
+  .nav-dropdown.open .nav-dropdown-btn .car{transform:rotate(180deg);}
+  .nav-dropdown-menu{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#2E2A25F5;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #F2D9B733;border-radius:14px;padding:8px;display:none;flex-direction:column;gap:2px;min-width:250px;box-shadow:0 14px 30px #00000038;z-index:310;}
+  .nav-dropdown.open .nav-dropdown-menu{display:flex;}
+  .nav-dropdown-menu a{color:#F2D9B7;text-decoration:none;font-weight:600;padding:9px 12px;border-radius:9px;font-size:12.5px;white-space:nowrap;display:block;}
+  .nav-dropdown-menu a:hover{background:#F2D9B722;}
+  .nav-dropdown-menu a.current{background:var(--accent);color:#fff;font-weight:700;}
+
+  /* ===== deck ===== */
+  .deck{position:relative;height:calc(100vh - 47px);display:flex;align-items:center;justify-content:center;padding:18px 18px 64px;}
+  .slide{
+    display:none;width:min(1180px,100%);aspect-ratio:16/9;max-height:100%;
+    background:var(--card);border:1px solid var(--card-border);border-radius:24px;
+    box-shadow:0 18px 50px #00000030;padding:44px 56px;overflow:auto;position:relative;
+  }
+  .slide.active{display:flex;flex-direction:column;}
+  .slide .num{position:absolute;top:20px;right:28px;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:1px;}
+  .kicker{font-size:11.5px;letter-spacing:2px;font-weight:800;color:var(--accent);text-transform:uppercase;margin-bottom:10px;}
+  .slide h2{font-size:30px;line-height:1.15;margin:0 0 6px;color:#242229;letter-spacing:-0.4px;}
+  .slide h2 em{font-style:normal;color:var(--accent);}
+  .lead{font-size:15px;color:#463F3A;line-height:1.55;margin:0 0 22px;max-width:900px;}
+  .grow{flex:1;min-height:0;}
+  .slide h2 + .grow,.slide h2 + .matrix-wrap,.slide h2 + .buglist{margin-top:18px;}
+
+  /* capa */
+  .slide.cover{justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#FFFFFF 0%,var(--card) 55%,var(--accent-soft) 100%);}
+  .cover .eyebrow{display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;color:var(--accent);text-transform:uppercase;padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;margin-bottom:22px;}
+  .cover h1{font-size:52px;margin:0 0 14px;color:#242229;letter-spacing:-1px;line-height:1.05;}
+  .cover p{font-size:17px;color:#463F3A;max-width:720px;line-height:1.6;margin:0 auto;}
+  .cover .meta{margin-top:30px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .chip{font-size:12.5px;font-weight:700;background:#FFFFFF;border:1.5px solid var(--card-border);padding:7px 14px;border-radius:999px;color:#3B3630;}
+
+  /* números */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+  .stat{background:#FFFFFF;border:1px solid var(--card-border);border-radius:18px;padding:20px;text-align:center;}
+  .stat .n{font-size:40px;font-weight:900;color:var(--accent);line-height:1;}
+  .stat .l{font-size:11.5px;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:.4px;line-height:1.4;}
+
+  .parts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .part{background:#FFFFFF99;border:1px solid var(--card-border);border-radius:16px;padding:16px 18px;}
+  .part .p{width:30px;height:30px;border-radius:9px;background:var(--accent);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:14px;}
+  .part h4{margin:0 0 4px;font-size:14px;color:#242229;}
+  .part p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.5;}
+
+  /* veredito */
+  .verdict{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .vbox{border-radius:20px;padding:22px 24px;}
+  .vbox.ok{background:#3F6B4A12;border:1.5px solid #3F6B4A55;}
+  .vbox.no{background:var(--accent-soft);border:1.5px solid #9C2B4455;}
+  .vbox h3{margin:0 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:.8px;}
+  .vbox.ok h3{color:var(--good);} .vbox.no h3{color:var(--accent);}
+  .vbox ul{margin:0;padding-left:18px;}
+  .vbox li{font-size:14px;line-height:1.5;margin-bottom:9px;color:#2B2A2E;}
+
+  /* barras */
+  .bars{display:flex;flex-direction:column;gap:12px;}
+  .bar{display:grid;grid-template-columns:260px 1fr 46px;align-items:center;gap:14px;}
+  .bar .lbl{font-size:13.5px;font-weight:700;color:#2B2A2E;line-height:1.3;}
+  .bar .lbl small{display:block;font-weight:500;color:var(--muted);font-size:11.5px;}
+  .bar .track{height:22px;background:#FFFFFF;border:1px solid var(--card-border);border-radius:999px;overflow:hidden;}
+  .bar .fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--good),#6E9A78);}
+  .bar.neg .fill{background:linear-gradient(90deg,var(--accent),var(--accent-2));}
+  .bar .v{font-size:14px;font-weight:900;color:#242229;text-align:right;}
+
+  /* matriz */
+  .matrix{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;}
+  .matrix th{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;padding:6px 4px;text-align:center;white-space:nowrap;}
+  .matrix th.prob{text-align:left;}
+  .matrix td{padding:7px 4px;border-top:1px solid var(--card-border);text-align:center;}
+  .matrix td.prob{text-align:left;font-weight:700;color:#2B2A2E;padding-right:12px;}
+  .matrix td.tot{font-weight:900;color:var(--accent);}
+  .dot{display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--accent);}
+  .dot.half{background:transparent;border:2.5px solid var(--accent);}
+  .dot.none{background:#E9DFCC;width:8px;height:8px;}
+  .legend{margin-top:12px;font-size:11.5px;color:var(--muted);display:flex;gap:18px;align-items:center;flex-wrap:wrap;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+
+  /* cards de tela */
+  .two{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .card{background:#FFFFFF;border:1px solid var(--card-border);border-radius:16px;padding:16px 18px;}
+  .card .tag{font-size:10.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:6px;}
+  .card.good .tag{color:var(--good);}
+  .card h4{margin:0 0 6px;font-size:14.5px;color:#242229;}
+  .card p{margin:0;font-size:12.8px;line-height:1.5;color:#3B3630;}
+  .stack{display:flex;flex-direction:column;gap:12px;}
+  .quote{background:#FFFFFFCC;border-left:4px solid var(--accent);border-radius:0 14px 14px 0;padding:12px 16px;font-size:13.5px;line-height:1.5;color:#3B3630;font-style:italic;}
+  .quote b{display:block;margin-top:5px;font-style:normal;font-size:11.5px;color:var(--accent);}
+  .names{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
+  .name-opt{background:#FFFFFF;border:1.5px solid var(--card-border);border-radius:14px;padding:12px 16px;min-width:150px;}
+  .name-opt .w{font-size:17px;font-weight:900;color:#242229;}
+  .name-opt .who{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .name-opt.top{border-color:var(--accent);background:var(--accent-soft);}
+
+  /* espectro colaboração */
+  .spectrum{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .spec{background:#FFFFFF;border:1px solid var(--card-border);border-radius:16px;padding:16px;}
+  .spec .icon{font-size:22px;margin-bottom:6px;}
+  .spec h4{margin:0 0 4px;font-size:14px;}
+  .spec p{margin:0;font-size:12.5px;color:#3B3630;line-height:1.45;}
+  .spec .who{margin-top:8px;font-size:11px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.4px;}
+
+  /* split compartilhar */
+  .split{display:flex;height:44px;border-radius:12px;overflow:hidden;border:1px solid var(--card-border);margin:8px 0 6px;}
+  .split div{display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;color:#fff;}
+
+  /* bugs */
+  .buglist{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .bug{background:#FFFFFF;border:1px solid var(--card-border);border-left:4px solid var(--accent);border-radius:12px;padding:12px 16px;}
+  .bug h4{margin:0 0 3px;font-size:13.5px;color:#242229;}
+  .bug p{margin:0;font-size:12.3px;color:#3B3630;line-height:1.45;}
+  .sev{float:right;font-size:10px;font-weight:900;padding:2px 8px;border-radius:999px;background:var(--accent);color:#fff;}
+  .sev.m{background:var(--warn);}
+
+  /* ideias */
+  .ideas{display:flex;flex-wrap:wrap;gap:10px;}
+  .idea{background:#FFFFFF;border:1.5px solid var(--card-border);border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;color:#2B2A2E;}
+  .idea small{font-weight:600;color:var(--muted);margin-left:4px;}
+
+  /* prioridades */
+  .prio{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .pcol{border-radius:18px;padding:18px 20px;background:#FFFFFF;border:1px solid var(--card-border);}
+  .pcol .h{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .pcol .b{font-size:12px;font-weight:900;color:#fff;padding:5px 12px;border-radius:999px;}
+  .pcol.p0 .b{background:var(--accent);} .pcol.p1 .b{background:var(--warn);} .pcol.p2 .b{background:var(--bg-bottom);}
+  .pcol .h span{font-size:12px;color:var(--muted);font-weight:700;}
+  .pcol ul{margin:0;padding-left:18px;}
+  .pcol li{font-size:13px;line-height:1.45;margin-bottom:8px;}
+  .note{margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5;}
+
+  /* controles */
+  .controls{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:#3B3630E6;backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;z-index:200;}
+  .controls button{background:none;border:1px solid #F2D9B744;color:#F2D9B7;width:40px;height:40px;border-radius:50%;font-size:16px;cursor:pointer;}
+  .controls button:hover{background:#F2D9B722;}
+  .controls .count{color:#F2D9B7;font-size:12.5px;font-weight:800;min-width:56px;text-align:center;}
+  .progress{position:fixed;top:47px;left:0;height:3px;background:var(--accent);transition:width .25s ease;z-index:250;}
+
+  @media (max-width:900px){
+    body{overflow:auto;}
+    .deck{height:auto;display:block;padding:14px 12px 80px;}
+    .slide{display:flex !important;flex-direction:column;aspect-ratio:auto;margin-bottom:16px;padding:28px 22px;}
+    .stats,.parts,.spectrum,.prio,.three,.two,.verdict,.buglist{grid-template-columns:1fr;}
+    .bar{grid-template-columns:1fr;}
+    .controls,.progress{display:none;}
+    .cover h1{font-size:36px;}
+    .matrix-wrap{overflow-x:auto;}
+  }
+  @media print{
+    body{overflow:visible;background:#fff;}
+    .site-nav,.controls,.progress{display:none;}
+    .deck{display:block;height:auto;padding:0;}
+    .slide{display:flex !important;flex-direction:column;page-break-after:always;box-shadow:none;width:100%;border-radius:0;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">🏠 Home</a>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn" type="button">📋 Diagnóstico <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="01-analise-usabilidade.html">🔍 Usabilidade</a>
+      <a href="07-mapeamento-mercado-fase2-v2.html">🌍 Mercado</a>
+      <a href="03-feedback-existente.html">💬 Feedback</a>
+      <a href="04-consolidacao-achados.html">🧩 Consolidação</a>
+      <a href="05-proposta-modelo-trabalho.html">🚀 Proposta</a>
+      <a href="06-resumo-executivo.html">⚡ Resumo</a>
+    </div>
+  </div>
+  <div class="nav-dropdown">
+    <button class="nav-dropdown-btn current" type="button">🧪 Ciclo de Validação <span class="car">▾</span></button>
+    <div class="nav-dropdown-menu">
+      <a href="12-capa-ciclo-validacao.html">🗺️ Visão geral (3 meses)</a>
+      <a href="13-validacao-icp-mes1.html">🧭 Mês 1 · Validação do ICP</a>
+      <a href="14-fluxo-proposto-mes2.html">🎨 Fluxo Proposto</a>
+      <a href="15-teste-usabilidade-mes2.html" class="current">📱 Mês 2 · Teste de usabilidade</a>
+    </div>
+  </div>
+</nav>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 · CAPA -->
+  <section class="slide cover">
+    <span class="eyebrow">Ciclo de Validação TAIRU · Mês 2</span>
+    <h1>Teste de usabilidade<br>do protótipo</h1>
+    <p>O que 9 pessoas fizeram, sentiram e tropeçaram ao organizar uma viagem pela América Latina no protótipo navegável do Tairu.</p>
+    <div class="meta">
+      <span class="chip">📅 27/out – 02/nov/2026</span>
+      <span class="chip">👥 9 sessões ao vivo</span>
+      <span class="chip">📱 no celular do participante</span>
+    </div>
+  </section>
+
+  <!-- 2 · COMO FOI -->
+  <section class="slide">
+    <span class="num">02</span>
+    <div class="kicker">Como foi o teste</div>
+    <h2>Uma viagem, quatro momentos, <em>um celular de verdade</em></h2>
+    <p class="lead">Cada participante espelhou a tela do próprio celular na chamada e cumpriu tarefas narradas pela moderadora, sempre no mesmo cenário: Buenos Aires, Santiago e San Pedro de Atacama, de 14 a 27/nov, com dois amigos.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">9</div><div class="l">sessões<br>(40 a 90 min)</div></div>
+      <div class="stat"><div class="n">9/9</div><div class="l">chegaram ao fim<br>das 4 partes</div></div>
+      <div class="stat"><div class="n">8/9</div><div class="l">tropeçaram no<br>nome "Central"</div></div>
+    </div>
+    <div class="parts">
+      <div class="part"><div class="p">1</div><h4>Organizar sozinho</h4><p>Criar a viagem, perfil, convidar amigos, subir vouchers, escolher o que fazer, ver no mapa.</p></div>
+      <div class="part"><div class="p">2</div><h4>Uma semana antes</h4><p>Ver o que os amigos adicionaram e lançaram de gastos.</p></div>
+      <div class="part"><div class="p">3</div><h4>Durante a viagem</h4><p>Ver o dia, mudar a programação, lançar um jantar dividido, converter moeda.</p></div>
+      <div class="part"><div class="p">4</div><h4>Depois</h4><p>Rever uma viagem passada e gerar a recordação.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 · VEREDITO -->
+  <section class="slide">
+    <span class="num">03</span>
+    <div class="kicker">Em uma frase</div>
+    <h2>A proposta convence. <em>O atrito está em nomes e em achar as coisas.</em></h2>
+    <p class="lead">Ninguém travou de vez e todos disseram que usariam. Os tropeços se repetem em poucos pontos, e quase todos se resolvem sem mudar o fluxo.</p>
+    <div class="verdict grow">
+      <div class="vbox ok">
+        <h3>✓ Funcionou</h3>
+        <ul>
+          <li><b>Voucher que preenche sozinho</b>, o momento "uau" do teste</li>
+          <li><b>Eventos nas datas da viagem</b>, algo que ninguém acha sozinho</li>
+          <li><b>Mapa por dia</b> para ver se o roteiro faz sentido</li>
+          <li><b>Rateio + conversor no mesmo lugar</b>, substitui o Tricount</li>
+          <li><b>"Pulei" × "tirar do roteiro"</b>, bem entendido por quase todos</li>
+          <li>Interface "limpa, direta, sem distração"</li>
+        </ul>
+      </div>
+      <div class="vbox no">
+        <h3>✕ Atrapalhou</h3>
+        <ul>
+          <li><b>"Central"</b>: só faz sentido depois de explicado</li>
+          <li><b>Achar as abas e o "adicionar lugar"</b> dentro do Roteiro</li>
+          <li><b>Sugestões dos amigos</b>: falta recusar e responder</li>
+          <li><b>Ordem do dia</b>: evento com hora marcada fora do lugar</li>
+          <li><b>Custo da viagem passada</b> escondido no fim da página</li>
+          <li><b>Bugs</b>: recarregar apaga tudo, mudar a data não funciona</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · O QUE ENCANTOU -->
+  <section class="slide">
+    <span class="num">04</span>
+    <div class="kicker">O que mais gostaram</div>
+    <h2>Elogios espontâneos, <em>sem a moderadora perguntar</em></h2>
+    <p class="lead">Quantos dos 9 participantes elogiaram cada recurso por conta própria. O voucher teve menos menções, mas os elogios mais enfáticos.</p>
+    <div class="bars grow">
+      <div class="bar"><div class="lbl">Mapa por dia<small>"isso aqui muda a vida"</small></div><div class="track"><div class="fill" style="width:55.5%"></div></div><div class="v">5</div></div>
+      <div class="bar"><div class="lbl">Rateio + conversor juntos<small>"rateio sempre dá problema"</small></div><div class="track"><div class="fill" style="width:55.5%"></div></div><div class="v">5</div></div>
+      <div class="bar"><div class="lbl">Leitura automática do voucher<small>"pulo do gato" · "que legal que ele lê tudo"</small></div><div class="track"><div class="fill" style="width:44.4%"></div></div><div class="v">4</div></div>
+      <div class="bar"><div class="lbl">Eventos nas datas da viagem<small>"coisas que a gente não tem acesso"</small></div><div class="track"><div class="fill" style="width:44.4%"></div></div><div class="v">4</div></div>
+      <div class="bar"><div class="lbl">Recordação / foto na parada<small>"já fica catalogado no lugar"</small></div><div class="track"><div class="fill" style="width:44.4%"></div></div><div class="v">4</div></div>
+    </div>
+  </section>
+
+  <!-- 5 · MATRIZ -->
+  <section class="slide">
+    <span class="num">05</span>
+    <div class="kicker">Mapa dos tropeços</div>
+    <h2>Quem esbarrou em quê</h2>
+    <div class="matrix-wrap grow">
+    <table class="matrix">
+      <thead><tr><th class="prob">Problema</th><th>Emiliano</th><th>Beta</th><th>Luis</th><th>Nelson</th><th>Bia</th><th>Nando*</th><th>Pri</th><th>Beto</th><th>Lu</th><th>Total</th></tr></thead>
+      <tbody>
+        <tr><td class="prob">"Central" não é claro</td><td><i class="dot half"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td class="tot">8</td></tr>
+        <tr><td class="prob">Sugestões dos amigos: falta recusar / ver ali</td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot half"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td class="tot">6</td></tr>
+        <tr><td class="prob">Custo da viagem passada escondido</td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td class="tot">5</td></tr>
+        <tr><td class="prob">Achar abas / "adicionar lugar" no Roteiro</td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot half"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td class="tot">4</td></tr>
+        <tr><td class="prob">Dia cheio demais / distribuição estranha</td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot half"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td class="tot">4</td></tr>
+        <tr><td class="prob">"Sugestões" × "Dicas" confundem</td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot half"></i></td><td class="tot">4</td></tr>
+        <tr><td class="prob">Rateio: "devo para quem?"</td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot half"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td class="tot">3</td></tr>
+        <tr><td class="prob">Ordem do dia com evento de hora marcada</td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td class="tot">2</td></tr>
+        <tr><td class="prob">Onde cadastrar cada trecho de transporte</td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td class="tot">2</td></tr>
+        <tr><td class="prob">Nome da viagem × destinos (pôs tudo numa linha)</td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot"></i></td><td><i class="dot"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td><i class="dot none"></i></td><td class="tot">2</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="legend">
+      <span><i class="dot"></i> esbarrou</span>
+      <span><i class="dot half"></i> hesitou / comentou de leve</span>
+      <span><i class="dot none"></i> não teve problema ou não comentou</span>
+      <span>* Nando é o cliente do Tairu, não um usuário do público-alvo</span>
+    </div>
+  </section>
+
+  <!-- 6 · CENTRAL -->
+  <section class="slide">
+    <span class="num">06</span>
+    <div class="kicker">Tropeço nº 1 · Central</div>
+    <h2>Ninguém procura "Central". <em>Todo mundo acha pela malinha.</em></h2>
+    <p class="lead">Beto, Lu e Pri foram primeiro em Custos e Roteiro. O ícone salvou, a palavra não. O conteúdo (transporte, hospedagem, outros) foi entendido assim que abriram.</p>
+    <div class="two grow">
+      <div class="stack">
+        <div class="quote">"A malinha, o ícone ajuda mais do que a palavra. Eu fui mais pelo ícone."<b>Beta</b></div>
+        <div class="quote">"Central ainda é uma palavra que tem um pedregulho no pensamento."<b>Bia</b></div>
+        <div class="quote">"Aquele menuzinho inicial, a palavra central, aquilo ainda me incomodou."<b>Pri</b></div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:12px"><span class="tag">Nomes sugeridos pelos participantes</span>
+          <div class="names">
+            <div class="name-opt top"><div class="w">Reservas</div><div class="who">Lu · Luis (com ressalva)</div></div>
+            <div class="name-opt top"><div class="w">Minhas reservas</div><div class="who">Bia</div></div>
+            <div class="name-opt"><div class="w">Viagem</div><div class="who">Luis</div></div>
+          </div>
+        </div>
+        <div class="card"><span class="tag">Atenção</span><p>"Reservas" sozinho soa como algo que ainda vai ser reservado (Bia). Luis achou que limitaria o que cabe em Outros (seguro, ingresso, passeio). Outro ponto: carro alugado e trem não ficaram óbvios em nenhuma categoria.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · ROTEIRO -->
+  <section class="slide">
+    <span class="num">07</span>
+    <div class="kicker">Roteiro · sugestões e agenda</div>
+    <h2>As sugestões agradam. <em>Achar e ordenar, nem tanto.</em></h2>
+    <div class="three grow">
+      <div class="card"><span class="tag">Descoberta</span><h4>As abas somem ao rolar</h4><p>Emiliano e Luis não acharam o roteiro montado nem o "adicionar lugar por conta própria" sem rolar até o topo. Nelson pediu um índice por categoria em vez de rolar a lista inteira, e uma cor por tipo de lugar.</p></div>
+      <div class="card"><span class="tag">Nomes</span><h4>"Sugestões" × "Dicas"</h4><p>As duas palavras parecem a mesma coisa (Nando). A expectativa para Dicas era algo ligado ao roteiro, como clima e destaques (Beta, Pri). A Lu quer poder buscar dentro das Dicas.</p></div>
+      <div class="card"><span class="tag">Informação</span><h4>Faltam preço e horário</h4><p>Faixa de preço ($), horário de funcionamento, valor do ingresso, serve para jantar ou café (Beta). O Don Julio pareceu caro para um orçamento "moderado" (Emiliano). Link para a fonte do evento (Pri).</p></div>
+      <div class="card"><span class="tag">Ordem do dia</span><h4>A hora marcada embaralha</h4><p>"10h Feira de San Telmo" aparece no topo, mas a parada 1 é a Recoleta (Pri). O evento das 20h abre o dia (Beta). Querem ordem cronológica estrita e poder reordenar as paradas.</p></div>
+      <div class="card"><span class="tag">Distribuição</span><h4>Dias cheios demais</h4><p>Com ritmo "moderado", alguns dias ficaram lotados (Nelson, Nando, Beto). Sugestão: avisar quando o dia passa do ritmo escolhido ("você pôs 3 parques num dia", Bia).</p></div>
+      <div class="card good"><span class="tag">Funcionou</span><h4>Bloqueio por horário de voo</h4><p>"Nesse horário vocês já vão estar a caminho" foi elogiado (Nelson, Emiliano, Lu). A lógica de proximidade do mapa foi entendida por quase todos.</p></div>
+    </div>
+  </section>
+
+  <!-- 8 · GRUPO -->
+  <section class="slide">
+    <span class="num">08</span>
+    <div class="kicker">Planejar em grupo</div>
+    <h2>Todos querem colaborar, <em>mas cada um imaginou um jeito</em></h2>
+    <p class="lead">As notificações ("entraram, adicionaram itens, lançaram gastos") foram claras para todos. A divergência está no que acontece com o que os amigos sugerem.</p>
+    <div class="spectrum">
+      <div class="spec"><div class="icon">🙅</div><h4>Poder recusar</h4><p>"Faltou eu poder falar: não vamos." Hoje só dá para aceitar ou ignorar.</p><div class="who">Beta · Nando · Beto</div></div>
+      <div class="spec"><div class="icon">👀</div><h4>Ver tudo, com filtro</h4><p>Todos veem tudo de todos, com a opção "só os meus".</p><div class="who">Pri</div></div>
+      <div class="spec"><div class="icon">🗳️</div><h4>Juntar e decidir</h4><p>Cada um põe o que quer, depois o grupo escolhe o que fica ou sugere outro dia.</p><div class="who">Beto · Luis</div></div>
+      <div class="spec"><div class="icon">✅</div><h4>Do jeito que está</h4><p>"Eu fecho o principal, passagem e hotel, e falo: vocês têm até terça para incluir lá." Assíncrono, sem reunião.</p><div class="who">Lu · Bia · Luis (depois de pensar)</div></div>
+    </div>
+    <div class="two" style="margin-top:16px">
+      <div class="quote">"Eu esperaria que tivesse ali onde está me mostrando, e não ir até o roteiro."<b>Luis, sobre ver as contribuições na tela inicial</b></div>
+      <div class="quote">"Acho que eu devia ter decidido isso lá atrás: é um roteiro único ou cada um faz o seu?"<b>Beta</b></div>
+    </div>
+  </section>
+
+  <!-- 9 · CUSTOS -->
+  <section class="slide">
+    <span class="num">09</span>
+    <div class="kicker">Custos, rateio e conversor</div>
+    <h2>A dor real do grupo. <em>Faltam só alguns ajustes de clareza.</em></h2>
+    <div class="two grow">
+      <div class="stack">
+        <div class="quote">"Não tive uma viagem com alguém em que eu não tive alguma dor. É uma incheção de saco pegar as notinhas."<b>Lu</b></div>
+        <div class="quote">"Isso vai me animar a fazer o que eu fazia antes: saber exatamente quanto eu gastei por dia."<b>Bia</b></div>
+        <div class="card good"><span class="tag">Funcionou</span><p>Lançar gasto com foto da nota, dividir com quem foi e ver o saldo. Luis e Lu compararam com o Tricount e preferiram ter conversor e rateio juntos.</p></div>
+      </div>
+      <div class="stack">
+        <div class="card"><span class="tag">Ajustar</span><h4>"Devo para quem?"</h4><p>Com 3 ou mais pessoas, o saldo não diz a quem pagar (Lu). Tocar no próprio nome deveria filtrar os lançamentos (Pri). Beto estranhou um saldo.</p></div>
+        <div class="card"><span class="tag">Ajustar</span><h4>Conversor ≠ gasto</h4><p>O saque convertido virou gasto sem a Beta pedir: "é o dinheiro que estou levando". Ela sentiu falta da forma de pagamento (dinheiro, cartão, voucher).</p></div>
+        <div class="card"><span class="tag">Ideias</span><h4>Gasto por dia e moeda única</h4><p>Resumo diário para controlar o orçamento (Bia). Ver tudo convertido para uma moeda só (Emiliano, Luis).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · MEMÓRIAS -->
+  <section class="slide">
+    <span class="num">10</span>
+    <div class="kicker">Viagens passadas e recordação</div>
+    <h2>A recordação divide. <em>O custo escondido incomoda.</em></h2>
+    <div class="two grow">
+      <div>
+        <div class="card" style="margin-bottom:12px">
+          <span class="tag">Compartilharia a recordação?</span>
+          <div class="split">
+            <div style="flex:5;background:var(--good)">Sim · 5</div>
+            <div style="flex:3;background:var(--accent)">Não em rede · 3</div>
+            <div style="flex:1;background:var(--muted)">?</div>
+          </div>
+          <p style="font-size:12px;color:var(--muted)">Sim: Beta, Luis, Nelson, Beto, Lu (com a família). Não: Emiliano, Bia, Nando, que usariam para si ou mandariam a um amigo.</p>
+        </div>
+        <div class="quote">"Se eu subir tudo isso de story, estou flodando a timeline de todo mundo. Um vídeo mais curto, tipo Spotify."<b>Beto</b></div>
+        <div class="quote">"Eu prefiro na lata. Quanto custou deveria estar logo de cara."<b>Bia</b></div>
+      </div>
+      <div class="stack">
+        <div class="card"><span class="tag">Ajustar</span><h4>"Quanto custou" no topo ou em atalho</h4><p>Luis, Bia, Nelson e Nando procuraram e só acharam no fim. Pri e Lu acharam ok, porque a página é para lembrar. Vale um atalho no topo.</p></div>
+        <div class="card"><span class="tag">Ajustar</span><h4>Critério da pré-seleção de fotos</h4><p>Luis não entendeu por que algumas fotos já vinham marcadas. Pri quer "escolher todas". Lu não sabia se a recordação fica salva.</p></div>
+        <div class="card"><span class="tag">Barreira</span><h4>Subir foto à mão</h4><p>"Muito difícil as pessoas ficarem subindo fotos." Beto sugere importar da galeria e dar um incentivo. Luis duvida que teria disciplina.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · BUGS -->
+  <section class="slide">
+    <span class="num">11</span>
+    <div class="kicker">Bugs do protótipo</div>
+    <h2>O que quebrou durante os testes</h2>
+    <p class="lead">Problemas do protótipo, não do conceito. Corrigir antes da próxima rodada para não contaminar o resultado.</p>
+    <div class="buglist">
+      <div class="bug"><span class="sev">Alta</span><h4>Puxar a tela recarrega e apaga tudo</h4><p>Nelson e Bia refizeram a viagem. A Bia passou a ter medo de rolar a tela. Nas sessões seguintes foi preciso avisar antes.</p></div>
+      <div class="bug"><span class="sev">Alta</span><h4>Mudar a data de um item</h4><p>Não mudou (Beto) ou trocou o lugar dela pelo da Marina (Lu).</p></div>
+      <div class="bug"><span class="sev">Alta</span><h4>Contribuições dos amigos não aparecem no Safari</h4><p>Luis não viu o que a Marina adicionou.</p></div>
+      <div class="bug"><span class="sev m">Média</span><h4>Tela abre no meio, não no topo</h4><p>Beta, Nelson e Luis precisaram rolar para achar as abas.</p></div>
+      <div class="bug"><span class="sev m">Média</span><h4>Saldo do rateio confuso</h4><p>"Paguei 4.708 e minha parte foi 4.741" (Beto).</p></div>
+      <div class="bug"><span class="sev m">Média</span><h4>Leitura da nota sem valor · voucher em PDF</h4><p>A nota do Don Julio veio sem preço. O PDF não foi achado no Android (Emiliano). Imagem funciona melhor.</p></div>
+    </div>
+  </section>
+
+  <!-- 12 · IDEIAS -->
+  <section class="slide">
+    <span class="num">12</span>
+    <div class="kicker">Ideias que surgiram</div>
+    <h2>Pedidos novos, <em>para o backlog</em></h2>
+    <p class="lead">Nenhum apareceu em mais de 2 pessoas. Ficam registrados para avaliar depois, sem entrar no protótipo agora.</p>
+    <div class="ideas">
+      <span class="idea">🌦️ Previsão do tempo por dia <small>Beta · Pri</small></span>
+      <span class="idea">🧭 Fase exploratória: testar ordem e duração dos destinos <small>Beta</small></span>
+      <span class="idea">📄 Exportar PDF com reservas para offline <small>Pri</small></span>
+      <span class="idea">💳 Forma de pagamento no gasto <small>Beta</small></span>
+      <span class="idea">📊 Resumo de gasto por dia <small>Bia</small></span>
+      <span class="idea">🔎 Busca / IA dentro das Dicas <small>Lu</small></span>
+      <span class="idea">🔗 Link para a fonte do evento <small>Pri</small></span>
+      <span class="idea">✍️ Anotação livre nas memórias <small>Pri</small></span>
+      <span class="idea">📍 Memória com endereço e gasto por lugar <small>Nando</small></span>
+      <span class="idea">🎬 Recordação em vídeo curto <small>Beto</small></span>
+      <span class="idea">🖼️ Importar fotos da galeria automaticamente <small>Beto</small></span>
+      <span class="idea">📚 Fotolivro impresso <small>Beta</small></span>
+      <span class="idea">🎨 Cores do mapa acessíveis a daltônicos <small>Lu</small></span>
+      <span class="idea">🎼 Filtros finos de eventos <small>Nando</small></span>
+      <span class="idea">👤 Documentos no perfil, depois de criar a viagem <small>Nelson</small></span>
+    </div>
+  </section>
+
+  <!-- 13 · PRIORIDADES -->
+  <section class="slide">
+    <span class="num">13</span>
+    <div class="kicker">Próximos ajustes</div>
+    <h2>Proposta de prioridade <em>para a próxima rodada</em></h2>
+    <div class="prio grow">
+      <div class="pcol p0"><div class="h"><span class="b">P0</span><span>antes de testar de novo</span></div>
+        <ul>
+          <li>Corrigir os bugs de alta gravidade (recarregar, mudar data, Safari)</li>
+          <li>Renomear "Central" e testar o nome novo</li>
+          <li>Ordem cronológica no dia, com evento de hora marcada no lugar certo</li>
+          <li>Recusar sugestão de amigo</li>
+          <li>Rateio dizendo "você deve para fulano"</li>
+        </ul>
+      </div>
+      <div class="pcol p1"><div class="h"><span class="b">P1</span><span>melhora clara</span></div>
+        <ul>
+          <li>Abas do Roteiro sempre visíveis e "adicionar lugar" fixo no topo</li>
+          <li>Diferenciar "Sugestões" e "Dicas" (nome ou lugar)</li>
+          <li>Reordenar paradas do dia</li>
+          <li>"Quanto custou" no topo da viagem passada</li>
+          <li>Aviso de dia cheio para o ritmo escolhido</li>
+          <li>Conversor sem lançar gasto automático</li>
+        </ul>
+      </div>
+      <div class="pcol p2"><div class="h"><span class="b">P2</span><span>backlog</span></div>
+        <ul>
+          <li>Faixa de preço e horário nos lugares</li>
+          <li>Previsão do tempo</li>
+          <li>Moeda única / gasto por dia</li>
+          <li>Recordação mais curta e importação de fotos</li>
+          <li>Demais ideias do slide anterior</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">Leitura da consultoria a partir da frequência e do impacto no fluxo. A ordem final é decisão do time.</p>
+  </section>
+
+  <!-- 14 · RESSALVAS -->
+  <section class="slide">
+    <span class="num">14</span>
+    <div class="kicker">Como ler estes resultados</div>
+    <h2>Ressalvas</h2>
+    <div class="three grow" style="grid-template-columns:repeat(2,1fr)">
+      <div class="card"><span class="tag">Teste guiado</span><p>As tarefas foram narradas em sequência. Luis lembrou que responder na hora gera pressão: sozinho e sem pressa, alguns tropeços talvez não acontecessem. Por outro lado, a sequência pode ter escondido problemas de quem navega livremente.</p></div>
+      <div class="card"><span class="tag">Perfis diferentes</span><p>Nando é o cliente do Tairu. Nelson já usava a versão anterior e notou que "melhorou muito". Bia pediu que a idade dela (61 anos) fosse considerada. Os números da matriz contam todos igualmente.</p></div>
+      <div class="card"><span class="tag">Protótipo mockado</span><p>Sem banco de dados nem correção automática. Parte da estranheza com e-mails, buscas e o traçado do mapa vem disso, e não do desenho.</p></div>
+      <div class="card"><span class="tag">Fontes</span><p>Transcrições e anotações do Gemini de 8 sessões. O Emiliano tem transcrição só dos primeiros 30 min, e o resto vem das anotações. Vera ainda vai testar.</p></div>
+    </div>
+  </section>
+
+</main>
+
+<div class="controls">
+  <button id="prev" aria-label="Slide anterior">←</button>
+  <span class="count" id="count">1 / 14</span>
+  <button id="next" aria-label="Próximo slide">→</button>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = 0;
+  function show(n){
+    i = Math.max(0, Math.min(slides.length-1, n));
+    slides.forEach(function(s,k){ s.classList.toggle('active', k===i); });
+    document.getElementById('count').textContent = (i+1)+' / '+slides.length;
+    document.getElementById('progress').style.width = ((i+1)/slides.length*100)+'%';
+    if(history.replaceState) history.replaceState(null,'','#'+(i+1));
+  }
+  var h = parseInt(location.hash.replace('#',''),10);
+  show(isNaN(h) ? 0 : h-1);
+  document.getElementById('prev').onclick = function(){ show(i-1); };
+  document.getElementById('next').onclick = function(){ show(i+1); };
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight' || e.key==='PageDown' || e.key===' '){ e.preventDefault(); show(i+1); }
+    if(e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); show(i-1); }
+    if(e.key==='Home') show(0);
+    if(e.key==='End') show(slides.length-1);
+  });
+  var x0=null;
+  document.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if(x0===null) return; var dx = e.changedTouches[0].clientX - x0;
+    if(Math.abs(dx)>60) show(i + (dx<0?1:-1)); x0=null;
+  });
+})();
+(function(){
+  document.querySelectorAll('.nav-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var dd = btn.closest('.nav-dropdown'); var wasOpen = dd.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+      if(!wasOpen) dd.classList.add('open');
+    });
+  });
+  document.addEventListener('click', function(){ document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); }); });
+})();
+</script>
+</body>
+</html>
