@@ -3,28 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TAIRU · Teste de usabilidade · Mês 3</title>
+<title>Análise de feedbacks do teste — Mês 3 | TAIRU</title>
 <style>
   :root{
-    --bg-top:#F2D9B7;--bg-mid:#DCCCAE;--bg-low:#A7BBB4;--bg-bottom:#4F6C72;
-    --accent:#9C2B44;--accent-2:#C4526B;--accent-soft:#F4DCDF;
-    --card:#F7F0E4;--card-border:#E1D3B8;--text:#2B2A2E;--muted:#7A7468;
-    --good:#3F6B4A;--warn:#A67C1C;--bad:#9C2B44;
+    --bg-top:#F2D9B7;
+    --bg-mid:#DCCCAE;
+    --bg-low:#A7BBB4;
+    --bg-bottom:#4F6C72;
+    --accent:#9C2B44;
+    --accent-2:#C4526B;
+    --accent-soft:#F4DCDF;
+    --card:#F7F0E4;
+    --card-border:#E1D3B8;
+    --text:#2B2A2E;
+    --muted:#7A7468;
+    --good:#3F6B4A;
+    --warn:#A67C1C;
+    --bad:#A02E3C;
   }
   *{box-sizing:border-box;}
-  html,body{height:100%;}
   body{
-    margin:0;color:var(--text);
-    background:linear-gradient(180deg,var(--bg-top) 0%,var(--bg-mid) 32%,var(--bg-low) 66%,var(--bg-bottom) 100%);
+    margin:0;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-mid) 32%, var(--bg-low) 66%, var(--bg-bottom) 100%);
     background-attachment:fixed;
+    color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    overflow:hidden;
+    padding:0 0 90px 0;
   }
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
 
-  /* ===== menu do site (igual às outras páginas) ===== */
-  .site-nav{position:sticky;top:0;z-index:300;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;}
+  .site-nav{
+    position:sticky;top:0;z-index:300;background:#3B3630F0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 20px;font-size:12.5px;
+  }
   .site-nav > a{color:#F2D9B7;text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;}
   .site-nav > a:hover{background:#F2D9B722;}
+  .site-nav > a.current{background:var(--accent);color:#fff;border-color:var(--accent);}
   .nav-dropdown{position:relative;}
   .nav-dropdown-btn{background:none;color:#F2D9B7;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid #F2D9B733;white-space:nowrap;font-size:12.5px;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
   .nav-dropdown-btn:hover{background:#F2D9B722;}
@@ -36,30 +50,106 @@
   .nav-dropdown-menu a{color:#F2D9B7;text-decoration:none;font-weight:600;padding:9px 12px;border-radius:9px;font-size:12.5px;white-space:nowrap;display:block;}
   .nav-dropdown-menu a:hover{background:#F2D9B722;}
   .nav-dropdown-menu a.current{background:var(--accent);color:#fff;font-weight:700;}
+  .site-nav .sep{color:#F2D9B766;}
 
-  /* ===== deck ===== */
-  .deck{position:relative;height:calc(100vh - 47px);display:flex;align-items:center;justify-content:center;padding:18px 18px 64px;}
-  .slide{
-    display:none;width:min(1180px,100%);aspect-ratio:16/9;max-height:100%;
-    background:var(--card);border:1px solid var(--card-border);border-radius:24px;
-    box-shadow:0 18px 50px #00000030;padding:44px 56px;overflow:auto;position:relative;
+  header{padding:52px 32px 30px;text-align:center;}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;
+    color:var(--accent);text-transform:uppercase;margin-bottom:16px;
+    padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;
   }
-  .slide.active{display:flex;flex-direction:column;}
-  .slide .num{position:absolute;top:20px;right:28px;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:1px;}
-  .kicker{font-size:11.5px;letter-spacing:2px;font-weight:800;color:var(--accent);text-transform:uppercase;margin-bottom:10px;}
-  .slide h2{font-size:30px;line-height:1.15;margin:0 0 6px;color:#242229;letter-spacing:-0.4px;}
-  .slide h2 em{font-style:normal;color:var(--accent);}
-  .lead{font-size:15px;color:#463F3A;line-height:1.55;margin:0 0 22px;max-width:900px;}
-  .grow{flex:1;min-height:0;}
-  .slide h2 + .grow,.slide h2 + .matrix-wrap,.slide h2 + .buglist{margin-top:18px;}
+  h1{font-size:36px;margin:0 0 12px;color:#242229;font-weight:800;letter-spacing:-0.5px;}
+  header p.sub{color:#463F3A;font-size:15.5px;max-width:780px;margin:0 auto;line-height:1.6;}
+  .dl-link{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;background:#FFFFFFCC;border:1.5px solid var(--accent);padding:8px 16px;border-radius:999px;}
+  .dl-link:hover{background:var(--accent);color:#fff;}
 
-  /* capa */
-  .slide.cover{justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#FFFFFF 0%,var(--card) 55%,var(--accent-soft) 100%);}
-  .cover .eyebrow{display:inline-block;font-size:12px;letter-spacing:2px;font-weight:800;color:var(--accent);text-transform:uppercase;padding:7px 16px;border:1.5px solid var(--accent);border-radius:999px;background:#FFFFFFAA;margin-bottom:22px;}
-  .cover h1{font-size:52px;margin:0 0 14px;color:#242229;letter-spacing:-1px;line-height:1.05;}
-  .cover p{font-size:17px;color:#463F3A;max-width:720px;line-height:1.6;margin:0 auto;}
-  .cover .meta{margin-top:30px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
-  .chip{font-size:12.5px;font-weight:700;background:#FFFFFF;border:1.5px solid var(--card-border);padding:7px 14px;border-radius:999px;color:#3B3630;}
+  .toc-bar{
+    position:sticky;top:42px;z-index:100;margin-top:28px;
+    background:#EFE3CCE6;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--card-border);box-shadow:0 4px 14px #00000014;
+  }
+  .toc{max-width:1000px;margin:0 auto;padding:12px 32px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+  .toc a{font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;background:#FFFFFFCC;border:1.5px solid var(--card-border);padding:7px 14px;border-radius:999px;}
+  .toc a:hover{border-color:var(--accent);}
+
+  section{margin:52px 0;scroll-margin-top:110px;}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .sec-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;background:#FFFFFF;border:2px solid var(--accent);flex-shrink:0;}
+  .sec-head h2{font-size:22px;margin:0;color:#242229;}
+  .sec-head p{margin:2px 0 0;font-size:13px;color:var(--muted);}
+
+  .prose{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:18px 22px;font-size:13.5px;line-height:1.65;color:#3B3630;margin-bottom:14px;}
+
+  .placar-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:20px;}
+  .placar-stat{flex:1 1 150px;background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:16px 18px;text-align:center;box-shadow:0 2px 8px #00000010;}
+  .placar-stat .n{font-size:24px;font-weight:900;color:var(--accent);}
+  .placar-stat .l{font-size:10.5px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.4px;line-height:1.4;}
+
+  .table-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--card-border);box-shadow:0 2px 8px #00000010;margin-bottom:8px;}
+  table.data-table{width:100%;border-collapse:collapse;background:var(--card);min-width:640px;}
+  .data-table th{background:var(--accent);color:#fff;text-align:left;padding:11px 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.4px;white-space:nowrap;}
+  .data-table td{padding:10px 14px;font-size:12.5px;line-height:1.5;color:#3B3630;border-top:1px solid var(--card-border);vertical-align:top;}
+  .data-table tr:nth-child(even) td{background:#FFFFFF77;}
+
+  .pill{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;white-space:nowrap;}
+  .pill.revisto{background:#4A87CC1A;color:#2E5C8A;border:1px solid #4A87CC55;}
+  .pill.modificado{background:#A67C1C1A;color:var(--warn);border:1px solid #A67C1C55;}
+  .pill.novo{background:#3F6B4A1A;color:var(--good);border:1px solid #3F6B4A55;}
+
+  .pattern-list{display:flex;flex-direction:column;gap:12px;margin-bottom:8px;}
+  .pattern-item{display:flex;gap:14px;background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:14px 18px;align-items:flex-start;}
+  .pattern-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-weight:900;font-size:12.5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .pattern-item.diverge .pattern-num{background:var(--bad);}
+  .pattern-item p{margin:0;font-size:13px;line-height:1.55;color:#3B3630;}
+  .pattern-item p b{color:var(--accent);}
+
+  .quote-block{background:#FFFFFFCC;border-left:4px solid var(--accent);border-radius:0 14px 14px 0;padding:14px 18px;margin:10px 0;font-size:13px;line-height:1.6;color:#3B3630;font-style:italic;}
+  .quote-block .attrib{display:block;margin-top:6px;font-style:normal;font-weight:700;color:var(--accent);font-size:11.5px;}
+
+  .conc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+  .conc-card{background:var(--card);border:1px solid var(--card-border);border-left:4px solid var(--accent);border-radius:14px;padding:16px 18px;box-shadow:0 2px 8px #00000010;}
+  .conc-card .tag{font-size:10.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;display:block;}
+  .conc-card p{margin:0;font-size:12.5px;line-height:1.55;color:#3B3630;}
+
+  .gate-note{margin-top:14px;background:#FFFFFF;border:1px dashed var(--accent);border-radius:12px;padding:14px 18px;font-size:12.5px;line-height:1.6;color:#3B3630;}
+  .gate-note b{color:var(--bad);}
+  .gate-note.ok b{color:var(--good);}
+
+  .dir-box{background:linear-gradient(135deg,var(--accent-soft),#F7F0E4);border:1.5px solid var(--accent);border-radius:18px;padding:22px 26px;margin-top:18px;}
+  .dir-box .lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);margin-bottom:10px;display:block;}
+  .dir-box ul{margin:0;padding-left:20px;}
+  .dir-box li{font-size:13px;line-height:1.6;color:#242229;margin-bottom:10px;}
+  .dir-box li:last-child{margin-bottom:0;}
+  .dir-box li b{color:var(--accent);}
+
+  .steps3-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;}
+  .steps3-card{flex:1 1 220px;background:var(--card);border:1.5px solid var(--card-border);border-radius:18px;padding:22px;box-shadow:0 2px 8px #00000010;}
+  .steps3-num{width:34px;height:34px;border-radius:10px;background:var(--accent);color:#fff;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+  .steps3-card h3{font-size:16px;margin:0 0 6px;color:#242229;}
+  .steps3-card p{font-size:13px;line-height:1.55;color:var(--muted);margin:0;}
+
+  /* fases do fluxo */
+  .fase-head{display:flex;align-items:center;gap:12px;margin:34px 0 16px;}
+  .fase-head .fase-badge{background:var(--accent);color:#fff;font-weight:900;font-size:12px;padding:6px 16px;border-radius:999px;white-space:nowrap;}
+  .fase-head .fase-desc{font-size:12.5px;color:var(--muted);}
+  .fase-head:first-child{margin-top:0;}
+
+  .flow-step{background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:20px 24px;margin-bottom:16px;box-shadow:0 2px 10px #00000012;}
+  .flow-step-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:10px;}
+  .flow-step-num{width:34px;height:34px;border-radius:10px;background:var(--accent);color:#fff;font-weight:900;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .flow-step-title{font-size:15.5px;font-weight:800;color:#242229;margin:2px 0 0;}
+  .flow-step-body{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:6px;}
+  @media(max-width:760px){.flow-step-body{grid-template-columns:1fr;}}
+  .flow-step-col .lbl{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--accent);margin-bottom:6px;display:block;}
+  .flow-step-col p{margin:0;font-size:12.8px;line-height:1.6;color:#3B3630;}
+  .flow-step-col.defesa .lbl{color:var(--good);}
+
+  .fora-list{display:flex;flex-direction:column;gap:10px;}
+  .fora-item{background:var(--card);border:1px solid var(--card-border);border-left:4px solid var(--bad);border-radius:12px;padding:13px 18px;}
+  .fora-item .tt{font-size:13px;font-weight:800;color:var(--bad);margin-bottom:3px;}
+  .fora-item p{margin:0;font-size:12.5px;line-height:1.55;color:#3B3630;}
+
+  footer{max-width:1200px;margin:40px auto 0;padding:0 32px;color:#463F3A;font-size:12.5px;line-height:1.7;border-top:1px solid #ffffff55;padding-top:24px;}
 
   /* números */
   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
@@ -159,29 +249,22 @@
   .pcol li{font-size:13px;line-height:1.45;margin-bottom:8px;}
   .note{margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5;}
 
-  /* controles */
-  .controls{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:#3B3630E6;backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;z-index:200;}
-  .controls button{background:none;border:1px solid #F2D9B744;color:#F2D9B7;width:40px;height:40px;border-radius:50%;font-size:16px;cursor:pointer;}
-  .controls button:hover{background:#F2D9B722;}
-  .controls .count{color:#F2D9B7;font-size:12.5px;font-weight:800;min-width:56px;text-align:center;}
-  .progress{position:fixed;top:47px;left:0;height:3px;background:var(--accent);transition:width .25s ease;z-index:250;}
 
+  /* componentes desta página */
+  .grow{}
+  .lead{font-size:14px;color:#463F3A;line-height:1.6;margin:0 0 18px;}
+  .box{background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:22px 24px;box-shadow:0 2px 10px #00000012;}
   @media (max-width:900px){
-    body{overflow:auto;}
-    .deck{height:auto;display:block;padding:14px 12px 80px;}
-    .slide{display:flex !important;flex-direction:column;aspect-ratio:auto;margin-bottom:16px;padding:28px 22px;}
-    .stats,.parts,.spectrum,.prio,.three,.two,.verdict,.buglist{grid-template-columns:1fr;}
+    .stats,.parts,.spectrum,.prio,.three,.two,.verdict,.buglist{grid-template-columns:1fr !important;}
     .bar{grid-template-columns:1fr;}
-    .controls,.progress{display:none;}
-    .cover h1{font-size:36px;}
     .matrix-wrap{overflow-x:auto;}
   }
-  @media print{
-    body{overflow:visible;background:#fff;}
-    .site-nav,.controls,.progress{display:none;}
-    .deck{display:block;height:auto;padding:0;}
-    .slide{display:flex !important;flex-direction:column;page-break-after:always;box-shadow:none;width:100%;border-radius:0;}
-  }
+
+  .sec-head h2 em{font-style:normal;color:var(--accent);}
+  section .stats,section .parts,section .verdict,section .three,section .two,section .spectrum,section .buglist,section .prio{margin-bottom:6px;}
+  section .matrix-wrap{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:14px 18px;box-shadow:0 2px 8px #00000010;}
+  section .bars{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:20px 22px;box-shadow:0 2px 8px #00000010;}
+  .toc a.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 </style>
 </head>
 <body>
@@ -205,35 +288,47 @@
       <a href="12-capa-ciclo-validacao.html">🗺️ Visão geral (3 meses)</a>
       <a href="13-validacao-icp-mes1.html">🧭 Mês 1 · Validação do ICP</a>
       <a href="14-fluxo-proposto-mes2.html">🎨 Fluxo Proposto</a>
-      <a href="15-teste-usabilidade-mes2.html" class="current">📊 Mês 3 · Teste de usabilidade</a>
+      <a href="15-teste-usabilidade-mes2.html" class="current">📊 Mês 3 · Análise de feedbacks</a>
     </div>
   </div>
 </nav>
-<div class="progress" id="progress"></div>
 
-<main class="deck" id="deck">
+<header>
+  <span class="eyebrow">Ciclo de Validação TAIRU · Mês 3 · Etapa 1 de 3</span>
+  <h1>Análise de feedbacks do teste</h1>
+  <p class="sub">O que 9 pessoas fizeram, sentiram e onde tropeçaram ao organizar uma viagem pela América Latina no protótipo navegável do Tairu, em sessões ao vivo no próprio celular, de 27/out a 02/nov/2026.</p>
+</header>
 
-  <!-- 1 · CAPA -->
-  <section class="slide cover">
-    <span class="eyebrow">Ciclo de Validação TAIRU · Mês 3</span>
-    <h1>Teste de usabilidade<br>do protótipo</h1>
-    <p>O que 9 pessoas fizeram, sentiram e tropeçaram ao organizar uma viagem pela América Latina no protótipo navegável do Tairu.</p>
-    <div class="meta">
-      <span class="chip">📅 27/out – 02/nov/2026</span>
-      <span class="chip">👥 9 sessões ao vivo</span>
-      <span class="chip">📱 no celular do participante</span>
+<div class="toc-bar">
+  <div class="toc">
+    <a href="#metodo">🧪 Como foi o teste</a>
+    <a href="#veredito">⚖️ Veredito</a>
+    <a href="#funcionou">💚 O que funcionou</a>
+    <a href="#tropecos">🗺️ Mapa dos tropeços</a>
+    <a href="#central">🧳 Central</a>
+    <a href="#roteiro">🗓️ Roteiro</a>
+    <a href="#grupo">👥 Planejar em grupo</a>
+    <a href="#custos">💸 Custos</a>
+    <a href="#memorias">📸 Memórias</a>
+    <a href="#bugs">🐞 Bugs</a>
+    <a href="#ideias">💡 Ideias</a>
+    <a href="#proximos">➡️ Próximos ajustes</a>
+    <a href="#ressalvas">⚠️ Ressalvas</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="metodo">
+    <div class="sec-head">
+      <div class="sec-icon">🧪</div>
+      <div><h2>Uma viagem, quatro momentos, <em>um celular de verdade</em></h2><p>Como foi o teste</p></div>
     </div>
-  </section>
-
-  <!-- 2 · COMO FOI -->
-  <section class="slide">
-    <span class="num">02</span>
-    <div class="kicker">Como foi o teste</div>
-    <h2>Uma viagem, quatro momentos, <em>um celular de verdade</em></h2>
-    <p class="lead">Cada participante espelhou a tela do próprio celular na chamada e cumpriu tarefas narradas pela moderadora, sempre no mesmo cenário: Buenos Aires, Santiago e San Pedro de Atacama, de 14 a 27/nov, com dois amigos.</p>
+    <div class="prose">Cada participante espelhou a tela do próprio celular na chamada e cumpriu tarefas narradas pela moderadora, sempre no mesmo cenário: Buenos Aires, Santiago e San Pedro de Atacama, de 14 a 27/nov, com dois amigos.</div>
     <div class="stats">
       <div class="stat"><div class="n">9</div><div class="l">sessões<br>(40 a 90 min)</div></div>
       <div class="stat"><div class="n">9/9</div><div class="l">chegaram ao fim<br>das 4 partes</div></div>
+      <div class="stat"><div class="n">3 · 4</div><div class="l">Android · iPhone<br>(2 não identificados)</div></div>
       <div class="stat"><div class="n">8/9</div><div class="l">tropeçaram no<br>nome "Central"</div></div>
     </div>
     <div class="parts">
@@ -244,13 +339,13 @@
     </div>
   </section>
 
-  <!-- 3 · VEREDITO -->
-  <section class="slide">
-    <span class="num">03</span>
-    <div class="kicker">Em uma frase</div>
-    <h2>A proposta convence. <em>O atrito está em nomes e em achar as coisas.</em></h2>
-    <p class="lead">Ninguém travou de vez e todos disseram que usariam. Os tropeços se repetem em poucos pontos, e quase todos se resolvem sem mudar o fluxo.</p>
-    <div class="verdict grow">
+  <section id="veredito">
+    <div class="sec-head">
+      <div class="sec-icon">⚖️</div>
+      <div><h2>A proposta convence. <em>O atrito está em nomes e em achar as coisas.</em></h2><p>Em uma frase</p></div>
+    </div>
+    <div class="prose">Ninguém travou de vez e todos disseram que usariam. Os tropeços se repetem em poucos pontos, e quase todos se resolvem sem mudar o fluxo.</div>
+    <div class="verdict">
       <div class="vbox ok">
         <h3>✓ Funcionou</h3>
         <ul>
@@ -276,13 +371,13 @@
     </div>
   </section>
 
-  <!-- 4 · O QUE ENCANTOU -->
-  <section class="slide">
-    <span class="num">04</span>
-    <div class="kicker">O que mais gostaram</div>
-    <h2>Elogios espontâneos, <em>sem a moderadora perguntar</em></h2>
-    <p class="lead">Quantos dos 9 participantes elogiaram cada recurso por conta própria. O voucher teve menos menções, mas os elogios mais enfáticos.</p>
-    <div class="bars grow">
+  <section id="funcionou">
+    <div class="sec-head">
+      <div class="sec-icon">💚</div>
+      <div><h2>Elogios espontâneos, <em>sem a moderadora perguntar</em></h2><p>O que mais gostaram</p></div>
+    </div>
+    <div class="prose">Quantos dos 9 participantes elogiaram cada recurso por conta própria. O voucher teve menos menções, mas os elogios mais enfáticos.</div>
+    <div class="bars">
       <div class="bar"><div class="lbl">Mapa por dia<small>"isso aqui muda a vida"</small></div><div class="track"><div class="fill" style="width:55.5%"></div></div><div class="v">5</div></div>
       <div class="bar"><div class="lbl">Rateio + conversor juntos<small>"rateio sempre dá problema"</small></div><div class="track"><div class="fill" style="width:55.5%"></div></div><div class="v">5</div></div>
       <div class="bar"><div class="lbl">Leitura automática do voucher<small>"pulo do gato" · "que legal que ele lê tudo"</small></div><div class="track"><div class="fill" style="width:44.4%"></div></div><div class="v">4</div></div>
@@ -291,12 +386,12 @@
     </div>
   </section>
 
-  <!-- 5 · MATRIZ -->
-  <section class="slide">
-    <span class="num">05</span>
-    <div class="kicker">Mapa dos tropeços</div>
-    <h2>Quem esbarrou em quê</h2>
-    <div class="matrix-wrap grow">
+  <section id="tropecos">
+    <div class="sec-head">
+      <div class="sec-icon">🗺️</div>
+      <div><h2>Quem esbarrou em quê</h2><p>Mapa dos tropeços</p></div>
+    </div>
+    <div class="matrix-wrap">
     <table class="matrix">
       <thead><tr><th class="prob">Problema</th><th>Emiliano</th><th>Beta</th><th>Luis</th><th>Nelson</th><th>Bia</th><th>Nando*</th><th>Pri</th><th>Beto</th><th>Lu</th><th>Total</th></tr></thead>
       <tbody>
@@ -321,13 +416,13 @@
     </div>
   </section>
 
-  <!-- 6 · CENTRAL -->
-  <section class="slide">
-    <span class="num">06</span>
-    <div class="kicker">Tropeço nº 1 · Central</div>
-    <h2>Ninguém procura "Central". <em>Todo mundo acha pela malinha.</em></h2>
-    <p class="lead">Beto, Lu e Pri foram primeiro em Custos e Roteiro. O ícone salvou, a palavra não. O conteúdo (transporte, hospedagem, outros) foi entendido assim que abriram.</p>
-    <div class="two grow">
+  <section id="central">
+    <div class="sec-head">
+      <div class="sec-icon">🧳</div>
+      <div><h2>Ninguém procura "Central". <em>Todo mundo acha pela malinha.</em></h2><p>Tropeço nº 1 · Central</p></div>
+    </div>
+    <div class="prose">Beto, Lu e Pri foram primeiro em Custos e Roteiro. O ícone salvou, a palavra não. O conteúdo (transporte, hospedagem, outros) foi entendido assim que abriram.</div>
+    <div class="two">
       <div class="stack">
         <div class="quote">"A malinha, o ícone ajuda mais do que a palavra. Eu fui mais pelo ícone."<b>Beta</b></div>
         <div class="quote">"Central ainda é uma palavra que tem um pedregulho no pensamento."<b>Bia</b></div>
@@ -346,12 +441,12 @@
     </div>
   </section>
 
-  <!-- 7 · ROTEIRO -->
-  <section class="slide">
-    <span class="num">07</span>
-    <div class="kicker">Roteiro · sugestões e agenda</div>
-    <h2>As sugestões agradam. <em>Achar e ordenar, nem tanto.</em></h2>
-    <div class="three grow">
+  <section id="roteiro">
+    <div class="sec-head">
+      <div class="sec-icon">🗓️</div>
+      <div><h2>As sugestões agradam. <em>Achar e ordenar, nem tanto.</em></h2><p>Roteiro · sugestões e agenda</p></div>
+    </div>
+    <div class="three">
       <div class="card"><span class="tag">Descoberta</span><h4>As abas somem ao rolar</h4><p>Emiliano e Luis não acharam o roteiro montado nem o "adicionar lugar por conta própria" sem rolar até o topo. Nelson pediu um índice por categoria em vez de rolar a lista inteira, e uma cor por tipo de lugar.</p></div>
       <div class="card"><span class="tag">Nomes</span><h4>"Sugestões" × "Dicas"</h4><p>As duas palavras parecem a mesma coisa (Nando). A expectativa para Dicas era algo ligado ao roteiro, como clima e destaques (Beta, Pri). A Lu quer poder buscar dentro das Dicas.</p></div>
       <div class="card"><span class="tag">Informação</span><h4>Faltam preço e horário</h4><p>Faixa de preço ($), horário de funcionamento, valor do ingresso, serve para jantar ou café (Beta). O Don Julio pareceu caro para um orçamento "moderado" (Emiliano). Link para a fonte do evento (Pri).</p></div>
@@ -361,12 +456,12 @@
     </div>
   </section>
 
-  <!-- 8 · GRUPO -->
-  <section class="slide">
-    <span class="num">08</span>
-    <div class="kicker">Planejar em grupo</div>
-    <h2>Todos querem colaborar, <em>mas cada um imaginou um jeito</em></h2>
-    <p class="lead">As notificações ("entraram, adicionaram itens, lançaram gastos") foram claras para todos. A divergência está no que acontece com o que os amigos sugerem.</p>
+  <section id="grupo">
+    <div class="sec-head">
+      <div class="sec-icon">👥</div>
+      <div><h2>Todos querem colaborar, <em>mas cada um imaginou um jeito</em></h2><p>Planejar em grupo</p></div>
+    </div>
+    <div class="prose">As notificações ("entraram, adicionaram itens, lançaram gastos") foram claras para todos. A divergência está no que acontece com o que os amigos sugerem.</div>
     <div class="spectrum">
       <div class="spec"><div class="icon">🙅</div><h4>Poder recusar</h4><p>"Faltou eu poder falar: não vamos." Hoje só dá para aceitar ou ignorar.</p><div class="who">Beta · Nando · Beto</div></div>
       <div class="spec"><div class="icon">👀</div><h4>Ver tudo, com filtro</h4><p>Todos veem tudo de todos, com a opção "só os meus".</p><div class="who">Pri</div></div>
@@ -379,12 +474,12 @@
     </div>
   </section>
 
-  <!-- 9 · CUSTOS -->
-  <section class="slide">
-    <span class="num">09</span>
-    <div class="kicker">Custos, rateio e conversor</div>
-    <h2>A dor real do grupo. <em>Faltam só alguns ajustes de clareza.</em></h2>
-    <div class="two grow">
+  <section id="custos">
+    <div class="sec-head">
+      <div class="sec-icon">💸</div>
+      <div><h2>A dor real do grupo. <em>Faltam só alguns ajustes de clareza.</em></h2><p>Custos, rateio e conversor</p></div>
+    </div>
+    <div class="two">
       <div class="stack">
         <div class="quote">"Não tive uma viagem com alguém em que eu não tive alguma dor. É uma incheção de saco pegar as notinhas."<b>Lu</b></div>
         <div class="quote">"Isso vai me animar a fazer o que eu fazia antes: saber exatamente quanto eu gastei por dia."<b>Bia</b></div>
@@ -398,12 +493,12 @@
     </div>
   </section>
 
-  <!-- 10 · MEMÓRIAS -->
-  <section class="slide">
-    <span class="num">10</span>
-    <div class="kicker">Viagens passadas e recordação</div>
-    <h2>A recordação divide. <em>O custo escondido incomoda.</em></h2>
-    <div class="two grow">
+  <section id="memorias">
+    <div class="sec-head">
+      <div class="sec-icon">📸</div>
+      <div><h2>A recordação divide. <em>O custo escondido incomoda.</em></h2><p>Viagens passadas e recordação</p></div>
+    </div>
+    <div class="two">
       <div>
         <div class="card" style="margin-bottom:12px">
           <span class="tag">Compartilharia a recordação?</span>
@@ -425,12 +520,12 @@
     </div>
   </section>
 
-  <!-- 11 · BUGS -->
-  <section class="slide">
-    <span class="num">11</span>
-    <div class="kicker">Bugs do protótipo</div>
-    <h2>O que quebrou durante os testes</h2>
-    <p class="lead">Problemas do protótipo, não do conceito. Corrigir antes da próxima rodada para não contaminar o resultado.</p>
+  <section id="bugs">
+    <div class="sec-head">
+      <div class="sec-icon">🐞</div>
+      <div><h2>O que quebrou durante os testes</h2><p>Bugs do protótipo</p></div>
+    </div>
+    <div class="prose">Problemas do protótipo, não do conceito. Corrigir antes da próxima rodada para não contaminar o resultado.</div>
     <div class="buglist">
       <div class="bug"><span class="sev">Alta</span><h4>Puxar a tela recarrega e apaga tudo</h4><p>Nelson e Bia refizeram a viagem. A Bia passou a ter medo de rolar a tela. Nas sessões seguintes foi preciso avisar antes.</p></div>
       <div class="bug"><span class="sev">Alta</span><h4>Mudar a data de um item</h4><p>Não mudou (Beto) ou trocou o lugar dela pelo da Marina (Lu).</p></div>
@@ -441,12 +536,12 @@
     </div>
   </section>
 
-  <!-- 12 · IDEIAS -->
-  <section class="slide">
-    <span class="num">12</span>
-    <div class="kicker">Ideias que surgiram</div>
-    <h2>Pedidos novos, <em>para o backlog</em></h2>
-    <p class="lead">Nenhum apareceu em mais de 2 pessoas. Ficam registrados para avaliar depois, sem entrar no protótipo agora.</p>
+  <section id="ideias">
+    <div class="sec-head">
+      <div class="sec-icon">💡</div>
+      <div><h2>Pedidos novos, <em>para o backlog</em></h2><p>Ideias que surgiram</p></div>
+    </div>
+    <div class="prose">Nenhum apareceu em mais de 2 pessoas. Ficam registrados para avaliar depois, sem entrar no protótipo agora.</div>
     <div class="ideas">
       <span class="idea">🌦️ Previsão do tempo por dia <small>Beta · Pri</small></span>
       <span class="idea">🧭 Fase exploratória: testar ordem e duração dos destinos <small>Beta</small></span>
@@ -466,12 +561,12 @@
     </div>
   </section>
 
-  <!-- 13 · PRIORIDADES -->
-  <section class="slide">
-    <span class="num">13</span>
-    <div class="kicker">Próximos ajustes</div>
-    <h2>Proposta de prioridade <em>para a próxima rodada</em></h2>
-    <div class="prio grow">
+  <section id="proximos">
+    <div class="sec-head">
+      <div class="sec-icon">➡️</div>
+      <div><h2>Proposta de prioridade <em>para a próxima rodada</em></h2><p>Próximos ajustes</p></div>
+    </div>
+    <div class="prio">
       <div class="pcol p0"><div class="h"><span class="b">P0</span><span>antes de testar de novo</span></div>
         <ul>
           <li>Corrigir os bugs de alta gravidade (recarregar, mudar data, Safari)</li>
@@ -504,12 +599,12 @@
     <p class="note">Leitura da consultoria a partir da frequência e do impacto no fluxo. A ordem final é decisão do time.</p>
   </section>
 
-  <!-- 14 · RESSALVAS -->
-  <section class="slide">
-    <span class="num">14</span>
-    <div class="kicker">Como ler estes resultados</div>
-    <h2>Ressalvas</h2>
-    <div class="three grow" style="grid-template-columns:repeat(2,1fr)">
+  <section id="ressalvas">
+    <div class="sec-head">
+      <div class="sec-icon">⚠️</div>
+      <div><h2>Ressalvas</h2><p>Como ler estes resultados</p></div>
+    </div>
+    <div class="three" style="grid-template-columns:repeat(2,1fr)">
       <div class="card"><span class="tag">Teste guiado</span><p>As tarefas foram narradas em sequência. Luis lembrou que responder na hora gera pressão: sozinho e sem pressa, alguns tropeços talvez não acontecessem. Por outro lado, a sequência pode ter escondido problemas de quem navega livremente.</p></div>
       <div class="card"><span class="tag">Perfis diferentes</span><p>Nando é o cliente do Tairu. Nelson já usava a versão anterior e notou que "melhorou muito". Bia pediu que a idade dela (61 anos) fosse considerada. Os números da matriz contam todos igualmente.</p></div>
       <div class="card"><span class="tag">Protótipo mockado</span><p>Sem banco de dados nem correção automática. Parte da estranheza com e-mails, buscas e o traçado do mapa vem disso, e não do desenho.</p></div>
@@ -517,53 +612,47 @@
     </div>
   </section>
 
-</main>
-
-<div class="controls">
-  <button id="prev" aria-label="Slide anterior">←</button>
-  <span class="count" id="count">1 / 14</span>
-  <button id="next" aria-label="Próximo slide">→</button>
 </div>
 
+<footer>
+  TAIRU · Ciclo de Validação de 3 Meses, preparado por Adriana, Consultoria de Produto &amp; Estratégia.
+</footer>
 <script>
-(function(){
-  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
-  var i = 0;
-  function show(n){
-    i = Math.max(0, Math.min(slides.length-1, n));
-    slides.forEach(function(s,k){ s.classList.toggle('active', k===i); });
-    document.getElementById('count').textContent = (i+1)+' / '+slides.length;
-    document.getElementById('progress').style.width = ((i+1)/slides.length*100)+'%';
-    if(history.replaceState) history.replaceState(null,'','#'+(i+1));
-  }
-  var h = parseInt(location.hash.replace('#',''),10);
-  show(isNaN(h) ? 0 : h-1);
-  document.getElementById('prev').onclick = function(){ show(i-1); };
-  document.getElementById('next').onclick = function(){ show(i+1); };
-  document.addEventListener('keydown', function(e){
-    if(e.key==='ArrowRight' || e.key==='PageDown' || e.key===' '){ e.preventDefault(); show(i+1); }
-    if(e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); show(i-1); }
-    if(e.key==='Home') show(0);
-    if(e.key==='End') show(slides.length-1);
-  });
-  var x0=null;
-  document.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
-  document.addEventListener('touchend', function(e){
-    if(x0===null) return; var dx = e.changedTouches[0].clientX - x0;
-    if(Math.abs(dx)>60) show(i + (dx<0?1:-1)); x0=null;
-  });
-})();
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.toc a');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var active = document.querySelector('.toc a[href="#'+entry.target.id+'"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ observer.observe(s); });
+</script>
+
+<script>
 (function(){
   document.querySelectorAll('.nav-dropdown-btn').forEach(function(btn){
     btn.addEventListener('click', function(e){
       e.stopPropagation();
-      var dd = btn.closest('.nav-dropdown'); var wasOpen = dd.classList.contains('open');
+      var dd = btn.closest('.nav-dropdown');
+      var wasOpen = dd.classList.contains('open');
       document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
       if(!wasOpen) dd.classList.add('open');
     });
   });
-  document.addEventListener('click', function(){ document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); }); });
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){ d.classList.remove('open'); });
+    }
+  });
 })();
 </script>
+
 </body>
 </html>
